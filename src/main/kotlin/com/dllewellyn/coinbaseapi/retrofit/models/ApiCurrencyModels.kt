@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.retrofit.models
 
-import com.dllewellyn.coinbaseapi.models.Currency
+import com.dllewellyn.coinbaseapi.models.SupportedCurrency
 import com.google.gson.annotations.SerializedName
 
 
@@ -11,8 +11,8 @@ data class ApiCurrencies(
 data class ApiCurrency(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("minSize") val minSize: String
+    @SerializedName("min_size") val minSize: String
 )
 
 fun ApiCurrency.toCurrency() =
-        Currency(id, name, minSize.toDouble())
+        SupportedCurrency(id, name, minSize.toDouble())
