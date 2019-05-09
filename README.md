@@ -95,3 +95,66 @@ Api.currencyPairs()
 
 println(cache)
 ```
+
+## Retrieve buy and sell prices
+Simple example  
+```
+import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.cache.MemoryCache
+import com.dllewellyn.coinbaseapi.cache.intoCache
+import com.dllewellyn.coinbaseapi.models.CurrencyPair
+
+
+val cache = MemoryCache<CurrencyPair>()
+
+Api.currencyPairs()
+    .getCurrencyPairs()
+    .intoCache(cache)
+    .blockingGet()
+
+val buyAndSell = Api.buyAndSellPrices()
+
+println(
+    buyAndSell.getCurrencyBuyPrice(
+        CurrencyPair(
+            "BTC",
+           "0",
+            "0",
+            "BTC-USD",
+            "USD",
+            "0"
+        )
+    ).blockingGet())
+```
+This is a more involved example, but we retrieve valid pairs, store them into a cache
+then iterate each currency pair, requesting the buy and sell prices
+then loop through the results and print them out
+
+```
+import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.cache.MemoryCache
+import com.dllewellyn.coinbaseapi.cache.intoCache
+import com.dllewellyn.coinbaseapi.models.CurrencyPair
+
+
+val cache = MemoryCache<CurrencyPair>()
+
+Api.currencyPairs()
+    .getCurrencyPairs()
+    .intoCache(cache)
+    .blockingGet()
+
+
+val buyAndSell = Api.buyAndSellPrices()
+
+val resultList = cache.listOfCurrencies().map {
+    Pair(
+        buyAndSell.getCurrencyBuyPrice(it).blockingGet(),
+        buyAndSell.getCurrencySellPrice(it).blockingGet()
+    )
+}
+
+resultList.forEach {
+    println(it)
+}
+```

@@ -1,8 +1,6 @@
 package com.dllewellyn.coinbaseapi.retrofit
 
-import com.dllewellyn.coinbaseapi.retrofit.models.ApiProduct
-import com.dllewellyn.coinbaseapi.retrofit.models.ApiCurrencies
-import com.dllewellyn.coinbaseapi.retrofit.models.ApiCurrencyRates
+import com.dllewellyn.coinbaseapi.retrofit.models.*
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -20,7 +18,11 @@ interface CoinbaseServiceV2 {
     fun getExchangeRates(@Query("cryptoCurrency") currency : String) : Single<ApiCurrencyRates>
 
     @GET("v2/prices/{currency_pair}/buy")
-    fun getBuyPrice(@Path("currency_pair") currencyPair : String)
+    fun getBuyPrice(@Path("currency_pair") currencyPair : String) : Single<ApiValueResponse>
+
+    @GET("v2/prices/{currency_pair}/sell")
+    fun getSellPrice(@Path("currency_pair") currencyPair : String) : Single<ApiValueResponse>
+
 }
 
 interface CoinbaseProService {
