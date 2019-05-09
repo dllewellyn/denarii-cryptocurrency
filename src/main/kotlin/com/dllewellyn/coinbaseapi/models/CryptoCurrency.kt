@@ -2,9 +2,9 @@ package com.dllewellyn.coinbaseapi.models
 
 import com.dllewellyn.coinbaseapi.exceptions.ApiException
 
-fun List<Currency>.toCsv() = this.map { it.str }.joinToString(",")
+fun List<CryptoCurrency>.toCsv() = this.map { it.str }.joinToString(",")
 
-enum class Currency(val str : String) {
+enum class CryptoCurrency(val str : String) {
     BITCOIN("BTC"),
     USDOLLAR("USD"),
     BITCOIN_CASH("BCH"),
@@ -29,14 +29,14 @@ enum class Currency(val str : String) {
     ETHEREUM("ETH");
 
     companion object {
-        fun fromString(str: String): Currency {
-            Currency.values().forEach {
+        fun fromString(str: String): CryptoCurrency {
+            CryptoCurrency.values().forEach {
                 if (it.str == str) {
                     return it
                 }
             }
 
-            throw ApiException("Unexpected currency provided to currency: $str")
+            throw ApiException("Unexpected cryptoCurrency provided to cryptoCurrency: $str")
         }
     }
 

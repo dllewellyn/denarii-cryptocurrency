@@ -7,6 +7,6 @@ data class ApiCurrencyRates(
 )
 
 data class ApiList(
-    @SerializedName("currency") val currency: String,
+    @SerializedName("cryptoCurrency") val currency: String,
     @SerializedName("rates") val rates: Map<String, String>
 )
