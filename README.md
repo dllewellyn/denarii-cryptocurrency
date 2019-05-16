@@ -147,14 +147,14 @@ Api.currencyPairs()
 
 val buyAndSell = Api.buyAndSellPrices()
 
-val resultList = cache.listOfCurrencies().map {
-    Pair(
-        buyAndSell.getCurrencyBuyPrice(it).blockingGet(),
-        buyAndSell.getCurrencySellPrice(it).blockingGet()
-    )
-}
-
-resultList.forEach {
-    println(it)
+cache.listOfCurrencies().forEach {
+    try {
+        println(
+            Pair(
+                buyAndSell.getCurrencyBuyPrice(it).blockingGet(),
+                buyAndSell.getCurrencySellPrice(it).blockingGet()
+            )
+        )
+    } catch (exception : Exception) {}
 }
 ```
