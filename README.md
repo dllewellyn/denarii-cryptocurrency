@@ -158,3 +158,30 @@ cache.listOfCurrencies().forEach {
     } catch (exception : Exception) {}
 }
 ```
+
+## Web sockets
+
+Simple usage
+
+```
+   Api.subscription().subscribeToEvent(
+       Channel.Type2().only(),
+       currency("BTC", "USD")
+   )
+   .doAfterNext { println(it) }
+   .subscribeOn(Schedulers.io())
+   .observeOn(Schedulers.io())
+   .subscribe()
+```
+
+***
+The websocket classes return a sealed class defined as:
+
+```
+sealed class EventResponse {
+    data class Level2Snapshot(val buyAndSell: CurrencyBuyAndSell) : EventResponse()
+    data class Level2Update(val buyAndSell: CurrencyValue, val buyOrSell: BuyOrSell) : EventResponse()
+}
+```
+
+I would recommend an exhaustive when statement; future updates will increase the numer of potential responses

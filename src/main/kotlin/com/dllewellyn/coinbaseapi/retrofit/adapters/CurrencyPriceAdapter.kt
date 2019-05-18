@@ -16,7 +16,7 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyValue(
                     pair.baseCurrency,
                     it.currency,
-                    it.amount.toDouble()
+                    it.amount.toFloat()
                 )
             }
 
@@ -27,7 +27,7 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyValue(
                     it.base,
                     it.currency,
-                    it.amount.toDouble()
+                    it.amount.toFloat()
                 )
             }
 
@@ -39,7 +39,7 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyValue(
                     it.base,
                     it.currency,
-                    it.amount.toDouble()
+                    it.amount.toFloat()
                 )
             }
             .toList()
