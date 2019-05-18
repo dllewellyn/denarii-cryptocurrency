@@ -42,7 +42,9 @@ class RawListener : WebSocketListener() {
         return when (jsonObject["type"].asString) {
             "snapshot" -> gson.fromJson(jsonObject, SnapshotResponseApi::class.java).toCore().only()
             "l2update" -> gson.fromJson(jsonObject, UpdateResponseApi::class.java).toCore()
-            else -> listOf()
+            else -> {
+                listOf()
+            }
         }
     }
 }

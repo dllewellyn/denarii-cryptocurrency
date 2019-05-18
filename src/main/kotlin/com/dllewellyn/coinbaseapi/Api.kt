@@ -15,10 +15,14 @@ object Api {
         RetrofitApiBuilder()
     }
 
+    private val webSocketAdapter : WebSocketAdapter by lazy {
+        WebSocketAdapter()
+    }
+
     fun currencies() : CurrencyList = CurrencyListAdapter(retrofit)
     fun exchangeRates() : ExchangeRateRetriver = ExchangeRateRetriverAdapter(retrofit)
     fun currencyPairs() : CurrencyPairsList = CurrencyPairAdapter(retrofit)
     fun buyAndSellPrices() : CurrencyPrice = CurrencyPriceAdapter(retrofit)
 
-    fun subscription()  = WebSocketAdapter()
+    fun subscription() = webSocketAdapter
 }

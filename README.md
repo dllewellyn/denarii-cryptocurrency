@@ -185,3 +185,26 @@ sealed class EventResponse {
 ```
 
 I would recommend an exhaustive when statement; future updates will increase the numer of potential responses
+
+To unsubscribe, do the inverse of what you did before
+
+```
+    Api.subscription().subscribeToEvent(
+        Channel.Type2().only(),
+        currency("BTC", "USD")
+    )
+        .toFlowable(BackpressureStrategy.LATEST)
+        .doAfterNext { println(it) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.io())
+        .subscribe()
+
+    Thread.sleep(1000 * 5)
+    println("Going to unsubscribe")
+    Api.subscription().unsubscribeToEvent(
+        Channel.Type2().only(),
+        currency("BTC", "USD")
+    )
+
+    readLine()
+```

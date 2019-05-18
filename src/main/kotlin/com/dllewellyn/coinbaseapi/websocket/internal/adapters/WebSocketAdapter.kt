@@ -45,8 +45,12 @@ class WebSocketAdapter : EventSubscription {
     }
 
 
-    override fun unsubscribeToEvent(vararg pair: CurrencyPair, channel: Channel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun unsubscribeToEvent(channel: List<Channel>, vararg pair: CurrencyPair) {
+        sockets.send(gson.toJson(SubscribeApi(
+            type = "unsubscribe",
+            product_ids = pair.map { "${it.baseCurrency}-${it.quoteCurrency}" },
+            channels = channel.map { it.type }
+        )))
     }
 
 }

@@ -8,5 +8,5 @@ import io.reactivex.Observable
 interface EventSubscription {
 
     fun subscribeToEvent(channel: List<Channel>, vararg pair : CurrencyPair) : Observable<EventResponse>
-    fun unsubscribeToEvent(vararg pair : CurrencyPair, channel: Channel)
+    fun unsubscribeToEvent(channel: List<Channel>, vararg pair : CurrencyPair)
 }
