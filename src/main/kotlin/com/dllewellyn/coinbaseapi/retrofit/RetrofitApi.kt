@@ -7,9 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CoinbaseServiceV2 {
 
@@ -32,17 +30,32 @@ interface CoinbaseProService {
     fun getProducts(): Single<List<ApiProduct>>
 
     @GET("accounts")
-    fun getAccounts() : Single<List<ApiAccount>>
+    fun getAccounts(): Single<List<ApiAccount>>
 
     @GET("accounts/{account_id}")
-    fun getSingleAccount(@Path("account_id") accountId : String) : Single<List<ApiAccount>>
+    fun getSingleAccount(@Path("account_id") accountId: String): Single<List<ApiAccount>>
+
+    @POST("orders")
+    fun placeNewOrder(@Body apiBuyOrder: ApiBuyOrder): Single<ApiOrderResponse>
 }
 
-class RetrofitApiBuilder {
+class RetrofitApiBuilder(sandbox: Boolean = false) {
+
+    companion object {
+        const val coinbase = "https://api.coinbase.com/"
+    }
+
+    private val coinbasePro =
+        if (!sandbox) {
+            "https://api.pro.coinbase.com/"
+        } else {
+            "https://api-public.sandbox.pro.coinbase.com"
+        }
+
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://api.coinbase.com/")
+            .baseUrl(coinbase)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -50,7 +63,7 @@ class RetrofitApiBuilder {
 
     private val retrofitPro: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://api.pro.coinbase.com/")
+            .baseUrl(coinbasePro)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -59,7 +72,7 @@ class RetrofitApiBuilder {
 
     private val retrofitProAuthenticated: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://api.pro.coinbase.com/")
+            .baseUrl(coinbasePro)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -68,7 +81,7 @@ class RetrofitApiBuilder {
 
     private lateinit var okHttpClient: OkHttpClient
 
-    private fun buildClientWith(passphrase: String, apiKey: String, secretKey : String) {
+    private fun buildClientWith(passphrase: String, apiKey: String, secretKey: String) {
         okHttpClient = OkHttpClient.Builder()
             .addInterceptor(AuthenticationInterceptor(passphrase, apiKey, secretKey))
             .build()
@@ -77,7 +90,7 @@ class RetrofitApiBuilder {
     fun getApi() = retrofit.create(CoinbaseServiceV2::class.java)
     fun getProApi() = retrofitPro.create(CoinbaseProService::class.java)
 
-    fun getProApiAuthentication(passphrase: String, apiKey: String, secretKey : String) : CoinbaseProService {
+    fun getProApiAuthentication(passphrase: String, apiKey: String, secretKey: String): CoinbaseProService {
         buildClientWith(passphrase, apiKey, secretKey)
         return retrofitProAuthenticated.create(CoinbaseProService::class.java)
     }

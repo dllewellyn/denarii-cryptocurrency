@@ -1,5 +1,7 @@
 package com.dllewellyn.coinbaseapi.retrofit.models
 
+import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.SupportedCurrency
 import com.google.gson.annotations.SerializedName
 
 data class ApiAccount(
@@ -9,4 +11,12 @@ data class ApiAccount(
     @SerializedName("hold") val hold: String,
     @SerializedName("id") val id: String,
     @SerializedName("profile_id") val profile_id: String
-)
+) {
+    fun toCore() = Account(
+        SupportedCurrency(currency, currency, 0.0),
+        balance.toFloat(),
+        available.toFloat(),
+        hold.toFloat(),
+        id
+    )
+}

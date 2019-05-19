@@ -1,8 +1,22 @@
+[![Build Status](https://travis-ci.org/dllewellyn/coinbaseAPI.svg?branch=master)](https://travis-ci.org/dllewellyn/coinbaseAPI)
+
 # Usage
 
+## Sandbox
+
+By default, the real coinbase API is used. To use the sandbox
+at some point before firstu sing the API call
+
+```
+Api.sandbox = true
+```
 
 
-## List of currencies
+## Unauthenticated requests
+
+Below is a list of un-authenticated requests (i.e. those that do not require any tokens to be generated)
+
+### List of currencies
 
 List currencies as an observable, emitting each
 cryptoCurrency one at a time
@@ -24,7 +38,7 @@ Api.currencies().getCurrencyList()
     .blockingGet()
 ```
 
-## Exchange rates
+### Exchange rates
 
 List of exchange rates 
 ```
@@ -50,7 +64,7 @@ val filteredResult = Api.exchangeRates()
 println(filteredResult)
 ```
 
-## Currency pairs
+### Currency pairs
 
 Retrieve currency pairs
 
@@ -96,7 +110,7 @@ Api.currencyPairs()
 println(cache)
 ```
 
-## Retrieve buy and sell prices
+### Retrieve buy and sell prices
 Simple example  
 ```
 import com.dllewellyn.coinbaseapi.Api
@@ -159,7 +173,7 @@ cache.listOfCurrencies().forEach {
 }
 ```
 
-## Web sockets
+### Web sockets
 
 Simple usage
 
@@ -207,4 +221,40 @@ To unsubscribe, do the inverse of what you did before
     )
 
     readLine()
+```
+
+## Authenticated API
+
+Below is a list of calls you can make when you have generated an API key. To do so go here
+
+[Link to Coinbase api](https://pro.coinbase.com/profile/api)
+
+And generate your keys. You can use these keys to generate an API object to use the authenticated requests. Example:
+
+```
+val api = authenticated_builder {
+    apiKey = "key"
+    password = "password"
+    secretKey = "blahblah=="
+    sandbox = true // Optional field
+}.build()
+```
+
+### Get accounts
+
+Get all accounts
+
+```
+api
+    .accounts()
+    .getAccounts()
+    .doAfterSuccess { println(it) }
+    .doOnError { println(it) }
+    .blockingGet()
+```
+
+Get all accounts that have a non-zero blanace
+
+```
+api
 ```

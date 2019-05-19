@@ -6,7 +6,7 @@ import okhttp3.Request
 import java.util.concurrent.TimeUnit
 
 
-class WebsocketApi {
+class WebsocketApi(private val url : String) {
 
     val handler = RawListener()
 
@@ -18,7 +18,7 @@ class WebsocketApi {
 
     fun sockets() = okHttp()
         .newWebSocket(
-            Request.Builder().url("wss://ws-feed.pro.coinbase.com").build(),
+            Request.Builder().url(url).build(),
             handler
         )
 

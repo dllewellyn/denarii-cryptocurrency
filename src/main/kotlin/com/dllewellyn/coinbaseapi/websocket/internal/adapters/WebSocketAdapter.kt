@@ -10,10 +10,16 @@ import com.google.gson.Gson
 import io.reactivex.Observable
 import okhttp3.WebSocket
 
-class WebSocketAdapter : EventSubscription {
+class WebSocketAdapter(sandbox: Boolean) : EventSubscription {
+
+    private val url : String = if (sandbox) {
+        "wss://ws-feed-public.sandbox.pro.coinbase.com"
+    } else {
+        "wss://ws-feed.pro.coinbase.com"
+    }
 
     private val websocketApi: WebsocketApi by lazy {
-        WebsocketApi()
+        WebsocketApi(url)
     }
 
     private val sockets: WebSocket by lazy {
