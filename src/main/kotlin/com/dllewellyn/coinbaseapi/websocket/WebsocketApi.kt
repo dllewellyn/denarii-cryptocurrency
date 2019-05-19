@@ -18,7 +18,7 @@ class WebsocketApi {
 
     fun sockets() = okHttp()
         .newWebSocket(
-            Request.Builder().url("ws://ws-feed.pro.coinbase.com").build(),
+            Request.Builder().url("wss://ws-feed.pro.coinbase.com").build(),
             handler
         )
 

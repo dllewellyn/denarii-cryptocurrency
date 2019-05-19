@@ -17,8 +17,8 @@ data class SnapshotResponseApi(
             CurrencyBuyAndSell(
                 product_id.productIdToPair().first(),
                 product_id.productIdToPair().last(),
-                asks.first().first().toFloat(),
-                bids.first().first().toFloat()
+                bids.first().first().toFloat(),
+                asks.first().first().toFloat()
             )
         )
     }
