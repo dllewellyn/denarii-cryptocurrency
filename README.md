@@ -4,7 +4,7 @@
 # Table of Contents  
 [Sandbox](#Sandbox)<br>
 [Un-authenticated endpoints](#Unauthenticated requests)<br>
-[WebSockets](#Websockets) <br>
+[WebSockets](#Web sockets) <br>
 [Authenticated endpoints](#Authenticated API)
 
 # Installation 
@@ -26,7 +26,7 @@ dependencies {
 ##Sandbox
 
 By default, the real coinbase API is used. To use the sandbox
-at some point before firstu sing the API call
+at some point before first using the API call
 
 ```
 Api.sandbox = true
