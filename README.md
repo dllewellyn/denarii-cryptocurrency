@@ -1,8 +1,16 @@
 [![Build Status](https://travis-ci.org/dllewellyn/coinbaseAPI.svg?branch=master)](https://travis-ci.org/dllewellyn/coinbaseAPI)
 
+
+# Table of Contents  
+[Sandbox](#Sandbox)<br>
+[Un-authenticated endpoints](#Unauthenticated requests)<br>
+[WebSockets](#Websockets) <br>
+[Authenticated endpoints](#Authenticated API)
+
+
 # Usage
 
-## Sandbox
+##Sandbox
 
 By default, the real coinbase API is used. To use the sandbox
 at some point before firstu sing the API call
@@ -12,7 +20,7 @@ Api.sandbox = true
 ```
 
 
-## Unauthenticated requests
+##Unauthenticated requests
 
 Below is a list of un-authenticated requests (i.e. those that do not require any tokens to be generated)
 
@@ -173,7 +181,7 @@ cache.listOfCurrencies().forEach {
 }
 ```
 
-### Web sockets
+##Web sockets
 
 Simple usage
 
@@ -223,7 +231,7 @@ To unsubscribe, do the inverse of what you did before
     readLine()
 ```
 
-## Authenticated API
+##Authenticated API
 
 Below is a list of calls you can make when you have generated an API key. To do so go here
 
@@ -240,7 +248,7 @@ val api = authenticated_builder {
 }.build()
 ```
 
-### Get accounts
+###Get accounts
 
 Get all accounts
 

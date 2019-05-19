@@ -1,1 +1,10 @@
 language: java
+
+script: ./gradlew clean build
+
+deploy:
+  provider: script
+  script: ./gradlew bintrayUpload -PbintrayUser=$BINTRAY_USER
+  -PbintrayApiKey=$BINTRAY_KEY
+  on:
+    branch: master
