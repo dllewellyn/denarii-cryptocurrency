@@ -7,7 +7,20 @@
 [WebSockets](#Websockets) <br>
 [Authenticated endpoints](#Authenticated API)
 
+# Installation 
 
+
+```
+repositories {
+    maven {
+        url  "https://dl.bintray.com/dllewellyn/coinbase-api-kt" 
+    }
+}
+dependencies {
+    implementation 'com.dllewellyn.coinbaseAPI:CoinbaseAPI:1.0'
+}
+```
+[More info](https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-kt)
 # Usage
 
 ##Sandbox
