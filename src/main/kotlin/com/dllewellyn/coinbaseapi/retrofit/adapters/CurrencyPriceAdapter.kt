@@ -38,8 +38,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    it.bid.toFloat(),
-                    it.ask.toFloat()
+                    it.bid?.toFloat() ?: 0f,
+                    it.ask?.toFloat() ?: 0f
                 )
             }
     }
