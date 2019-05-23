@@ -2,13 +2,16 @@ package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import com.dllewellyn.coinbaseapi.interfaces.Accounts
+import com.dllewellyn.coinbaseapi.interfaces.Orders
 import com.dllewellyn.coinbaseapi.retrofit.CoinbaseProService
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import com.dllewellyn.coinbaseapi.retrofit.adapters.AccountsAdapter
+import com.dllewellyn.coinbaseapi.retrofit.adapters.OrdersAdapter
 import com.dllewellyn.coinbaseapi.websocket.internal.adapters.WebSocketAdapter
 
 interface AuthenticatedApi {
     fun accounts() : Accounts
+    fun orders() : Orders
 }
 
 class AuthenticatedApiBuilder {
@@ -49,6 +52,8 @@ class AuthenticatedApiImpl(
     private val retrofit: CoinbaseProService  by lazy {
         RetrofitApiBuilder(sandbox).getProApiAuthentication(password, apiKey, secretKey)
     }
+
+    override fun orders() : Orders = OrdersAdapter(retrofit)
 
     private val webSocketAdapter: WebSocketAdapter by lazy {
         WebSocketAdapter(sandbox)

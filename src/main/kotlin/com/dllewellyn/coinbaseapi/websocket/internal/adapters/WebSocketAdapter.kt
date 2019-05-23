@@ -2,8 +2,8 @@ package com.dllewellyn.coinbaseapi.websocket.internal.adapters
 
 import com.dllewellyn.coinbaseapi.interfaces.EventSubscription
 import com.dllewellyn.coinbaseapi.models.Channel
-import com.dllewellyn.coinbaseapi.models.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.EventResponse
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.websocket.WebsocketApi
 import com.dllewellyn.coinbaseapi.websocket.internal.models.SubscribeApi
 import com.google.gson.Gson

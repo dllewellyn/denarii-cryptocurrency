@@ -1,8 +1,8 @@
 package com.dllewellyn.coinbaseapi.interfaces
 
 import com.dllewellyn.coinbaseapi.models.Channel
-import com.dllewellyn.coinbaseapi.models.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.EventResponse
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import io.reactivex.Observable
 
 interface EventSubscription {

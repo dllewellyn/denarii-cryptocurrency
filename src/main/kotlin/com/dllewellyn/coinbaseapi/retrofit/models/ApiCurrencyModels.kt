@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.retrofit.models
 
-import com.dllewellyn.coinbaseapi.models.SupportedCurrency
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
 
 
@@ -15,4 +15,4 @@ data class ApiCurrency(
 )
 
 fun ApiCurrency.toCurrency() =
-        SupportedCurrency(id, name, minSize.toDouble())
+    SupportedCurrency(id, name, minSize.toDouble())

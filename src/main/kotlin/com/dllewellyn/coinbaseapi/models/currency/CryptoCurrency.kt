@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.models
+package com.dllewellyn.coinbaseapi.models.currency
 
 import com.dllewellyn.coinbaseapi.exceptions.ApiException
 

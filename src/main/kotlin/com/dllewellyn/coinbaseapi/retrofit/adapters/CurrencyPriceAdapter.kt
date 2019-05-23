@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.retrofit.adapters
 
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPrice
-import com.dllewellyn.coinbaseapi.models.CurrencyBuyAndSell
-import com.dllewellyn.coinbaseapi.models.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.CurrencyValue
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyValue
+import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import io.reactivex.Single
 
@@ -32,23 +32,14 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
             }
 
     override fun getCurrencyBuyAndSellPrice(pair: CurrencyPair) : Single<CurrencyBuyAndSell> {
-        return retrofitApiBuilder.getApi().getSellPrice(pairToString(pair))
-            .mergeWith(retrofitApiBuilder.getApi().getBuyPrice(pairToString(pair)))
-            .map { it.data }
-            .map {
-                CurrencyValue(
-                    it.base,
-                    it.currency,
-                    it.amount.toFloat()
-                )
-            }
-            .toList()
+        return retrofitApiBuilder.getProApi()
+            .getTradeTick(pairToString(pair))
             .map {
                 CurrencyBuyAndSell(
-                    it.first().currencyFrom,
-                    it.first().currencyTo,
-                    it.last().amount,
-                    it.first().amount
+                    pair.baseCurrency,
+                    pair.quoteCurrency,
+                    it.bid.toFloat(),
+                    it.ask.toFloat()
                 )
             }
     }

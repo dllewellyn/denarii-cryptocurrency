@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.retrofit.adapters
 
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
-import com.dllewellyn.coinbaseapi.models.SupportedCurrency
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import com.dllewellyn.coinbaseapi.retrofit.models.toCurrency
 import io.reactivex.Observable

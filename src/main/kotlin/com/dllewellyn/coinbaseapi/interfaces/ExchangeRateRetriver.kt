@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.interfaces
 
-import com.dllewellyn.coinbaseapi.models.CryptoCurrency
 import com.dllewellyn.coinbaseapi.models.ExchangeRates
+import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
 import io.reactivex.Single
 
 interface ExchangeRateRetriver {

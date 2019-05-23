@@ -3,6 +3,7 @@
 
 # Table of Contents  
 [Sandbox](#Sandbox)<br>
+
 [Un-authenticated endpoints](#Unauthenticated requests)<br>
 [WebSockets](#Web sockets) <br>
 [Authenticated endpoints](#Authenticated API)
@@ -23,7 +24,7 @@ dependencies {
 [More info](https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-kt)
 # Usage
 
-##Sandbox
+## Sandbox
 
 By default, the real coinbase API is used. To use the sandbox
 at some point before first using the API call
@@ -31,9 +32,16 @@ at some point before first using the API call
 ```
 Api.sandbox = true
 ```
+## Exceptions
 
+The coinbase API can give fairly useful responses. These are encapsulated in an 'ApiException'
+will contain the error message from the server. Example response:
 
-##Unauthenticated requests
+```
+ApiException: {"message":"Insufficient funds"}
+```
+
+## Unauthenticated requests
 
 Below is a list of un-authenticated requests (i.e. those that do not require any tokens to be generated)
 
@@ -109,6 +117,13 @@ val result = Api.currencyPairs()
     .blockingGet()
 
 println(result)
+```
+
+You can also retrieve and filter by a certain currency
+```
+Api.currencyPairs()
+    .currencyPairsContaining(SupportedCurrency("USDC"))
+    .blockingGet()
 ```
 
 Store the results into a cache
@@ -194,7 +209,7 @@ cache.listOfCurrencies().forEach {
 }
 ```
 
-##Web sockets
+## Web sockets
 
 Simple usage
 
@@ -244,7 +259,7 @@ To unsubscribe, do the inverse of what you did before
     readLine()
 ```
 
-##Authenticated API
+## Authenticated API
 
 Below is a list of calls you can make when you have generated an API key. To do so go here
 
@@ -261,7 +276,7 @@ val api = authenticated_builder {
 }.build()
 ```
 
-###Get accounts
+### Get accounts
 
 Get all accounts
 

@@ -1,9 +1,12 @@
 package com.dllewellyn.coinbaseapi.models
 
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyValue
+import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 
-enum class BuyOrSell {
-    BUY,
-    SELL
+
+enum class BuyOrSell(val v : String) {
+    BUY("buy"),
+    SELL("sell")
 }
 
 sealed class EventResponse {

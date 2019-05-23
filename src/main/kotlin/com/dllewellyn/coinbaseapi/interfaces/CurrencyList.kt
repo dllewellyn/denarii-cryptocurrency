@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.interfaces
 
-import com.dllewellyn.coinbaseapi.models.SupportedCurrency
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import io.reactivex.Observable
 import io.reactivex.Single
 

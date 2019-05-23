@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.retrofit.models
 
 import com.dllewellyn.coinbaseapi.models.Account
-import com.dllewellyn.coinbaseapi.models.SupportedCurrency
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
 
 data class ApiAccount(
