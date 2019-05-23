@@ -1,6 +1,7 @@
 package com.dllewellyn.coinbaseapi.retrofit
 
 import com.dllewellyn.coinbaseapi.retrofit.interceptors.AuthenticationInterceptor
+import com.dllewellyn.coinbaseapi.retrofit.interceptors.ErrorInterceptor
 import com.dllewellyn.coinbaseapi.retrofit.models.*
 import io.reactivex.Single
 import okhttp3.OkHttpClient
@@ -36,7 +37,11 @@ interface CoinbaseProService {
     fun getSingleAccount(@Path("account_id") accountId: String): Single<List<ApiAccount>>
 
     @POST("orders")
-    fun placeNewOrder(@Body apiBuyOrder: ApiBuyOrder): Single<ApiOrderResponse>
+    fun placeNewOrder(@Body apiOrder: ApiOrder): Single<ApiOrderResponse>
+
+    @GET("/products/{currency_pair}/ticker")
+    fun getTradeTick(@Path("currency_pair") currencyPair: String): Single<ApiTradeTick>
+
 }
 
 class RetrofitApiBuilder(sandbox: Boolean = false) {
@@ -52,20 +57,27 @@ class RetrofitApiBuilder(sandbox: Boolean = false) {
             "https://api-public.sandbox.pro.coinbase.com"
         }
 
+    private val standardOkHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(ErrorInterceptor())
+            .build()
+    }
 
-    private val retrofit: Retrofit by lazy {
+    private val baseRetrofit: Retrofit.Builder by lazy {
         Retrofit.Builder()
-            .baseUrl(coinbase)
+            .client(standardOkHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
+    }
+    private val retrofit: Retrofit by lazy {
+        baseRetrofit
+            .baseUrl(coinbase)
             .build()
     }
 
     private val retrofitPro: Retrofit by lazy {
-        Retrofit.Builder()
+        baseRetrofit
             .baseUrl(coinbasePro)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
@@ -83,6 +95,7 @@ class RetrofitApiBuilder(sandbox: Boolean = false) {
 
     private fun buildClientWith(passphrase: String, apiKey: String, secretKey: String) {
         okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(ErrorInterceptor())
             .addInterceptor(AuthenticationInterceptor(passphrase, apiKey, secretKey))
             .build()
     }

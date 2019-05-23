@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.websocket.internal.models
 
-import com.dllewellyn.coinbaseapi.models.CurrencyBuyAndSell
+import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 import com.dllewellyn.coinbaseapi.models.EventResponse
 import com.google.gson.annotations.SerializedName
 
