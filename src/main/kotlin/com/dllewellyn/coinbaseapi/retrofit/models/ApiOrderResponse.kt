@@ -1,11 +1,13 @@
 package com.dllewellyn.coinbaseapi.retrofit.models
 
-import com.dllewellyn.coinbaseapi.models.trade.OrderResponse
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.coinbaseapi.models.currency.OpenOrder
+import com.dllewellyn.coinbaseapi.models.trade.LimitOrMarket
 import com.google.gson.annotations.SerializedName
 
 data class ApiOrderResponse(
     @SerializedName("created_at") val created_at: String,
-    @SerializedName("executed_value")  val executed_value: String,
+    @SerializedName("executed_value") val executed_value: String,
     @SerializedName("fill_fees") val fill_fees: String,
     @SerializedName("filled_size") val filled_size: String,
     @SerializedName("id") val id: String,
@@ -16,12 +18,12 @@ data class ApiOrderResponse(
     @SerializedName("side") val side: String,
     @SerializedName("size") val size: String,
     @SerializedName("status") val status: String,
-    @SerializedName("stp") val stp: String,
+    @SerializedName("stp") val stp: String?,
     @SerializedName("time_in_force") val time_in_force: String,
     @SerializedName("type") val type: String
 ) {
     fun toCore() =
-        OrderResponse(
+        OpenOrder(
             created_at,
             executed_value,
             fill_fees,
@@ -29,13 +31,13 @@ data class ApiOrderResponse(
             id,
             post_only,
             price,
-            product_id,
+            CurrencyPair.fromId(id),
             settled,
             size,
             size,
             status,
             stp,
             time_in_force,
-            type
+            LimitOrMarket.fromString(type)
         )
 }

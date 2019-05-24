@@ -3,6 +3,7 @@ package com.dllewellyn.coinbaseapi.retrofit
 import com.dllewellyn.coinbaseapi.retrofit.interceptors.AuthenticationInterceptor
 import com.dllewellyn.coinbaseapi.retrofit.interceptors.ErrorInterceptor
 import com.dllewellyn.coinbaseapi.retrofit.models.*
+import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,6 +42,15 @@ interface CoinbaseProService {
 
     @GET("/products/{currency_pair}/ticker")
     fun getTradeTick(@Path("currency_pair") currencyPair: String): Single<ApiTradeTick>
+
+    @GET("orders")
+    fun getOpenOrders() : Single<List<ApiOrderResponse>>
+
+    @DELETE("orders/{order_id}")
+    fun deleteOrder(@Path("order_id") orderId : String) : Completable
+
+    @DELETE("orders")
+    fun deleteAll() : Single<List<String>>
 
 }
 

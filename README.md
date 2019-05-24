@@ -289,8 +289,29 @@ api
     .blockingGet()
 ```
 
-Get all accounts that have a non-zero blanace
+### Orders
+
+Get all open orders
+
+```
+api.
+    .orders()
+    .retrieveOpenOrders()
+    .subscribe(::println)
+```
+
+Delete a specific order
 
 ```
 api
+    .orders()
+    .deleteOrder("abc")
+```
+
+Delete all orders
+
+```
+api
+    .orders()
+    .deleteAll()
 ```

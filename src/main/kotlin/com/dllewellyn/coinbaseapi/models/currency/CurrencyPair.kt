@@ -11,4 +11,10 @@ data class CurrencyPair(
     fun containsCurrency(vararg supportedCurrency: SupportedCurrency) = supportedCurrency.any {
         baseCurrency == it.id || quoteCurrency == it.id
     }
+
+    companion object {
+        fun fromId(id: String) = with(id.split("-")) {
+            CurrencyPair(baseCurrency = first(), id = id, quoteCurrency = last())
+        }
+    }
 }
