@@ -26,7 +26,7 @@ data class UpdateResponseApi(
                 CurrencyValue(
                     product_id.productIdToPair().first(),
                     product_id.productIdToPair().last(),
-                    it[1].toFloat()
+                    it[1].toDouble()
                 ), buyOrSell))
         }
 

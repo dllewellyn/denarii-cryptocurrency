@@ -4,8 +4,8 @@ import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 
 data class Account(
     val currencyValue: SupportedCurrency,
-    val balance : Float,
-    val available : Float,
-    val hold : Float,
+    val balance : Double,
+    val available : Double,
+    val hold : Double,
     val uid : String
 )

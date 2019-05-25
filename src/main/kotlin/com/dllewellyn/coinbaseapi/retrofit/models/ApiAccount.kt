@@ -14,9 +14,9 @@ data class ApiAccount(
 ) {
     fun toCore() = Account(
         SupportedCurrency(currency, currency, 0.0),
-        balance.toFloat(),
-        available.toFloat(),
-        hold.toFloat(),
+        balance.toDouble(),
+        available.toDouble(),
+        hold.toDouble(),
         id
     )
 }

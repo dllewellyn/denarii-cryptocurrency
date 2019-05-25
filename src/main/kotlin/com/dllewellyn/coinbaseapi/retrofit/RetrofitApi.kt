@@ -52,6 +52,9 @@ interface CoinbaseProService {
     @DELETE("orders")
     fun deleteAll() : Single<List<String>>
 
+    @GET("orders/{order_id}")
+    fun getOrder(@Path("order_id") orderId : String): Single<ApiOrderResponse>
+
 }
 
 class RetrofitApiBuilder(sandbox: Boolean = false) {

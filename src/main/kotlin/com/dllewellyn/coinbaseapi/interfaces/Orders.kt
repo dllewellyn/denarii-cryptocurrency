@@ -10,4 +10,5 @@ interface Orders {
     fun retrieveOpenOrders() : Single<List<OpenOrder>>
     fun deleteOrder(orderId : String) : Completable
     fun deleteAll() : Single<List<String>>
+    fun orderById(order : String) : Single<OpenOrder>
 }

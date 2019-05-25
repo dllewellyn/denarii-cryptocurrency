@@ -1,6 +1,7 @@
 package com.dllewellyn.coinbaseapi.retrofit.adapters
 
 import com.dllewellyn.coinbaseapi.interfaces.Orders
+import com.dllewellyn.coinbaseapi.models.currency.OpenOrder
 import com.dllewellyn.coinbaseapi.models.trade.OrderRequest
 import com.dllewellyn.coinbaseapi.retrofit.CoinbaseProService
 import com.dllewellyn.coinbaseapi.retrofit.models.toApi
@@ -8,6 +9,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class OrdersAdapter(private val retrofit: CoinbaseProService) : Orders {
+    override fun orderById(order: String) = retrofit.getOrder(order)
+        .map { it.toCore() }
 
     override fun retrieveOpenOrders() = retrofit.getOpenOrders()
         .map { it.map { x -> x.toCore() } }
