@@ -34,7 +34,7 @@ data class ApiOrderResponse(
             id,
             post_only,
             price.toDouble(),
-            CurrencyPair.fromId(id),
+            CurrencyPair.fromId(product_id),
             settled,
             when (side) {
                 "buy" -> BuyOrSell.BUY
