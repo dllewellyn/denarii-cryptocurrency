@@ -8,7 +8,7 @@ plugins {
 
 val publicationName = "CoinbaseAPI"
 val g = "com.dllewellyn.coinbaseAPI"
-val v ="1.3.1"
+val v ="1.3.2"
 group = g
 version = v
 

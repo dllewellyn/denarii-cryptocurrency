@@ -16,7 +16,7 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyValue(
                     pair.baseCurrency,
                     it.currency,
-                    it.amount.toFloat()
+                    it.amount.toDouble()
                 )
             }
 
@@ -27,10 +27,15 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyValue(
                     it.base,
                     it.currency,
-                    it.amount.toFloat()
+                    it.amount.toDouble()
                 )
             }
 
+
+    /**
+     * The ask price is what sellers are willing to take for it. If you are selling a stock, you are going to get the bid price,
+     * if you are buying a stock you are going to get the ask price.
+     */
     override fun getCurrencyBuyAndSellPrice(pair: CurrencyPair) : Single<CurrencyBuyAndSell> {
         return retrofitApiBuilder.getProApi()
             .getTradeTick(pairToString(pair))
@@ -38,8 +43,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitApiBuilder) :
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    it.bid?.toFloat() ?: 0f,
-                    it.ask?.toFloat() ?: 0f
+                    it.ask?.toDouble() ?: 0.0,
+                    it.bid?.toDouble() ?: 0.0
                 )
             }
     }

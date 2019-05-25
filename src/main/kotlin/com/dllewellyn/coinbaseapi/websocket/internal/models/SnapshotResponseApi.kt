@@ -12,13 +12,12 @@ data class SnapshotResponseApi(
 ) {
     fun toCore(): EventResponse.Level2Snapshot {
 
-
         return EventResponse.Level2Snapshot(
             CurrencyBuyAndSell(
                 product_id.productIdToPair().first(),
                 product_id.productIdToPair().last(),
-                bids.first().first().toFloat(),
-                asks.first().first().toFloat()
+                asks.first().first().toDouble(),
+                bids.first().first().toDouble()
             )
         )
     }
