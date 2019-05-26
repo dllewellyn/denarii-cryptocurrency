@@ -93,6 +93,19 @@ val filteredResult = Api.exchangeRates()
 println(filteredResult)
 ```
 
+### Order book
+
+To retrieve the order book
+
+```
+ Api.buyAndSellPrices()
+        .getProductOrderBook(pair, OrderBookLevel.LEVEL_2)
+        .blockingGet()
+        .let {
+            println(it)
+        }       
+ ```
+ 
 ### Currency pairs
 
 Retrieve currency pairs
@@ -126,27 +139,8 @@ Api.currencyPairs()
     .blockingGet()
 ```
 
-Store the results into a cache
-
-```
-import com.dllewellyn.coinbaseapi.Api
-import com.dllewellyn.coinbaseapi.cache.MemoryCache
-import com.dllewellyn.coinbaseapi.cache.intoCache
-import com.dllewellyn.coinbaseapi.models.CurrencyPair
-
-
-val cache = MemoryCache<CurrencyPair>()
-
-Api.currencyPairs()
-    .getCurrencyPairs()
-    .intoCache(cache)
-    .blockingGet()
-
-
-println(cache)
-```
-
 ### Retrieve buy and sell prices
+
 Simple example  
 ```
 import com.dllewellyn.coinbaseapi.Api
@@ -154,15 +148,6 @@ import com.dllewellyn.coinbaseapi.cache.MemoryCache
 import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair
 
-
-val cache = MemoryCache<CurrencyPair>()
-
-Api.currencyPairs()
-    .getCurrencyPairs()
-    .intoCache(cache)
-    .blockingGet()
-
-val buyAndSell = Api.buyAndSellPrices()
 
 println(
     buyAndSell.getCurrencyBuyPrice(
@@ -187,13 +172,9 @@ import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair
 
 
-val cache = MemoryCache<CurrencyPair>()
-
-Api.currencyPairs()
+val cache = Api.currencyPairs()
     .getCurrencyPairs()
-    .intoCache(cache)
     .blockingGet()
-
 
 val buyAndSell = Api.buyAndSellPrices()
 
