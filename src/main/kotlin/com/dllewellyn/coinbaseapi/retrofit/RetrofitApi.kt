@@ -18,13 +18,6 @@ interface CoinbaseServiceV2 {
 
     @GET("v2/exchange-rates")
     fun getExchangeRates(@Query("cryptoCurrency") currency: String): Single<ApiCurrencyRates>
-
-    @GET("v2/prices/{currency_pair}/buy")
-    fun getBuyPrice(@Path("currency_pair") currencyPair: String): Single<ApiValueResponse>
-
-    @GET("v2/prices/{currency_pair}/sell")
-    fun getSellPrice(@Path("currency_pair") currencyPair: String): Single<ApiValueResponse>
-
 }
 
 interface CoinbaseProService {
@@ -54,6 +47,9 @@ interface CoinbaseProService {
 
     @GET("orders/{order_id}")
     fun getOrder(@Path("order_id") orderId : String): Single<ApiOrderResponse>
+
+    @GET("/products/{product_id}/book")
+    fun getOrderbook(@Path("product_id") productId : String, @Query("level") level : Int) : Single<ApiProductOrderBook>
 
 }
 
