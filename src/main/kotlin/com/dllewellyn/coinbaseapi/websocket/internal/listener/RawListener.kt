@@ -22,8 +22,7 @@ class RawListener : WebSocketListener() {
     override fun onMessage(webSocket: okhttp3.WebSocket, text: String) {
         super.onMessage(webSocket, text)
         text.let(::toJson)
-            .let(::toEventResponse)
-            .let { it.forEach(event::onNext) }
+        .let(::toEventResponse).forEach(event::onNext)
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
