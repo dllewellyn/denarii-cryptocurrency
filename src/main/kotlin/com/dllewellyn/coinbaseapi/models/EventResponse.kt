@@ -11,7 +11,7 @@ enum class BuyOrSell(val v : String) {
 
 sealed class EventResponse {
     data class Level2Snapshot(val buyAndSell: CurrencyBuyAndSell) : EventResponse()
-    data class Level2Update(val buyAndSell: CurrencyValue, val buyOrSell: BuyOrSell) : EventResponse()
+    data class Level2Update(val buyAndSell: CurrencyValue, val buyOrSell: BuyOrSell, val size : Double) : EventResponse()
 }
 
 fun <T>Any.only(): List<T> = listOf(this as T)

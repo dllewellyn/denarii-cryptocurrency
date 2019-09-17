@@ -27,7 +27,7 @@ data class UpdateResponseApi(
                     product_id.productIdToPair().first(),
                     product_id.productIdToPair().last(),
                     it[1].toDouble()
-                ), buyOrSell))
+                ), buyOrSell, it[2].toDouble()))
         }
 
         return returnList

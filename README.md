@@ -296,3 +296,86 @@ api
     .orders()
     .deleteAll()
 ```
+
+### Sample application
+
+A sample of how to keep an up-to-date book is detailed below:
+
+(Highly experimental, use at your own risk)
+
+```
+val buys = mutableListOf<EventResponse.Level2Update>()
+val sell = mutableListOf<EventResponse.Level2Update>()
+
+fun main() {
+
+    //Api.sandbox = true
+
+    Api.sandbox = true
+    Api.subscription().subscribeToEvent(
+        Channel.Type2().only(),
+        CurrencyPair.fromId("BTC-USD"),
+        CurrencyPair.fromId("ETH-BTC")
+    )
+        .doAfterNext {
+            if (it is EventResponse.Level2Snapshot) {
+                buys.add(
+                    EventResponse.Level2Update(
+                        buyAndSell = CurrencyValue(
+                            it.buyAndSell.currencyFrom,
+                            it.buyAndSell.currencyTo,
+                            it.buyAndSell.buy
+                        ),
+                        buyOrSell = BuyOrSell.BUY,
+                        size = 0.0
+                    )
+                )
+
+                sell.add(
+                    EventResponse.Level2Update(
+                        buyAndSell = CurrencyValue(
+                            it.buyAndSell.currencyFrom,
+                            it.buyAndSell.currencyTo,
+                            it.buyAndSell.sell
+                        ),
+                        buyOrSell = BuyOrSell.SELL,
+                        size = 0.0
+                    )
+                )
+            }
+
+            if (it is EventResponse.Level2Update) {
+                if (it.buyOrSell == BuyOrSell.BUY) {
+                    if (it.size == 0.0) {
+                        buys.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
+                            .forEach { a -> buys.remove(a) }
+                    } else {
+                        buys.add(it)
+                    }
+                } else {
+                    if (it.size == 0.0) {
+                        sell.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
+                            .forEach { a -> sell.remove(a) }
+                    } else {
+                        sell.add(it)
+                    }
+                }
+            }
+
+            println(it)
+            if (buys.isNotEmpty() && sell.isNotEmpty()) {
+                println("***")
+                buys.sortByDescending { amount -> amount.buyAndSell.amount }
+                println(buys.first())
+                sell.sortBy { amount -> amount.buyAndSell.amount }
+                println(sell.first())
+                println("Spread: ${sell.first().buyAndSell.amount - buys.first().buyAndSell.amount}")
+            }
+        }
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.io())
+        .subscribe()
+
+    readLine()
+}
+```
