@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 
 fun main() {
     GlobalScope.launch {
-        println(RetrofitCoroutinesBuilder(true).getApi().getCurrencies().unwrap())
+        RetrofitCoroutinesBuilder(true).getApi().getCurrencies().unwrap()
     }
 
     readLine()
