@@ -18,7 +18,10 @@ repositories {
     }
 }
 dependencies {
-    implementation 'com.dllewellyn.coinbaseAPI:CoinbaseAPI:1.0'
+    def coinbaseApiVersion = "1.3.7"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-rxadapter:${coinbaseApiVersion}"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-retrofit-adapter:${coinbaseApiVersion}"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-core:${coinbaseApiVersion}"
 }
 ```
 [More info](https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-kt)
@@ -51,7 +54,7 @@ List currencies as an observable, emitting each
 cryptoCurrency one at a time
 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 
 Api.currencies().getCurrencies()
     .doAfterNext { println(it) }
@@ -61,7 +64,7 @@ Api.currencies().getCurrencies()
 List currencies as one list of all currencies
 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 
 Api.currencies().getCurrencyList()
     .blockingGet()
@@ -71,7 +74,7 @@ Api.currencies().getCurrencyList()
 
 List of exchange rates 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 import com.dllewellyn.coinbaseapi.interfaces.filterByCurrency
 import com.dllewellyn.coinbaseapi.models.CryptoCurrency
 
@@ -111,7 +114,7 @@ To retrieve the order book
 Retrieve currency pairs
 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 
 val result = Api.currencyPairs()
     .getCurrencyPairs()
@@ -123,7 +126,7 @@ println(result)
 Retrieve as observable
 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 
 val result = Api.currencyPairs()
     .getCurrencyPairs()
@@ -143,7 +146,7 @@ Api.currencyPairs()
 
 Simple example  
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 import com.dllewellyn.coinbaseapi.cache.MemoryCache
 import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair
@@ -166,7 +169,7 @@ then iterate each currency pair, requesting the buy and sell prices
 then loop through the results and print them out
 
 ```
-import com.dllewellyn.coinbaseapi.Api
+import com.dllewellyn.coinbaseapi.RetrofitApi
 import com.dllewellyn.coinbaseapi.cache.MemoryCache
 import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair

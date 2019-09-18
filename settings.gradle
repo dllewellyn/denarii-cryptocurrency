@@ -1,2 +1,5 @@
 rootProject.name = 'coinbaseAPI'
+include ":rxadapter", ":core"
+include 'retrofit-adapter'
+include 'coroutines-adapter'
 
