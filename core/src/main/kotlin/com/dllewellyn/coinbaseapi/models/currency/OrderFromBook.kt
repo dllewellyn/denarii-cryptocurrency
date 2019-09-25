@@ -1,3 +1,5 @@
 package com.dllewellyn.coinbaseapi.models.currency
 
-data class OrderFromBook(val price : Double, val size : Double, val numberOfOrders : Int)
+import java.math.BigInteger
+
+data class OrderFromBook(val price : BigInteger, val size : BigInteger, val numberOfOrders : Int)

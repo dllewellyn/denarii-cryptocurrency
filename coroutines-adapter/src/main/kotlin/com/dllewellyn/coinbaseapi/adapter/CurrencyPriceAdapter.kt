@@ -35,8 +35,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 val asks = orderBook.asks.map { asks ->
                     (asks as List<*>).let { ask ->
                         OrderFromBook(
-                            (ask[0] as String).toDouble(),
-                            (ask[1] as String).toDouble(),
+                            BigInteger(ask[0] as String),
+                            BigInteger(ask[1] as String),
                             (ask[2] as Double).toInt()
                         )
                     }
@@ -45,8 +45,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 val bids = orderBook.bids.map { bids ->
                     (bids as List<*>).let { ask ->
                         OrderFromBook(
-                            (ask[0] as String).toDouble(),
-                            (ask[1] as String).toDouble(),
+                            BigInteger(ask[0] as String),
+                            BigInteger(ask[1] as String),
                             (ask[2] as Double).toInt()
                         )
                     }
