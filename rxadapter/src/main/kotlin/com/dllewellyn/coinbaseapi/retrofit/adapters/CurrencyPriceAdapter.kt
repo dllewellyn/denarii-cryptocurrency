@@ -9,6 +9,7 @@ import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitRxApiBuilder
 import io.reactivex.Single
+import java.math.BigInteger
 
 class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder) : CurrencyPrice {
 
@@ -23,8 +24,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder)
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    it.ask?.toDouble() ?: 0.0,
-                    it.bid?.toDouble() ?: 0.0
+                    BigInteger(it.ask ?: "0"),
+                    BigInteger(it.bid ?: "0")
                 )
             }
     }

@@ -8,6 +8,7 @@ import com.dllewellyn.coinbaseapi.models.currency.OrderBookLevel
 import com.dllewellyn.coinbaseapi.models.currency.OrderBookList
 import com.dllewellyn.coinbaseapi.models.currency.OrderFromBook
 import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
+import java.math.BigInteger
 
 
 class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : CurrencyPrice {
@@ -20,8 +21,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    it.ask?.toDouble() ?: 0.0,
-                    it.bid?.toDouble() ?: 0.0
+                    BigInteger(it.ask ?: "0"),
+                    BigInteger(it.bid ?: "0")
                 )
             }
     }

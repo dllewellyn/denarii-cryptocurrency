@@ -7,5 +7,5 @@ import com.dllewellyn.coinbaseapi.retrofit.services.CoinbaseProService
 
 class AccountsAdapter(private val retrofit: CoinbaseProService) : Accounts {
     override suspend fun getAccounts() = retrofit.getAccounts().unwrap().map { it.toCore() }
-    override suspend fun getNonEmptyAccounts() = getAccounts().filter { a -> a.balance > 0 }
+    override suspend fun getNonEmptyAccounts() = getAccounts().filter { a -> a.balance.toInt() > 0 }
 }

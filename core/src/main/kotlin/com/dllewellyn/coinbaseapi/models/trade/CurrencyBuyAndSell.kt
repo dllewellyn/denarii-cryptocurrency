@@ -1,3 +1,5 @@
 package com.dllewellyn.coinbaseapi.models.trade
 
-data class CurrencyBuyAndSell(val currencyFrom : String, val currencyTo : String, val buy : Double, val sell : Double)
+import java.math.BigInteger
+
+data class CurrencyBuyAndSell(val currencyFrom : String, val currencyTo : String, val buy : BigInteger, val sell : BigInteger)
