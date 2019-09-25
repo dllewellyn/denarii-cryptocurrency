@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-open class RetrofitApiBuilder(sandbox: Boolean = false) {
+open class RetrofitApiBuilder(sandbox: Boolean = false, private val errorInterceptor: Boolean = true) {
 
     companion object {
         const val coinbase = "https://api.coinbase.com/"
@@ -21,9 +21,13 @@ open class RetrofitApiBuilder(sandbox: Boolean = false) {
         }
 
     private val standardOkHttpClient: OkHttpClient by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(ErrorInterceptor())
-            .build()
+        with(OkHttpClient.Builder()) {
+            if (errorInterceptor) {
+                addInterceptor(ErrorInterceptor())
+            }
+            build()
+        }
+
     }
 
     private val baseRetrofit: Retrofit.Builder by lazy {
@@ -52,10 +56,14 @@ open class RetrofitApiBuilder(sandbox: Boolean = false) {
     private lateinit var okHttpClient: OkHttpClient
 
     protected fun buildClientWith(passphrase: String, apiKey: String, secretKey: String) {
-        okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(ErrorInterceptor())
-            .addInterceptor(AuthenticationInterceptor(passphrase, apiKey, secretKey))
-            .build()
+        okHttpClient = with(OkHttpClient.Builder()) {
+            if (errorInterceptor) {
+                addInterceptor(ErrorInterceptor())
+            }
+            addInterceptor(AuthenticationInterceptor(passphrase, apiKey, secretKey))
+            build()
+        }
+
     }
 
 

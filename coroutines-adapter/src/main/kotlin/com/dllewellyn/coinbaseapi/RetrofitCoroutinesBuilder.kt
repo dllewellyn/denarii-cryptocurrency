@@ -4,7 +4,7 @@ import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import com.dllewellyn.coinbaseapi.retrofit.services.CoinbaseProService
 import com.dllewellyn.coinbaseapi.retrofit.services.CoinbaseServiceV2
 
-class RetrofitCoroutinesBuilder(private val sandbox : Boolean = false) : RetrofitApiBuilder(sandbox) {
+class RetrofitCoroutinesBuilder(sandbox: Boolean = false) : RetrofitApiBuilder(sandbox, false) {
 
     fun getApi() =
         retrofit.build().create(CoinbaseServiceV2::class.java)
