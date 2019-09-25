@@ -7,7 +7,7 @@ import io.reactivex.Single
 abstract class AccountsBase : Accounts {
     override fun getNonEmptyAccounts() : Single<List<Account>> {
         return getAccounts().map {
-            it.filter { a -> a.balance > 0 }
+            it.filter { a -> a.balance.toInt() > 0 }
         }
     }
 }

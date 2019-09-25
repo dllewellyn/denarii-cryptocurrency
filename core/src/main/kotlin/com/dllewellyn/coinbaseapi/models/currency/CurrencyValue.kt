@@ -1,3 +1,5 @@
 package com.dllewellyn.coinbaseapi.models.currency
 
-data class CurrencyValue(val currencyFrom : String, val currencyTo : String, val amount : Double)
+import java.math.BigInteger
+
+data class CurrencyValue(val currencyFrom : String, val currencyTo : String, val amount : BigInteger)

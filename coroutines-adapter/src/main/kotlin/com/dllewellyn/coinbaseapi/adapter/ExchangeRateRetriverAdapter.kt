@@ -5,6 +5,7 @@ import com.dllewellyn.coinbaseapi.extensions.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.models.ExchangeRates
 import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
+import java.math.BigInteger
 
 
 class ExchangeRateRetriverAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) :
@@ -14,7 +15,7 @@ class ExchangeRateRetriverAdapter(private val retrofitCoroutinesBuilder: Retrofi
         retrofitCoroutinesBuilder.getApi().getExchangeRates(cryptoCurrency.str).unwrap().let {
             ExchangeRates(
                 cryptoCurrency,
-                it.data.rates.mapValues { rate -> rate.value.toDouble() })
+                it.data.rates.mapValues { rate -> BigInteger(rate.value) })
         }
 
 }

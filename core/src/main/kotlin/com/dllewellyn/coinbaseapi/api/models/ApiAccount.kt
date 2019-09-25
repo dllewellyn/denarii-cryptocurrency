@@ -3,6 +3,7 @@ package com.dllewellyn.coinbaseapi.api.models
 import com.dllewellyn.coinbaseapi.models.Account
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
+import java.math.BigInteger
 
 data class ApiAccount(
     @SerializedName("available") val available: String,
@@ -14,9 +15,9 @@ data class ApiAccount(
 ) {
     fun toCore() = Account(
         SupportedCurrency(currency, currency, 0.0),
-        balance.toDouble(),
-        available.toDouble(),
-        hold.toDouble(),
+        BigInteger(balance),
+        BigInteger(available),
+        BigInteger(hold),
         id
     )
 }
