@@ -3,6 +3,7 @@ package com.dllewellyn.coinbaseapi.retrofit.services
 import com.dllewellyn.coinbaseapi.api.models.*
 import io.reactivex.Completable
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.*
 
 interface CoinbaseProService {
@@ -36,4 +37,6 @@ interface CoinbaseProService {
     @GET("/products/{product_id}/book")
     fun getOrderbook(@Path("product_id") productId : String, @Query("level") level : Int) : Single<ApiProductOrderBook>
 
+    @GET("/products/{product_id}/ticker")
+    suspend fun getProductTicker(@Path("product_id") productId: String) : Single<ApiProductTicker>
 }
