@@ -18,10 +18,16 @@ repositories {
     }
 }
 dependencies {
-    def coinbaseApiVersion = "1.3.7"
-    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-rxadapter:${coinbaseApiVersion}"
-    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-retrofit-adapter:${coinbaseApiVersion}"
+    def coinbaseApiVersion = "1.3.10"
+    // Core
     implementation "com.dllewellyn.coinbaseAPI:coinbase-api-core:${coinbaseApiVersion}"
+    
+    // If you want to use rxjava 
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-rxadapter:${coinbaseApiVersion}"
+    
+    // If you want to use coroutines
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-coroutines-adapter:${coinbaseApiVersion}"
+    
 }
 ```
 [More info](https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-kt)
@@ -32,8 +38,9 @@ dependencies {
 By default, the real coinbase API is used. To use the sandbox
 at some point before first using the API call
 
+Note: There is a RetrofitApi object for coroutines and a retofit API for rxjava.. make sure you use the right one :)
 ```
-Api.sandbox = true
+RetrofitApi.sandbox = true
 ```
 ## Exceptions
 
@@ -44,11 +51,84 @@ will contain the error message from the server. Example response:
 ApiException: {"message":"Insufficient funds"}
 ```
 
-## Unauthenticated requests
+## RxJava or Coroutines
 
-Below is a list of un-authenticated requests (i.e. those that do not require any tokens to be generated)
+For all API calls there is a coroutines or an Rxjava option. They work in roughly the same way. Examples might be given using either or both 
+but the classes and functions used should be roughly the same. 
 
-### List of currencies
+These are the interfaces to look out for:
+
+```
+// Users account information (each account is for each currency. E.g there is a BTC account, a GBP account etc)
+Accounts
+
+// List of supported currencies
+CurrencyList
+
+// Buy and sell prices / order book
+CurrencyPrice
+
+// Manage a users orders
+Orders
+
+// ExchangeRateRetriever
+ExchangeRateRetriever
+```
+
+To take an example the orders list we would use it like this in rx:
+
+```
+api.
+    .orders()
+    .retrieveOpenOrders()
+    .subscribe(::println)
+```
+
+For coroutines
+
+```
+GlobalScope.launch {
+   println(api.retrieveOpenOrders())
+}
+```
+
+### Getting the handlers
+
+The interfaces mentioned above can be retrieved from the ``RetrofitApi`` class
+
+E.g.
+
+```
+RetrofitApi.orders()
+RetrofitApi.currencies() 
+RetrofitApi.exchangeRates() 
+RetrofitApi.currencyPairs() 
+RetrofitApi.buyAndSellPrices() 
+RetrofitApi.subscription() 
+```
+
+For any commands that needs authentication, use the authenticated_builder
+
+[Link to Coinbase api](https://pro.coinbase.com/profile/api)
+
+And generate your keys. You can use these keys to generate an API object to use the authenticated requests. Example:
+
+```
+val api = authenticated_builder {
+    apiKey = "key"
+    password = "password"
+    secretKey = "blahblah=="
+    sandbox = true // Optional field
+}.build()
+
+api.orders()
+api.accounts()
+```
+
+
+## CurrencyList
+
+(Unauthenticated)
 
 List currencies as an observable, emitting each
 cryptoCurrency one at a time
@@ -56,7 +136,7 @@ cryptoCurrency one at a time
 ```
 import com.dllewellyn.coinbaseapi.RetrofitApi
 
-Api.currencies().getCurrencies()
+RetrofitApi.currencies().getCurrencies()
     .doAfterNext { println(it) }
     .blockingLast()
 ```
@@ -66,11 +146,11 @@ List currencies as one list of all currencies
 ```
 import com.dllewellyn.coinbaseapi.RetrofitApi
 
-Api.currencies().getCurrencyList()
+RetrofitApi.currencies().getCurrencyList()
     .blockingGet()
 ```
 
-### Exchange rates
+## ExchangeRates
 
 List of exchange rates 
 ```
@@ -96,7 +176,7 @@ val filteredResult = Api.exchangeRates()
 println(filteredResult)
 ```
 
-### Order book
+## Orders
 
 To retrieve the order book
 
@@ -109,9 +189,9 @@ To retrieve the order book
         }       
  ```
  
-### Currency pairs
+## Currency pairs
 
-Retrieve currency pairs
+Retrieve currency pairs - i.e the pairs that coinbase supports
 
 ```
 import com.dllewellyn.coinbaseapi.RetrofitApi
@@ -241,23 +321,6 @@ To unsubscribe, do the inverse of what you did before
     )
 
     readLine()
-```
-
-## Authenticated API
-
-Below is a list of calls you can make when you have generated an API key. To do so go here
-
-[Link to Coinbase api](https://pro.coinbase.com/profile/api)
-
-And generate your keys. You can use these keys to generate an API object to use the authenticated requests. Example:
-
-```
-val api = authenticated_builder {
-    apiKey = "key"
-    password = "password"
-    secretKey = "blahblah=="
-    sandbox = true // Optional field
-}.build()
 ```
 
 ### Get accounts

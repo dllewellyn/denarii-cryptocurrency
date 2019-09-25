@@ -35,4 +35,7 @@ interface CoinbaseProService {
     @GET("/products/{product_id}/book")
     suspend fun getOrderbook(@Path("product_id") productId: String, @Query("level") level: Int): Response<ApiProductOrderBook>
 
+    @GET("/products/{product_id}/ticker")
+    suspend fun getProductTicker(@Path("product_id") productId: String) : Response<ApiProductTicker>
+
 }
