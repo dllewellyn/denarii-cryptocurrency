@@ -375,8 +375,6 @@ val sell = mutableListOf<EventResponse.Level2Update>()
 
 fun main() {
 
-    //Api.sandbox = true
-
     Api.sandbox = true
     Api.subscription().subscribeToEvent(
         Channel.Type2().only(),
