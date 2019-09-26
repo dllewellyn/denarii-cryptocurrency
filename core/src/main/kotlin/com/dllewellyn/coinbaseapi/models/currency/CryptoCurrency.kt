@@ -6,6 +6,7 @@ fun List<CryptoCurrency>.toCsv() = this.map { it.str }.joinToString(",")
 
 enum class CryptoCurrency(val str : String) {
     BITCOIN("BTC"),
+    BAT("BAT"),
     USDOLLAR("USD"),
     BITCOIN_CASH("BCH"),
     EOS("EOS"),

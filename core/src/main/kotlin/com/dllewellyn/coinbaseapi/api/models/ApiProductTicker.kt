@@ -1,7 +1,9 @@
 package com.dllewellyn.coinbaseapi.api.models
 
 
+import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 data class ApiProductTicker(
     @SerializedName("ask")
@@ -18,4 +20,14 @@ data class ApiProductTicker(
     val tradeId: Int,
     @SerializedName("volume")
     val volume: String
+)
+
+fun ApiProductTicker.toCore() = ProductTicker(
+    BigDecimal(ask),
+    BigDecimal(bid),
+    price,
+    size,
+    time,
+    tradeId,
+    volume
 )

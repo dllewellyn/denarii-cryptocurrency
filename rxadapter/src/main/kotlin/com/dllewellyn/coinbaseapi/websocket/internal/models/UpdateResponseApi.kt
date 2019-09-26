@@ -5,7 +5,7 @@ import com.dllewellyn.coinbaseapi.models.currency.CurrencyValue
 import com.dllewellyn.coinbaseapi.models.EventResponse
 import com.google.gson.annotations.SerializedName
 import java.lang.IllegalArgumentException
-import java.math.BigInteger
+import java.math.BigDecimal
 
 data class UpdateResponseApi(
     @SerializedName("changes") val changes: List<List<String>>,
@@ -28,7 +28,7 @@ data class UpdateResponseApi(
                     CurrencyValue(
                         product_id.productIdToPair().first(),
                         product_id.productIdToPair().last(),
-                        BigInteger(it[1])
+                        BigDecimal(it[1])
                     ), buyOrSell, it[2].toDouble()
                 )
             )

@@ -6,8 +6,7 @@ import com.dllewellyn.coinbaseapi.models.currency.OpenOrder
 import com.dllewellyn.coinbaseapi.models.trade.LimitOrMarket
 import com.dllewellyn.coinbaseapi.models.trade.OrderStatus
 import com.google.gson.annotations.SerializedName
-import java.lang.IllegalArgumentException
-import java.math.BigInteger
+import java.math.BigDecimal
 
 data class ApiOrderResponse(
     @SerializedName("created_at") val created_at: String,
@@ -29,12 +28,12 @@ data class ApiOrderResponse(
     fun toCore() =
         OpenOrder(
             created_at,
-            BigInteger(executed_value),
-            BigInteger(fill_fees),
-            BigInteger(filled_size),
+            BigDecimal(executed_value),
+            BigDecimal(fill_fees),
+            BigDecimal(filled_size),
             id,
             post_only,
-            BigInteger(price),
+            BigDecimal(price),
             CurrencyPair.fromId(product_id),
             settled,
             when (side) {
@@ -42,7 +41,7 @@ data class ApiOrderResponse(
                 "sell" -> BuyOrSell.SELL
                 else -> throw IllegalArgumentException("Unexpected string buy and sell")
             },
-            BigInteger(size),
+            BigDecimal(size),
             OrderStatus.fromString(status),
             stp,
             time_in_force,

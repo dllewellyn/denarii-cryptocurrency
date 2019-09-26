@@ -1,12 +1,12 @@
 package com.dllewellyn.coinbaseapi.models
 
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import java.math.BigInteger
+import java.math.BigDecimal
 
 data class Account(
     val currencyValue: SupportedCurrency,
-    val balance: BigInteger,
-    val available: BigInteger,
-    val hold: BigInteger,
+    val balance: BigDecimal,
+    val available: BigDecimal,
+    val hold: BigDecimal,
     val uid: String
 )

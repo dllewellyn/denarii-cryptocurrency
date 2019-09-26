@@ -18,7 +18,7 @@ repositories {
     }
 }
 dependencies {
-    def coinbaseApiVersion = "1.3.10"
+    def coinbaseApiVersion = "1.3.16"
     // Core
     implementation "com.dllewellyn.coinbaseAPI:coinbase-api-core:${coinbaseApiVersion}"
     
