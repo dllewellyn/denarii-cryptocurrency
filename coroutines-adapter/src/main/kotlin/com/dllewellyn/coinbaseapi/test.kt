@@ -6,10 +6,10 @@ import kotlinx.coroutines.runBlocking
 fun main() {
     runBlocking {
 
-        print(
-            RetrofitApi.exchangeRates()
-                .getProductTicker(CurrencyPair.fromId("BAT-ETH"))
-        )
+        val batToEth = CurrencyPair.fromId("BAT-ETH")
+
+        println(RetrofitApi.exchangeRates().getProductTicker(batToEth))
+        println(RetrofitApi.exchangeRates().get24HourStats(batToEth))
 
     }
 }

@@ -39,4 +39,7 @@ interface CoinbaseProService {
 
     @GET("/products/{product_id}/ticker")
     fun getProductTicker(@Path("product_id") productId: String) : Single<ApiProductTicker>
+
+    @GET("/products/{product_id}/stats")
+    fun get24HourStats(@Path("product_id") productId : String) : Single<ApiStats>
 }
