@@ -9,6 +9,11 @@ import com.dllewellyn.coinbaseapi.retrofit.RetrofitRxApiBuilder
 import java.math.BigDecimal
 
 class ExchangeRateRetriverAdapter(private val retrofit: RetrofitRxApiBuilder) : ExchangeRateRetriver {
+    override fun get24HourStats(cryptoCurrency: CurrencyPair) =
+        retrofit.getProApi().get24HourStats(cryptoCurrency.id).map {
+            it.toCore()
+        }
+
     override fun getProductTicker(cryptoCurrency: CurrencyPair) =
         retrofit.getProApi()
             .getProductTicker(cryptoCurrency.id)

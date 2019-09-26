@@ -38,4 +38,6 @@ interface CoinbaseProService {
     @GET("/products/{product_id}/ticker")
     suspend fun getProductTicker(@Path("product_id") productId: String) : Response<ApiProductTicker>
 
+    @GET("/products/{product_id}/stats")
+    suspend fun get24HourStats(@Path("product_id") productId : String) : Response<ApiStats>
 }
