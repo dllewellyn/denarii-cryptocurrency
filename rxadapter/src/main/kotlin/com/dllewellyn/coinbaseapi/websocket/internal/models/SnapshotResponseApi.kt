@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.websocket.internal.models
 
-import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 import com.dllewellyn.coinbaseapi.models.EventResponse
+import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
 import com.google.gson.annotations.SerializedName
-import java.math.BigInteger
+import java.math.BigDecimal
 
 data class SnapshotResponseApi(
     @SerializedName("asks") val asks: List<List<String>>,
@@ -17,8 +17,8 @@ data class SnapshotResponseApi(
             CurrencyBuyAndSell(
                 product_id.productIdToPair().first(),
                 product_id.productIdToPair().last(),
-                BigInteger(bids.first().first()),
-                BigInteger(asks.first().first())
+                BigDecimal(bids.first().first()),
+                BigDecimal(asks.first().first())
             )
         )
     }

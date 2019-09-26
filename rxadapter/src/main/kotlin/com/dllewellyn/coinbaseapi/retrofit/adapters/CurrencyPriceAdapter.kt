@@ -6,10 +6,9 @@ import com.dllewellyn.coinbaseapi.models.currency.OrderBookLevel
 import com.dllewellyn.coinbaseapi.models.currency.OrderBookList
 import com.dllewellyn.coinbaseapi.models.currency.OrderFromBook
 import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
-import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitRxApiBuilder
 import io.reactivex.Single
-import java.math.BigInteger
+import java.math.BigDecimal
 
 class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder) : CurrencyPrice {
 
@@ -24,8 +23,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder)
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    BigInteger(it.ask ?: "0"),
-                    BigInteger(it.bid ?: "0")
+                    BigDecimal(it.ask ?: "0"),
+                    BigDecimal(it.bid ?: "0")
                 )
             }
     }
@@ -37,8 +36,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder)
                 val asks = orderBook.asks.map { asks ->
                     (asks as List<*>).let { ask ->
                         OrderFromBook(
-                            BigInteger(ask[0] as String),
-                            BigInteger(ask[1] as String),
+                            BigDecimal(ask[0] as String),
+                            BigDecimal(ask[1] as String),
                             (ask[2] as Double).toInt()
                         )
                     }
@@ -47,8 +46,8 @@ class CurrencyPriceAdapter(private val retrofitApiBuilder: RetrofitRxApiBuilder)
                 val bids = orderBook.bids.map { bids ->
                     (bids as List<*>).let { ask ->
                         OrderFromBook(
-                            BigInteger(ask[0] as String),
-                            BigInteger(ask[1] as String),
+                            BigDecimal(ask[0] as String),
+                            BigDecimal(ask[1] as String),
                             (ask[2] as Double).toInt()
                         )
                     }

@@ -2,7 +2,6 @@ package com.dllewellyn.coinbaseapi.api.models
 
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
-import java.math.BigInteger
 
 
 data class ApiCurrencies(
