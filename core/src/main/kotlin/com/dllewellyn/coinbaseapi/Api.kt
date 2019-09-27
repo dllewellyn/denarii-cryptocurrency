@@ -5,6 +5,8 @@ import com.dllewellyn.coinbaseapi.interfaces.CurrencyPairsList
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPrice
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
+import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 
 interface Api {
     fun currencies(): ReadOnlyRepository<List<SupportedCurrency>>

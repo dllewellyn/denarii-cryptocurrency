@@ -9,16 +9,15 @@ import com.dllewellyn.coinbaseapi.interfaces.CurrencyPairsList
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPrice
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 
-object RetrofitApi {
+object RetrofitApi : Api {
     var sandbox = false
 
     private val retrofit : RetrofitCoroutinesBuilder by lazy {
         RetrofitCoroutinesBuilder(sandbox)
     }
 
-
-    fun currencies() : CurrencyList = CurrencyListAdapter(retrofit)
-    fun exchangeRates() : ExchangeRateRetriver = ExchangeRateRetriverAdapter(retrofit)
-    fun currencyPairs() : CurrencyPairsList = CurrencyPairAdapter(retrofit)
-    fun buyAndSellPrices() : CurrencyPrice = CurrencyPriceAdapter(retrofit)
+    override fun currencies() : CurrencyList = CurrencyListAdapter(retrofit)
+    override fun exchangeRates() : ExchangeRateRetriver = ExchangeRateRetriverAdapter(retrofit)
+    override fun currencyPairs() : CurrencyPairsList = CurrencyPairAdapter(retrofit)
+    override fun buyAndSellPrices() : CurrencyPrice = CurrencyPriceAdapter(retrofit)
 }
