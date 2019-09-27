@@ -2,11 +2,12 @@ package com.dllewellyn.coinbaseapi.adapter
 
 import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
 import com.dllewellyn.coinbaseapi.extensions.unwrap
-import com.dllewellyn.coinbaseapi.interfaces.CurrencyPairsBase
+import com.dllewellyn.coinbaseapi.interfaces.CurrencyPairsList
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 
-class CurrencyPairAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) : CurrencyPairsBase() {
-    override suspend fun getCurrencyPairs(): List<CurrencyPair> {
+class CurrencyPairAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) : CurrencyPairsList() {
+
+    override suspend fun retrieveData(): List<CurrencyPair> {
         return retrofitCoroutinesBuilder.getProApi()
             .getProducts().unwrap().map { product ->
                 CurrencyPair(
