@@ -2,9 +2,6 @@ package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.callbacks.GenericCallback
 import com.dllewellyn.coinbaseapi.interfaces.*
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.marketinfo.TwentyFourHourStats
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 
