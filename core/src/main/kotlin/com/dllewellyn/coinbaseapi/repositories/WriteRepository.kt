@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi
+package com.dllewellyn.coinbaseapi.repositories
 
 interface WriteRepository<T> {
     suspend fun write(value : T)
