@@ -2,14 +2,12 @@ package com.dllewellyn.coinbaseapi.interfaces
 
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 
-interface CurrencyPairsList {
-    suspend fun getCurrencyPairs(): List<CurrencyPair>
-    suspend fun currencyPairsContaining(vararg coins: SupportedCurrency): List<CurrencyPair>
-}
+abstract class CurrencyPairsList : ReadOnlyRepository<List<CurrencyPair>> {
+    suspend fun getCurrencyPairs() = retrieveData()
 
-abstract class CurrencyPairsBase : CurrencyPairsList {
-    override suspend fun currencyPairsContaining(vararg coins: SupportedCurrency) =
+    suspend fun currencyPairsContaining(vararg coins: SupportedCurrency) =
         getCurrencyPairs()
             .filter { pair ->
                 pair.containsCurrency(*coins)
