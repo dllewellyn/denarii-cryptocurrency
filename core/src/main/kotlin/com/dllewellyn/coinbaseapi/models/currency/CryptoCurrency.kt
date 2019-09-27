@@ -4,17 +4,31 @@ import com.dllewellyn.coinbaseapi.exceptions.ApiException
 
 fun List<CryptoCurrency>.toCsv() = this.map { it.str }.joinToString(",")
 
-enum class CryptoCurrency(val str : String) {
+enum class CryptoCurrency(val str: String) {
+    ALGO("ALGO"),
+    EURO("EUR"),
+    GBP("GBP"),
+    CVC("CVC"),
+    DAI("DAI"),
+    DNT("DNT"),
+    MANA("MANA"),
     BITCOIN("BTC"),
+
+    GNT("GNT"),
     BAT("BAT"),
+    USDC("USDC"),
     USDOLLAR("USD"),
     BITCOIN_CASH("BCH"),
     EOS("EOS"),
     LITECOIN("LTC"),
+    LOOM("LOOM"),
+    LINK("LINK"),
     XRP("XRP"),
+    XTZ("XTZ"),
     TRON("TRX"),
     ARC_BLOCK("ABT"),
     BGOGO_TOKEN("BGG"),
+    REP("REP"),
     QTUM("QTUM"),
     ETHEREUM_CLASS("ETC"),
     ZERO_BLANK("ZB"),

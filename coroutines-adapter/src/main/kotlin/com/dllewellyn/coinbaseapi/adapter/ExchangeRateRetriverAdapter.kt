@@ -11,17 +11,12 @@ import java.math.BigDecimal
 
 
 class ExchangeRateRetriverAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) :
-    ExchangeRateRetriver {
-    override suspend fun get24HourStats(cryptoCurrency: CurrencyPair) =
-        retrofitCoroutinesBuilder.getProApi().get24HourStats(cryptoCurrency.id).unwrap().toCore()
+    ExchangeRateRetriver() {
 
-    override suspend fun getProductTicker(cryptoCurrency: CurrencyPair) =
-        retrofitCoroutinesBuilder.getProApi().getProductTicker(cryptoCurrency.id).unwrap().toCore()
-
-    override suspend fun getExchangeRates(cryptoCurrency: CryptoCurrency) =
-        retrofitCoroutinesBuilder.getApi().getExchangeRates(cryptoCurrency.str).unwrap().let {
+    override suspend fun retrieveData(arg: CryptoCurrency) =
+        retrofitCoroutinesBuilder.getApi().getExchangeRates(arg.str).unwrap().let {
             ExchangeRates(
-                cryptoCurrency,
+                arg,
                 it.data.rates.mapValues { rate -> BigDecimal(rate.value) })
         }
 
