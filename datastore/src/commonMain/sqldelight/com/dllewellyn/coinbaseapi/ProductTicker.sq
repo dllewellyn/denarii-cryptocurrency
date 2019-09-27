@@ -3,6 +3,13 @@ CREATE TABLE ProductTickerEntity (
     bid TEXT NOT NULL,
     price TEXT NOT NULL,
     time TEXT NOT NULL,
-    tradeId TEXT NOT NULL PRIMARY KEY,
+    size TEXT NOT NULL,
+    tradeId INTEGER PRIMARY KEY,
     volume TEXT NOT NULL
 );
+
+selectAllProductEntities:
+SELECT * FROM ProductTickerEntity;
+
+insertProductTicker:
+INSERT INTO ProductTickerEntity VALUES ?;
