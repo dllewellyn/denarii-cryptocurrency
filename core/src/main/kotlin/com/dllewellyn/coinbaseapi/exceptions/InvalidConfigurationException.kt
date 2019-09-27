@@ -1,3 +1,3 @@
 package com.dllewellyn.coinbaseapi.exceptions
 
-class InvalidConfigurationException : Throwable()
+class InvalidConfigurationException : Exception()
