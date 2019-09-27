@@ -1,17 +1,20 @@
-package com.dllewellyn.coinbaseapi
+package com.dllewellyn.coinbaseapi.repositories
+
+import com.dllewellyn.coinbaseapi.ReadOnlyRepository
+import com.dllewellyn.coinbaseapi.WriteRepository
 
 open class SynchronisedDatabase<T>(
     private val remoteRepository: ReadOnlyRepository<T>,
     private val localRepository: WriteRepository<T>,
     private val localReadOnlyRepository: ReadOnlyRepository<T?>
-) {
+) : ReadOnlyRepository<T> {
+
+    override suspend fun retrieveData(): T = localReadOnlyRepository.retrieveData()?.let {
+        it
+    } ?: refresh()
 
     suspend fun refresh(): T = with(remoteRepository.retrieveData()) {
         localRepository.write(this)
         this
     }
-
-    suspend fun retrieve(): T = localReadOnlyRepository.retrieveData()?.let {
-        it
-    } ?: refresh()
 }
