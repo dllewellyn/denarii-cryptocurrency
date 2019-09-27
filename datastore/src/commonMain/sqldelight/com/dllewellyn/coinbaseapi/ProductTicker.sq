@@ -1,0 +1,8 @@
+CREATE TABLE ProductTickerEntity (
+    ask TEXT NOT NULL,
+    bid TEXT NOT NULL,
+    price TEXT NOT NULL,
+    time TEXT NOT NULL,
+    tradeId TEXT NOT NULL PRIMARY KEY,
+    volume TEXT NOT NULL
+);
