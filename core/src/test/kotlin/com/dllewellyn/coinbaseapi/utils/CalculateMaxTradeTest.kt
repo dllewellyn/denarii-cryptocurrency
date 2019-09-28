@@ -19,7 +19,7 @@ class CalculateMaxTradeTest {
             BigDecimal(0),
             "uuid"
         )
-        assertEquals(BigDecimal(1), CalculateMaxTrade { account }.calculateBuySize(BigDecimal(100)))
+        assertEquals(BigDecimal(1), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(100)))
     }
 
     @Test
@@ -33,7 +33,7 @@ class CalculateMaxTradeTest {
             BigDecimal(0),
             "uuid"
         )
-        assertEquals(BigDecimal(0.5), CalculateMaxTrade { account }.calculateBuySize(BigDecimal(50)))
+        assertEquals(BigDecimal(0.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(50)))
     }
 
     @Test
@@ -47,7 +47,7 @@ class CalculateMaxTradeTest {
             BigDecimal(0),
             "uuid"
         )
-        assertEquals(BigDecimal(2), CalculateMaxTrade { account }.calculateBuySize(BigDecimal(200)))
+        assertEquals(BigDecimal(2), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(200)))
     }
 
     @Test
@@ -61,6 +61,6 @@ class CalculateMaxTradeTest {
             BigDecimal(0),
             "uuid"
         )
-        assertEquals(BigDecimal(1.5), CalculateMaxTrade { account }.calculateBuySize(BigDecimal(150)))
+        assertEquals(BigDecimal(1.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(150)))
     }
 }
