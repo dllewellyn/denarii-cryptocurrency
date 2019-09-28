@@ -362,6 +362,19 @@ api
     .orders()
     .deleteAll()
 ```
+### Util classes
+
+```
+// Given £100. If I want to buy ETH at a limit order of £100
+val account = Account(
+    SupportedCurrency("GBP"),
+    BigDecimal(100),
+    BigDecimal(100),
+    BigDecimal(0),
+    "uuid"
+)
+assertEquals(1, CalculateMaxTrade { account }.calculateBuySize(BigDecimal(100)))
+```
 
 ### Sample application
 

@@ -11,7 +11,7 @@ import java.math.BigDecimal
  */
 class CalculateMaxTrade(private val retrieveBuy: () -> Account) {
 
-    fun calculateBuySize(proposedBuyLimit : BigDecimal) =
-        retrieveBuy().available / proposedBuyLimit
+    fun calculateBuySize(proposedBuyLimit : BigDecimal): BigDecimal =
+        proposedBuyLimit.divide(retrieveBuy().available)
 
 }

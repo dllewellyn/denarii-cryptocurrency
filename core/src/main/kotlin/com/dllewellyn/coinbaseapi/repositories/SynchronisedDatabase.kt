@@ -1,8 +1,5 @@
 package com.dllewellyn.coinbaseapi.repositories
 
-import com.dllewellyn.coinbaseapi.ReadOnlyRepository
-import com.dllewellyn.coinbaseapi.WriteRepository
-
 open class SynchronisedDatabase<T>(
     private val remoteRepository: ReadOnlyRepository<T>,
     private val localRepository: WriteRepository<T>,
