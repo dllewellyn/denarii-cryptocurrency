@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.ConcurrentHashMap
 
 
-class LiveOrderBookIml : LiveOrderBook {
+class LiveOrderBookImpl : LiveOrderBook {
     override fun getMonitoredCurrencies() = buys.keys().toList()
     override fun getBuyPriceForPair(pair: CurrencyPair) =
         buys[pair]?.let {
@@ -20,11 +20,10 @@ class LiveOrderBookIml : LiveOrderBook {
         it.first()
     }
 
-    val buys = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
-    val sell = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
+    private val buys = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
+    private val sell = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
 
     fun run() {
-        RetrofitApi.sandbox = true
         RetrofitApi.subscription().subscribeToEvent(
             Channel.Type2().only(),
             CurrencyPair.fromId("BTC-USD"),
@@ -88,26 +87,17 @@ class LiveOrderBookIml : LiveOrderBook {
 }
 
 fun main() {
-    with (LiveOrderBookIml()) {
+    with(LiveOrderBookImpl()) {
         run()
 
-        if (buys.isNotEmpty() && sell.isNotEmpty()) {
-            println("***")
-            buys.forEach {
-                it.value.sortByDescending { amount -> amount.buyAndSell.amount }
-                println(it.value.first())
-            }
-
-            sell.forEach {
-                it.value.sortBy { amount -> amount.buyAndSell.amount }
-                println(it.value.first())
-            }
-
-            buys.forEach {
+        while (true) {
+            getMonitoredCurrencies().forEach {
                 println(
-                    "Spread: ${(sell[it.key]?.first()?.buyAndSell?.amount?.minus(buys[it.key]?.first()?.buyAndSell?.amount!!))}"
+                    "Spread: (${it.id}) ${(getSellPriceForPair(it)?.buyAndSell?.amount?.minus(getBuyPriceForPair(it)?.buyAndSell?.amount!!))}"
                 )
             }
+
+            Thread.sleep(1000)
         }
     }
 }
