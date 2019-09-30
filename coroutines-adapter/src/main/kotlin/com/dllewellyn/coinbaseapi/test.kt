@@ -1,6 +1,5 @@
 package com.dllewellyn.coinbaseapi
 
-import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import kotlinx.coroutines.runBlocking
 
@@ -9,9 +8,9 @@ fun main() {
 
         val batToEth = CurrencyPair.fromId("BAT-ETH")
 
-        println(RetrofitApi.exchangeRates().getProductTicker(batToEth))
-        println(RetrofitApi.exchangeRates().get24HourStats(batToEth))
-        println(RetrofitApi.exchangeRates().getExchangeRates(CryptoCurrency.BAT))
-
+        println(RetrofitApi.productTicker().getProductTicker(batToEth))
+        println(RetrofitApi.twentyFourHours().get24HourStats(batToEth))
+        println(RetrofitApi.buyAndSellPrices().getProductOrderBook(batToEth))
     }
+
 }

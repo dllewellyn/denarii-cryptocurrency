@@ -383,58 +383,64 @@ A sample of how to keep an up-to-date book is detailed below:
 (Highly experimental, use at your own risk)
 
 ```
-val buys = mutableListOf<EventResponse.Level2Update>()
-val sell = mutableListOf<EventResponse.Level2Update>()
+
+val buys = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
+val sell = ConcurrentHashMap<CurrencyPair, MutableList<EventResponse.Level2Update>>()
 
 fun main() {
 
-    Api.sandbox = true
-    Api.subscription().subscribeToEvent(
+    RetrofitApi.sandbox = true
+    RetrofitApi.subscription().subscribeToEvent(
         Channel.Type2().only(),
         CurrencyPair.fromId("BTC-USD"),
         CurrencyPair.fromId("ETH-BTC")
     )
         .doAfterNext {
             if (it is EventResponse.Level2Snapshot) {
-                buys.add(
-                    EventResponse.Level2Update(
-                        buyAndSell = CurrencyValue(
-                            it.buyAndSell.currencyFrom,
-                            it.buyAndSell.currencyTo,
-                            it.buyAndSell.buy
-                        ),
-                        buyOrSell = BuyOrSell.BUY,
-                        size = 0.0
-                    )
+                val pair = CurrencyPair.fromId(
+                    "${it.buyAndSell.currencyFrom}-${it.buyAndSell.currencyTo}"
                 )
+                buys[pair] = EventResponse.Level2Update(
+                    buyAndSell = CurrencyValue(
+                        it.buyAndSell.currencyFrom,
+                        it.buyAndSell.currencyTo,
+                        it.buyAndSell.buy
+                    ),
+                    buyOrSell = BuyOrSell.BUY,
+                    size = 0.0
+                ).onlyMutable()
 
-                sell.add(
-                    EventResponse.Level2Update(
-                        buyAndSell = CurrencyValue(
-                            it.buyAndSell.currencyFrom,
-                            it.buyAndSell.currencyTo,
-                            it.buyAndSell.sell
-                        ),
-                        buyOrSell = BuyOrSell.SELL,
-                        size = 0.0
-                    )
-                )
+
+                sell[pair] = EventResponse.Level2Update(
+                    buyAndSell = CurrencyValue(
+                        it.buyAndSell.currencyFrom,
+                        it.buyAndSell.currencyTo,
+                        it.buyAndSell.sell
+                    ),
+                    buyOrSell = BuyOrSell.SELL,
+                    size = 0.0
+                ).onlyMutable()
+
             }
 
             if (it is EventResponse.Level2Update) {
+                val pair = CurrencyPair.fromId(
+                    "${it.buyAndSell.currencyFrom}-${it.buyAndSell.currencyTo}"
+                )
+
                 if (it.buyOrSell == BuyOrSell.BUY) {
                     if (it.size == 0.0) {
-                        buys.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
-                            .forEach { a -> buys.remove(a) }
+                        buys[pair]?.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
+                            ?.forEach { a -> buys[pair]?.remove(a) }
                     } else {
-                        buys.add(it)
+                        buys[pair]?.add(it)
                     }
                 } else {
                     if (it.size == 0.0) {
-                        sell.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
-                            .forEach { a -> sell.remove(a) }
+                        sell[pair]?.filter { amnt -> it.buyAndSell.amount == amnt.buyAndSell.amount }
+                            ?.forEach { a -> sell[pair]?.remove(a) }
                     } else {
-                        sell.add(it)
+                        sell[pair]?.add(it)
                     }
                 }
             }
@@ -442,15 +448,26 @@ fun main() {
             println(it)
             if (buys.isNotEmpty() && sell.isNotEmpty()) {
                 println("***")
-                buys.sortByDescending { amount -> amount.buyAndSell.amount }
-                println(buys.first())
-                sell.sortBy { amount -> amount.buyAndSell.amount }
-                println(sell.first())
-                println("Spread: ${sell.first().buyAndSell.amount - buys.first().buyAndSell.amount}")
+                buys.forEach {
+                    it.value.sortByDescending { amount -> amount.buyAndSell.amount }
+                    println(it.value.first())
+                }
+
+                sell.forEach {
+                    it.value.sortBy { amount -> amount.buyAndSell.amount }
+                    println(it.value.first())
+                }
+
+                buys.forEach {
+                    println(
+                        "Spread: ${(sell[it.key]?.first()?.buyAndSell?.amount?.minus(buys[it.key]?.first()?.buyAndSell?.amount!!))}"
+                    )
+                }
             }
         }
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
+        .onExceptionResumeNext {  }
         .subscribe()
 
     readLine()
