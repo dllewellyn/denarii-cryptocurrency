@@ -15,3 +15,4 @@ sealed class EventResponse {
 }
 
 fun <T>Any.only(): List<T> = listOf(this as T)
+fun <T>Any.onlyMutable(): MutableList<T> = mutableListOf(this as T)
