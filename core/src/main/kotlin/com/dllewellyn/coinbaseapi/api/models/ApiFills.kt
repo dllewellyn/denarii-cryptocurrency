@@ -1,6 +1,11 @@
 package com.dllewellyn.coinbaseapi.api.models
 
+import com.dllewellyn.coinbaseapi.models.BuyOrSell
+import com.dllewellyn.coinbaseapi.models.accounts.Fills
+import com.dllewellyn.coinbaseapi.models.accounts.LIQUIDITY
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 data class ApiFills(
     @SerializedName("trade_id") val tradeId: Int,
@@ -15,3 +20,15 @@ data class ApiFills(
     @SerializedName("side") val side: String
 )
 
+fun ApiFills.toCore() = Fills(
+    tradeId,
+    CurrencyPair.fromId(productId),
+    BigDecimal(price),
+    BigDecimal(size),
+    orderId,
+    createdAt,
+    LIQUIDITY.fromString(liquidity),
+    BigDecimal(fee),
+    settled,
+    BuyOrSell.fromString(side)
+)
