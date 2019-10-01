@@ -26,8 +26,7 @@ class LiveOrderBookImpl : LiveOrderBook {
     fun run() {
         RetrofitApi.subscription().subscribeToEvent(
             Channel.Type2().only(),
-            CurrencyPair.fromId("BTC-USD"),
-            CurrencyPair.fromId("ETH-BTC")
+            CurrencyPair.fromId("BAT-USDC")
         )
             .doAfterNext {
                 if (it is EventResponse.Level2Snapshot) {
