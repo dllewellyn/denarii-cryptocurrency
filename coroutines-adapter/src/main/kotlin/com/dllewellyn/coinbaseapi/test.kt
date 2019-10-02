@@ -10,13 +10,12 @@ fun main() {
     runBlocking {
 
         val batToEth = CurrencyPair.fromId("BAT-ETH")
-
 //        println(RetrofitApi.productTicker().getProductTicker(batToEth))
 //        println(RetrofitApi.twentyFourHours().get24HourStats(batToEth))
 //        println(RetrofitApi.buyAndSellPrices().getProductOrderBook(batToEth))
-        PricesAgainstFiat(RetrofitApi)
-            .retrievePricesAgainstCoinbase(CryptoCurrency.GBP)
-            .forEach(::println)
+//        PricesAgainstFiat(RetrofitApi)
+//            .retrievePricesAgainstCoinbase(CryptoCurrency.GBP)
+//            .forEach(::println)
     }
 
 }

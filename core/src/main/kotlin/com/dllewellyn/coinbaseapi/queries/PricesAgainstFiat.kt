@@ -18,5 +18,4 @@ class PricesAgainstFiat(private val api: Api) {
         api.exchangeRates().getExchangeRates(currency).map.map {
             Pair(CryptoCurrency.fromString(it.key), it.value)
         }.toMap()
-
 }
