@@ -25,7 +25,7 @@ data class ApiProductTicker(
 fun ApiProductTicker.toCore() = ProductTicker(
     BigDecimal(ask),
     BigDecimal(bid),
-    price,
+    BigDecimal(price),
     size,
     time,
     tradeId,
