@@ -15,6 +15,6 @@ rootProject.name = 'coinbaseAPI'
 include ":rxadapter", ":core"
 include 'retrofit-adapter'
 include 'coroutines-adapter'
-include 'datastore'
+//include 'datastore'
 
 enableFeaturePreview('GRADLE_METADATA')
