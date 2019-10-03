@@ -1,21 +1,15 @@
 package com.dllewellyn.coinbaseapi
 
-import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import com.dllewellyn.coinbaseapi.queries.PricesAgainstFiat
 import kotlinx.coroutines.runBlocking
 
 fun main() {
     runBlocking {
 
         val batToEth = CurrencyPair.fromId("BAT-ETH")
-//        println(RetrofitApi.productTicker().getProductTicker(batToEth))
-//        println(RetrofitApi.twentyFourHours().get24HourStats(batToEth))
-//        println(RetrofitApi.buyAndSellPrices().getProductOrderBook(batToEth))
-//        PricesAgainstFiat(RetrofitApi)
-//            .retrievePricesAgainstCoinbase(CryptoCurrency.GBP)
-//            .forEach(::println)
+        println(RetrofitCoinbaseProApi.productTicker().getProductTicker(batToEth))
+        println(RetrofitCoinbaseProApi.twentyFourHours().get24HourStats(batToEth))
+        println(RetrofitCoinbaseProApi.buyAndSellPrices().getProductOrderBook(batToEth))
     }
 
 }
