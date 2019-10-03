@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":retrofit-adapter"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.reactivex.rxjava2:rxjava:2.2.8")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.6.1")
