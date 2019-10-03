@@ -3,7 +3,7 @@ package com.dllewellyn.coinbaseapi
 import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import org.junit.Test
 
-class AuthenticatedRetrofitRxApiBuilderBuilderTest {
+class AuthenticatedRetrofitRxCoinbaseProApiBuilderBuilderTest {
 
     @Test(expected = InvalidConfigurationException::class)
     fun `test that if we dont pass an essential piece of information we get an error in response`() {

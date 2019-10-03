@@ -3,7 +3,7 @@ package com.dllewellyn.coinbaseapi
 import com.dllewellyn.coinbaseapi.adapter.*
 import com.dllewellyn.coinbaseapi.interfaces.*
 
-object RetrofitApi : Api {
+object RetrofitCoinbaseProApi : CoinbaseProApi {
 
     var sandbox = false
 
