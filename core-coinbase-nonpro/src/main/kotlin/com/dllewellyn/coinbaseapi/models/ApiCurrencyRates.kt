@@ -1,12 +1,17 @@
 package com.dllewellyn.coinbaseapi.models
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+
+@Serializable
 
 data class ApiCurrencyRates(
-    @SerializedName("data") val data: ApiList
+    val data: ApiList
 )
 
+@Serializable
+
 data class ApiList(
-    @SerializedName("cryptoCurrency") val currency: String,
-    @SerializedName("rates") val rates: Map<String, String>
+    val currency: String,
+    val rates: Map<String, String>
 )
