@@ -3,6 +3,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 plugins {
     kotlin("jvm")
     id("com.jfrog.bintray")
+    id("org.jetbrains.kotlin.plugin.serialization")
     `maven-publish`
 }
 
@@ -19,8 +20,11 @@ repositories {
 }
 
 dependencies {
+    val ktorVersion = "1.2.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1")
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.12")
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
