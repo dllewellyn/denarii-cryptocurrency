@@ -13,7 +13,6 @@ pluginManagement {
 
 rootProject.name = 'coinbaseAPI'
 include ":rxadapter", ":core"
-include 'retrofit-adapter'
 include 'coroutines-adapter'
 include 'core-coinbase-pro'
 include 'core-coinbase-nonpro'

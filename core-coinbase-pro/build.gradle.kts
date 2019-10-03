@@ -6,7 +6,7 @@ plugins {
     `maven-publish`
 }
 
-val publicationName = "coinbase-api-coroutines-adapter"
+val publicationName = "coinbase-api-coinbase-pro-core"
 val g: String by project
 val v: String by project
 
@@ -20,12 +20,11 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":core-coinbase-pro"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.google.code.gson:gson:2.8.5")
-    implementation("com.squareup.retrofit2:converter-gson:2.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
     testImplementation("junit:junit:4.12")
+    implementation("com.squareup.retrofit2:retrofit:2.6.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.1")
 }
 
 
@@ -49,7 +48,7 @@ bintray {
 
     pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
         repo = "coinbase-api-kt"
-        name = "coinbase-api-coroutines-adapter"
+        name = "coinbase-api-coinbase-pro-core"
         userOrg = "dllewellyn"
         vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
         setLicenses("Apache-2.0")
