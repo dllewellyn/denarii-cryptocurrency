@@ -13,8 +13,8 @@ data class ApiCurrencies(
 data class ApiCurrency(
     val id: String,
     val name: String,
-    val minSize: String
+    val min_size: String
 )
 
 fun ApiCurrency.toCurrency() =
-    SupportedCurrency(id, name, minSize.toDouble())
+    SupportedCurrency(id, name, min_size.toDouble())
