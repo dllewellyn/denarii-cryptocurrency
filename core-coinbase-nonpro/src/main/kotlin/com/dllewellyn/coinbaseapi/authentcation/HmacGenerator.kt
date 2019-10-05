@@ -1,5 +1,6 @@
 package com.dllewellyn.coinbaseapi.authentcation
 
+import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
@@ -15,10 +16,10 @@ object HmacGenerator {
         throw RuntimeException(e)
     }
 
-    fun hmacSHA256(key: ByteArray, data: String): ByteArray = try {
+    fun hmacSHA256(key: String, data: String): ByteArray = try {
         val algorithm = "HmacSHA256"
         Mac.getInstance(algorithm).run {
-            init(SecretKeySpec(key, algorithm))
+            init(SecretKeySpec(key.toByteArray(Charset.forName("UTF8")), algorithm))
             doFinal(data.toByteArray(charset("UTF8")))
         }
     } catch (e: Exception) {

@@ -27,6 +27,18 @@ class SignatureGeneration(
         }
 
         val encoding = builder.toString()
-        return Base64.getEncoder().encodeToString(HmacGenerator.hmacSHA256(secretkey.toByteArray(), encoding))
+        return bytesToHex2(HmacGenerator.hmacSHA256(secretkey, encoding))
+    }
+
+    private fun bytesToHex2(hashInBytes: ByteArray): String {
+
+        val sb = StringBuilder()
+        for (i in hashInBytes.indices) {
+            val hex = Integer.toHexString(0xff and hashInBytes[i].toInt())
+            if (hex.length == 1) sb.append('0')
+            sb.append(hex)
+        }
+        return sb.toString()
+
     }
 }
