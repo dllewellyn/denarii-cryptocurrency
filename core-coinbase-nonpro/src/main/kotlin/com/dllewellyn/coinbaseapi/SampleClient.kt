@@ -1,9 +1,15 @@
 package com.dllewellyn.coinbaseapi
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import kotlinx.coroutines.runBlocking
 
 fun main() {
-    val client = HttpClient(CIO)
-
+    runBlocking {
+        with(CoinbaseApi()) {
+            println(exchangeRateRetriever().getExchangeRates(CryptoCurrency.GBP))
+            println(currencyList().getCurrencyList())
+            println(prices().getSpotPrice(CurrencyPair.fromId("BTC-USD")))
+        }
+    }
 }
