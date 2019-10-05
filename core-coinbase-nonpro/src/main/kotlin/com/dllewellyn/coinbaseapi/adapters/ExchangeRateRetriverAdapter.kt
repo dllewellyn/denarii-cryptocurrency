@@ -1,5 +1,6 @@
 package com.dllewellyn.coinbaseapi.adapters
 
+import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.models.ApiCurrencyRates
 import com.dllewellyn.coinbaseapi.models.ExchangeRates

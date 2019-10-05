@@ -1,5 +1,6 @@
 package com.dllewellyn.coinbaseapi.adapters
 
+import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.interfaces.Prices
 import com.dllewellyn.coinbaseapi.models.ApiValueResponse
 import com.dllewellyn.coinbaseapi.models.BuyOrSell
