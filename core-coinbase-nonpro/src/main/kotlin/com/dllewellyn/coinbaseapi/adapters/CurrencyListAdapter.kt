@@ -1,13 +1,11 @@
 package com.dllewellyn.coinbaseapi.adapters
 
-//package com.dllewellyn.coinbaseapi
-//
-//import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
-//import com.dllewellyn.coinbaseapi.api.models.toCurrency
-//import com.dllewellyn.coinbaseapi.extensions.unwrap
-//import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
-//
-//class CurrencyListAdapter(private val coroutinesBuilder: RetrofitCoroutinesBuilder) : CurrencyList() {
-//    override suspend fun retrieveData() =
-//        coroutinesBuilder.getApi().getCurrencies().unwrap().data.map { it.toCurrency() }
-//}
+import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
+import com.dllewellyn.coinbaseapi.models.ApiCurrencies
+import com.dllewellyn.coinbaseapi.models.toCurrency
+import io.ktor.client.request.get
+
+class CurrencyListAdapter(private val client: InternalHttpClient) : CurrencyList() {
+    override suspend fun retrieveData() =
+        client.httpClient.get<ApiCurrencies>(client.url("currencies")).data.map { it.toCurrency() }
+}
