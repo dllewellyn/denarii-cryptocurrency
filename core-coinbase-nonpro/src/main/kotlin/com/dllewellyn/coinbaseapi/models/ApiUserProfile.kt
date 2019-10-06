@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiUserProfile(
-    val `data`: Data
+    val `data`: UserData
 )
 
 @Serializable
-data class Data(
+data class UserData(
     val avatar_url: String,
     val id: String,
     val name: String,
