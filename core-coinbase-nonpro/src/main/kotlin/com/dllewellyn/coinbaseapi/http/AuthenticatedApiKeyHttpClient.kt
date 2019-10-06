@@ -21,7 +21,7 @@ class AuthenticatedApiKeyHttpClient(
     }
     install(Logging) {
         logger = Logger.SIMPLE
-        level = LogLevel.BODY
+        level = LogLevel.NONE
     }
     defaultRequest {
         val timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC")).toInstant().epochSecond

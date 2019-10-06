@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserAccountApi(
     val `data`: List<AccountData>,
-    val pagination: PaginationApi?
+    val pagination: PaginationApi?,
+    val warnings : List<WarningApi>?=null
 )
