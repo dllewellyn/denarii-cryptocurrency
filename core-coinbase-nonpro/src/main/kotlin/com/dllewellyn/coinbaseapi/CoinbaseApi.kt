@@ -8,7 +8,7 @@ import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.interfaces.Prices
-import com.dllewellyn.coinbaseapi.models.ApiUserProfile
+import com.dllewellyn.coinbaseapi.models.UserAccountApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -54,6 +54,6 @@ class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi() {
     )
 
     suspend fun a() =
-        authenticatedApiHttpClient.httpClient.get<ApiUserProfile>("https://api.coinbase.com/v2/user")
+        authenticatedApiHttpClient.httpClient.get<UserAccountApi>("https://api.coinbase.com/v2/accounts")
 
 }

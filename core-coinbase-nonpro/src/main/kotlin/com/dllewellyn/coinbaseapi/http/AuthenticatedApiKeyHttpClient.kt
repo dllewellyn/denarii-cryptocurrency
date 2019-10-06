@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.header
 import io.ktor.client.utils.EmptyContent
@@ -15,10 +16,12 @@ class AuthenticatedApiKeyHttpClient(
     private val secretKey: String,
     internalUrl: String
 ) : InternalHttpClient(HttpClient(CIO) {
-    install(JsonFeature)
+    install(JsonFeature) {
+        serializer = KotlinxSerializer()
+    }
     install(Logging) {
         logger = Logger.SIMPLE
-        level = LogLevel.HEADERS
+        level = LogLevel.BODY
     }
     defaultRequest {
         val timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC")).toInstant().epochSecond
