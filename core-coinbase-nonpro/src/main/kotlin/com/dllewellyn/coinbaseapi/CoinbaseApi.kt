@@ -1,10 +1,12 @@
 package com.dllewellyn.coinbaseapi
 
+import com.dllewellyn.coinbaseapi.adapters.AccountsAdapter
 import com.dllewellyn.coinbaseapi.adapters.CurrencyListAdapter
 import com.dllewellyn.coinbaseapi.adapters.ExchangeRateRetriverAdapter
 import com.dllewellyn.coinbaseapi.adapters.PricesAdapter
 import com.dllewellyn.coinbaseapi.http.AuthenticatedApiKeyHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
+import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.interfaces.Prices
@@ -21,7 +23,7 @@ open class CoinbaseApi {
     }
 
     companion object {
-        const val url = "https://api.coinbase.com/v2/"
+        const val url = "https://api.coinbase.com/v2"
     }
 
     private val httpClient = InternalHttpClient(client, url)
@@ -53,7 +55,7 @@ class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi() {
         url
     )
 
-    suspend fun a() =
-        authenticatedApiHttpClient.httpClient.get<UserAccountApi>("https://api.coinbase.com/v2/accounts")
+    suspend fun accounts() : Accounts =
+        AccountsAdapter(authenticatedApiHttpClient)
 
 }

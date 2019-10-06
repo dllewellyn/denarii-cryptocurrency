@@ -18,7 +18,7 @@ class SignatureGeneration(
         val builder = StringBuilder()
         builder.append(timestmap)
         builder.append(method.toUpperCase())
-        builder.append("/v2/$url")
+        builder.append("/v2$url")
 
         body?.let {
             if (it != "null") {
