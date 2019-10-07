@@ -48,14 +48,18 @@ open class CoinbaseApi {
 
 }
 
-class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi() {
+interface AuthenticatedApiCalls {
+    suspend fun accounts(): Accounts
+}
+
+class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), AuthenticatedApiCalls {
     private val authenticatedApiHttpClient = AuthenticatedApiKeyHttpClient(
         apiKey,
         secretKey,
         url
     )
 
-    suspend fun accounts() : Accounts =
+    override suspend fun accounts(): Accounts =
         AccountsAdapter(authenticatedApiHttpClient)
 
 }
