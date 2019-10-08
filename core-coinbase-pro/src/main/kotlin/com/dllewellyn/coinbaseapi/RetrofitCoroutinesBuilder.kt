@@ -1,7 +1,6 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
-import com.dllewellyn.coinbaseapi.retrofit.services.CoinbaseProService
 
 class RetrofitCoroutinesBuilder(sandbox: Boolean = false) : RetrofitApiBuilder(sandbox, false) {
 
