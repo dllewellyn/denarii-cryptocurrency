@@ -62,7 +62,7 @@ bintray {
 
     pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
         repo = "coinbase-api-kt"
-        name = "coinbase-api-coinbase-nonpro-core"
+        name = "coinbase-api-coinbase-nonpro"
         userOrg = "dllewellyn"
         vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
         setLicenses("Apache-2.0")

@@ -6,15 +6,13 @@ import com.dllewellyn.coinbaseapi.adapters.ExchangeRateRetriverAdapter
 import com.dllewellyn.coinbaseapi.adapters.PricesAdapter
 import com.dllewellyn.coinbaseapi.http.AuthenticatedApiKeyHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
-import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.interfaces.Prices
-import com.dllewellyn.coinbaseapi.models.UserAccountApi
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
 
 open class CoinbaseApi {
 
