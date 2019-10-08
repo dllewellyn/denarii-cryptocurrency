@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.retrofit.services
+package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.api.models.*
 import retrofit2.Response
