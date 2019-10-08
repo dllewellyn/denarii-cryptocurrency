@@ -5,7 +5,6 @@ import com.dllewellyn.coinbaseapi.adapter.OrdersAdapter
 import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.Orders
-import com.dllewellyn.coinbaseapi.retrofit.services.CoinbaseProService
 
 interface AuthenticatedApi {
     fun accounts() : Accounts

@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.adapter
 
 import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
-import com.dllewellyn.coinbaseapi.extensions.unwrap
+import com.dllewellyn.coinbaseapi.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPrice
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.currency.OrderBookLevel

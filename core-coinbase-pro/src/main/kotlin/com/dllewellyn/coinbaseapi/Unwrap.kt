@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.extensions
+package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.exceptions.ApiException
 import retrofit2.Response
