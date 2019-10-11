@@ -18,5 +18,5 @@ data class ApiBuyOrSell(
 )
 
 fun ApiValueResponse.toCore(buyOrSell: BuyOrSell) = BuySellPrice(
-    buyOrSell, BigDecimal(data.amount), SupportedCurrency(data.currency)
+    buyOrSell, BigDecimal(data.amount), SupportedCurrency(data.currency), "coinbase"
 )

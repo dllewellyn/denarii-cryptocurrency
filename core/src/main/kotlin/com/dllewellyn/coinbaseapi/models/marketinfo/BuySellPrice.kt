@@ -7,5 +7,6 @@ import java.math.BigDecimal
 data class BuySellPrice(
     val buySellSpot: BuyOrSell,
     val amount: BigDecimal,
-    val currency: SupportedCurrency
+    val currency: SupportedCurrency,
+    val platform : String
 )
