@@ -7,9 +7,11 @@ import kotlinx.coroutines.runBlocking
 fun main() {
     runBlocking {
         with(CoinbaseApi()) {
+
+
             println(exchangeRateRetriever().getExchangeRates(CryptoCurrency.GBP))
-            println(currencyList().getCurrencyList())
-            println(prices().getSpotPrice(CurrencyPair.fromId("BTC-USD")))
+            //println(currencyList().getCurrencyList())
+            //println(prices().getSpotPrice(CurrencyPair.fromId("BTC-USD")))
         }
     }
 }
