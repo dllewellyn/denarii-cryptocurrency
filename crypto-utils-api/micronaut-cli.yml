@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: crypto.utils.api
+---
+testFramework: spek
+sourceLanguage: kotlin
