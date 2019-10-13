@@ -7,7 +7,7 @@ object DatabaseInitialise {
 
     fun initialise() {
         if (initialiseOnce.not()) {
-            CoinbaseDatabase.Schema.create(retrieveDatabase())
+            CryptoCurrencyDb.Schema.create(retrieveDatabase())
             initialiseOnce = true
         }
     }

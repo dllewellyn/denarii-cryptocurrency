@@ -36,7 +36,6 @@ class ApiController {
             .get().bufferedReader().use { it.readText() }
     }
 
-
     private val mp = mutableMapOf<String, String>().apply {
         putAll(gson.fromJson(dataFromFile, Map::class.java) as Map<String, String>)
     }
