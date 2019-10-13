@@ -24,12 +24,12 @@ dependencies {
     val kotlinVersion = "1.3.50"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("io.ktor:ktor-client-logging-jvm:1.2.3")
+
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-json:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
-    implementation("io.ktor:ktor-client-logging-jvm:1.2.3")
-
     implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
 
