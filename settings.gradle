@@ -16,6 +16,6 @@ include ":rxadapter", ":core"
 include 'core-coinbase-pro'
 include 'core-coinbase-nonpro'
 include 'crypto-utils-api'
-//include 'datastore'
+include 'datastore'
 
 enableFeaturePreview('GRADLE_METADATA')

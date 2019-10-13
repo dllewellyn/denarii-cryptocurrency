@@ -17,7 +17,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "coinbase-pro"
         )
         assertEquals(BigDecimal(1), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(100)))
     }
@@ -31,7 +32,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "coinbase-pro"
         )
         assertEquals(BigDecimal(0.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(50)))
     }
@@ -45,7 +47,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "coinbase-pro"
         )
         assertEquals(BigDecimal(2), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(200)))
     }
@@ -59,7 +62,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "coinbase-pro"
         )
         assertEquals(BigDecimal(1.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(150)))
     }
