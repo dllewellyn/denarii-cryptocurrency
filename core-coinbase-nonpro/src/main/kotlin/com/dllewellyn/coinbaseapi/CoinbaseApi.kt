@@ -12,11 +12,14 @@ import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 
 open class CoinbaseApi {
 
     private val client = HttpClient(CIO) {
-        install(JsonFeature)
+        install(JsonFeature) {
+            serializer = KotlinxSerializer()
+        }
     }
 
     companion object {

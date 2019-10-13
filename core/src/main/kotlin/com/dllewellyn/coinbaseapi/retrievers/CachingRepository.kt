@@ -12,7 +12,11 @@ class CachingRepository<T>(
     lateinit var cache : List<T>
 
     suspend fun initialise() {
-        cache = local.retrieveData()
+        cache = try {
+            local.retrieveData()
+        } catch (exception : Exception) {
+            listOf()
+        }
     }
 
     suspend fun refresh() = with (remote.retrieveData()) {
