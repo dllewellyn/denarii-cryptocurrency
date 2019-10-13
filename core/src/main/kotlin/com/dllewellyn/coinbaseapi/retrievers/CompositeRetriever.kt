@@ -14,5 +14,4 @@ class CompositeRetriever<T> : ReadOnlyRepository<List<T>> {
 
         return result
     }
-
 }
