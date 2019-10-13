@@ -1,6 +1,8 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.multiplatform.databases.AccountsDb
+import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
 import kotlinx.coroutines.runBlocking
 
@@ -12,8 +14,15 @@ fun main() {
 
             val remote  = CompositeRetriever<Account>().apply {
                 retrievers.add(api.coreAccounts())
-                println(this.retrieveData())
             }
+
+            val local = AccountsDb()
+
+            val cachingRepository = CachingRepository(remote, local,  local)
+            cachingRepository.initialise()
+            cachingRepository.refresh()
+
+            println(cachingRepository.retrieveData())
 
             //println(exchangeRateRetriever().getExchangeRates(CryptoCurrency.GBP))
             //println(currencyList().getCurrencyList())
