@@ -1,6 +1,6 @@
-package com.dllewellyn.coinbaseapi
+package com.dllewellyn.coinbaseapi.multiplatform.databases
 
-import com.dllewellyn.coinbaseapi.base.BaseDb
+import com.dllewellyn.coinbaseapi.multiplatform.base.BaseDb
 import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.dllewellyn.coinbaseapi.multiplatform.toCore
 import com.dllewellyn.coinbaseapi.multiplatform.toEntity

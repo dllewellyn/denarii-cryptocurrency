@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.interfaces
+package com.dllewellyn.coinbaseapi.nonpro.interfaces
 
 import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.marketinfo.BuySellPrice

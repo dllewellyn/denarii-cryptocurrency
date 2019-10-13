@@ -6,7 +6,8 @@ import java.math.BigDecimal
 data class Account(
     val currencyValue: SupportedCurrency,
     val balance: BigDecimal,
-    val available: BigDecimal,
-    val hold: BigDecimal,
-    val uid: String
+    val available: BigDecimal?=null,
+    val hold: BigDecimal?=null,
+    val uid: String,
+    val provider : String
 )

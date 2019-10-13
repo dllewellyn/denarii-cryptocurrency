@@ -1,15 +1,14 @@
 package com.dllewellyn.coinbaseapi
 
-import com.dllewellyn.coinbaseapi.adapters.AccountsAdapter
-import com.dllewellyn.coinbaseapi.adapters.CurrencyListAdapter
-import com.dllewellyn.coinbaseapi.adapters.ExchangeRateRetriverAdapter
-import com.dllewellyn.coinbaseapi.adapters.PricesAdapter
+import com.dllewellyn.coinbaseapi.adapters.*
 import com.dllewellyn.coinbaseapi.http.AuthenticatedApiKeyHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
-import com.dllewellyn.coinbaseapi.interfaces.CurrencyList
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
-import com.dllewellyn.coinbaseapi.interfaces.Prices
+import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
+import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -43,11 +42,11 @@ open class CoinbaseApi {
     Note that exchange rates fluctuates so the price is only correct for seconds at the time. This buy price includes standard Coinbase fee (1%) but excludes any other fees including bank fees
      */
     fun prices(): Prices = PricesAdapter(httpClient)
-
 }
 
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
+    suspend fun coreAccounts() : ReadOnlyRepository<List<Account>>
 }
 
 class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), AuthenticatedApiCalls {
@@ -59,5 +58,8 @@ class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), Auth
 
     override suspend fun accounts(): Accounts =
         AccountsAdapter(authenticatedApiHttpClient)
+
+    override suspend fun coreAccounts() : ReadOnlyRepository<List<Account>> =
+        AccountsCoreAdapter(accounts())
 
 }
