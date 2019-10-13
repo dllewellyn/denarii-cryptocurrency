@@ -18,6 +18,7 @@ data class ApiAccount(
         BigDecimal(balance),
         BigDecimal(available),
         BigDecimal(hold),
-        id
+        id,
+        "coinbase-pro"
     )
 }

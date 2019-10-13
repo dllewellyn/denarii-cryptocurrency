@@ -1,9 +1,8 @@
-package com.dllewellyn.coinbaseapi.base
+package com.dllewellyn.coinbaseapi.multiplatform.base
 
-import com.dllewellyn.coinbaseapi.CoinbaseDatabase
+import com.dllewellyn.coinbaseapi.CryptoCurrencyDb
 import com.dllewellyn.coinbaseapi.DatabaseInitialise
 import com.dllewellyn.coinbaseapi.callbacks.BaseRetriever
-import com.dllewellyn.coinbaseapi.callbacks.Retriever
 import com.dllewellyn.coinbaseapi.multiplatform.retrieveDatabase
 
 open class BaseDb<T> : BaseRetriever<T>() {
@@ -12,7 +11,7 @@ open class BaseDb<T> : BaseRetriever<T>() {
         DatabaseInitialise.initialise()
     }
 
-    protected val database: CoinbaseDatabase by lazy {
-        CoinbaseDatabase(retrieveDatabase())
+    protected val database: CryptoCurrencyDb by lazy {
+        CryptoCurrencyDb(retrieveDatabase())
     }
 }

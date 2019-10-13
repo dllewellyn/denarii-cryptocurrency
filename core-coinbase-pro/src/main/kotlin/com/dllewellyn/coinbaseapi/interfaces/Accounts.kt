@@ -1,9 +1,11 @@
 package com.dllewellyn.coinbaseapi.interfaces
 
 import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 
-interface Accounts {
-    suspend fun getAccounts() : List<Account>
-    suspend fun getNonEmptyAccounts() : List<Account>
+abstract class Accounts : ReadOnlyRepository<List<Account>> {
+    override suspend fun retrieveData() = getAccounts()
+    abstract suspend fun getAccounts() : List<Account>
+    abstract suspend fun getNonEmptyAccounts() : List<Account>
 }
 
