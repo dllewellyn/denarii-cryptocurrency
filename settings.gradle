@@ -19,3 +19,5 @@ include 'crypto-utils-api'
 include 'datastore'
 
 enableFeaturePreview('GRADLE_METADATA')
+include 'sample-app'
+
