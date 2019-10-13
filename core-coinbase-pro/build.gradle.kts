@@ -25,6 +25,7 @@ dependencies {
     testImplementation("junit:junit:4.12")
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
     implementation("com.squareup.retrofit2:converter-gson:2.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
 }
 
 

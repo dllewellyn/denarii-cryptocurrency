@@ -1,5 +1,9 @@
 package crypto.utils.api
 
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
+import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.coinbaseapi.utils.StatisticsCalculator
 import com.google.gson.Gson
 import io.micronaut.core.io.ResourceLoader
 import io.micronaut.core.io.ResourceResolver
@@ -12,6 +16,7 @@ import io.micronaut.core.io.scan.ClassPathResourceLoader
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Produces
 import io.micronaut.http.server.types.files.StreamedFile
+import kotlinx.coroutines.runBlocking
 
 
 data class Pairs(val id: String, val code: String)
@@ -23,6 +28,9 @@ class ApiController {
         Gson()
     }
 
+    private val statistics by lazy {
+        StatisticsCalculator(RetrofitCoinbaseProApi.productTicker(), RetrofitCoinbaseProApi.twentyFourHours())
+    }
     private val dataFromFile: String by lazy {
         loader.getResourceAsStream("static/all_currencies.json")
             .get().bufferedReader().use { it.readText() }
@@ -35,8 +43,9 @@ class ApiController {
 
     @Get("/image/{id}")
     @Produces("image/svg+xml")
-    fun getImage(@PathVariable("id") name: String) = loader.getResourceAsStream("static/images/${name}.svg")
-        .get().readBytes()
+    fun getImage(@PathVariable("id") name: String) =
+        loader.getResourceAsStream("static/images/${name.toLowerCase()}.svg")
+            .get().readBytes()
 
     @Get("/all")
     fun pairs() = mp.map {
@@ -50,4 +59,10 @@ class ApiController {
         } else {
             throw NotFoundException()
         }
+
+    @Get("/stats/{id}")
+    fun getStats(@PathVariable("id") id: String) = runBlocking {
+        statistics.createStatisticsForCurrency(SupportedCurrency(id))
+    }
+
 }
