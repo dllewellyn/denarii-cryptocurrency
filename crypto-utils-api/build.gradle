@@ -38,11 +38,15 @@ configurations {
 dependencies {
     implementation project (":core")
     implementation project (":core-coinbase-pro")
+    implementation 'io.micronaut:micronaut-http-client'
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-http-server-netty"
+    implementation "io.micronaut:micronaut-security"
+    implementation "io.micronaut:micronaut-security-jwt"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+    implementation 'com.google.firebase:firebase-admin:6.10.0'
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation "io.micronaut:micronaut-runtime"
     kapt platform("io.micronaut:micronaut-bom:$micronautVersion")
