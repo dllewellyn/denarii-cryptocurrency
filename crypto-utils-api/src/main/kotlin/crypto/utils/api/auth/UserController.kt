@@ -11,12 +11,16 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import java.security.Principal
 import javax.annotation.security.PermitAll
+import javax.inject.Inject
 
 
 data class User(val email: String, val password: String)
 
 @Controller("/user")
 class UserController {
+
+    @Inject
+    lateinit var firebase: FirebaseUtil
 
     @Secured("isAnonymous()")
     @Get("/myinfo")
@@ -36,5 +40,4 @@ class UserController {
                     .setPassword(user.password)
             )
             .uid
-
 }
