@@ -1,2 +1,3 @@
 .idea
 crypto-utils-api/src/main/appengine/app.yaml
+/crypto-utils-api/src/main/resources/static/firebase-admin.json

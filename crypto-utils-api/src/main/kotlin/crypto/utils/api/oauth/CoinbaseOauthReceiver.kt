@@ -1,4 +1,4 @@
-package crypto.utils.api
+package crypto.utils.api.oauth
 
 import io.micronaut.context.annotation.Value
 import io.micronaut.http.HttpRequest
@@ -38,7 +38,12 @@ class CoinbaseOauthReceiver {
     fun callback(@QueryValue(value = "code") code: String): String? {
         val post = HttpRequest.POST(
             "/oauth/token",
-            OauthModel(code = code, client_id = clientKey, client_secret = clientSecret, redirect_uri = redirectUri)
+            OauthModel(
+                code = code,
+                client_id = clientKey,
+                client_secret = clientSecret,
+                redirect_uri = redirectUri
+            )
         ).contentType(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
 
         return client.toBlocking().exchange(post, String::class.java).body()
