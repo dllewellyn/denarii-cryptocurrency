@@ -17,6 +17,7 @@ import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Produces
 import io.micronaut.http.server.types.files.StreamedFile
 import kotlinx.coroutines.runBlocking
+import javax.annotation.security.PermitAll
 
 
 data class Pairs(val id: String, val code: String)
@@ -41,17 +42,20 @@ class ApiController {
     }
 
     @Get("/image/{id}")
+    @PermitAll
     @Produces("image/svg+xml")
     fun getImage(@PathVariable("id") name: String) =
         loader.getResourceAsStream("static/images/${name.toLowerCase()}.svg")
             .get().readBytes()
 
     @Get("/all")
+    @PermitAll
     fun pairs() = mp.map {
         Pairs(it.key, it.value)
     }
 
     @Get("/name/{id}")
+    @PermitAll
     fun getBuyName(@PathVariable("id") name: String) =
         if (mp.containsKey(name.toUpperCase())) {
             mapOf("value" to mp[name.toUpperCase()])
@@ -60,6 +64,7 @@ class ApiController {
         }
 
     @Get("/stats/{id}")
+    @PermitAll
     fun getStats(@PathVariable("id") id: String) = runBlocking {
         statistics.createStatisticsForCurrency(SupportedCurrency(id))
     }
