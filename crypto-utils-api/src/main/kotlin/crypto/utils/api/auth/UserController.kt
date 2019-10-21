@@ -9,19 +9,16 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
+import io.swagger.v3.oas.annotations.Operation
 import java.security.Principal
-import javax.annotation.security.PermitAll
-import javax.inject.Inject
-
 
 data class User(val email: String, val password: String)
+data class DataStorage(val key : String)
 
 @Controller("/user")
 class UserController {
 
-    @Inject
-    lateinit var firebase: FirebaseUtil
-
+    @Operation(summary = "Retrieve users information", operationId = "myinfo", description = "This can only be done by the logged in user. Get user info", tags=["user"])
     @Secured("isAnonymous()")
     @Get("/myinfo")
     fun myinfo(principal: Principal?): Map<*, *> {
@@ -30,6 +27,7 @@ class UserController {
         } ?: mapOf("isLoggedIn" to false)
     }
 
+    @Operation(summary = "Create a user", operationId = "createUser", description = "Create an account", tags=["anonymous"])
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/create", consumes = [MediaType.APPLICATION_JSON])
     fun createUser(@Body user: User) =
@@ -40,4 +38,14 @@ class UserController {
                     .setPassword(user.password)
             )
             .uid
+
+
+    @Operation(summary = "Store data for a user", operationId = "storeData", description = "Store user data", tags=["user"])
+    @Post("/store")
+    @Secured(SecurityRule.IS_AUTHENTICATED)
+    fun storeData(@Body storage : DataStorage, principal: Principal) = FirebaseUtil
+        .fireStore()
+        .collection("users")
+        .document(principal.name)
+        .set(storage)
 }
