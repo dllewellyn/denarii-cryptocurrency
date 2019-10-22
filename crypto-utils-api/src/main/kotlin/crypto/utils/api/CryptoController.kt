@@ -1,21 +1,17 @@
 package crypto.utils.api
 
 import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.dllewellyn.coinbaseapi.utils.StatisticsCalculator
 import com.google.gson.Gson
 import io.micronaut.core.io.ResourceLoader
 import io.micronaut.core.io.ResourceResolver
+import io.micronaut.core.io.scan.ClassPathResourceLoader
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
-import io.micronaut.core.io.scan.DefaultClassPathResourceLoader
-import javax.inject.Inject
-import io.micronaut.core.io.scan.ClassPathResourceLoader
-import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Produces
-import io.micronaut.http.server.types.files.StreamedFile
+import io.swagger.v3.oas.annotations.Operation
 import kotlinx.coroutines.runBlocking
 import javax.annotation.security.PermitAll
 
@@ -43,17 +39,20 @@ class ApiController {
 
     @Get("/image/{id}")
     @PermitAll
+    @Operation(summary = "Get an image", operationId = "getImage", description = "Get an image for a given cryptocurrency short code. E.g BTC will return the bitcoin icon", tags=[])
     @Produces("image/svg+xml")
     fun getImage(@PathVariable("id") name: String) =
         loader.getResourceAsStream("static/images/${name.toLowerCase()}.svg")
             .get().readBytes()
 
+    @Operation(summary = "Get all names", operationId = "allNames", description = "Get all names from a short code. E.g BTC will return Bitcoin", tags=[])
     @Get("/all")
     @PermitAll
     fun pairs() = mp.map {
         Pairs(it.key, it.value)
     }
 
+    @Operation(summary = "Get the name from a short code", operationId = "getName", description = "Get the name from a short code. E.g BTC will return Bitcoin", tags=[])
     @Get("/name/{id}")
     @PermitAll
     fun getBuyName(@PathVariable("id") name: String) =
@@ -63,6 +62,7 @@ class ApiController {
             throw NotFoundException()
         }
 
+    @Operation(summary = "Get cryptocurrency statistics", operationId = "getStats", description = "Retrieve cryptocurrency statistics", tags=[])
     @Get("/stats/{id}")
     @PermitAll
     fun getStats(@PathVariable("id") id: String) = runBlocking {
