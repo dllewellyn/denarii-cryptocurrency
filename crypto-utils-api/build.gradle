@@ -38,6 +38,7 @@ configurations {
 dependencies {
     implementation project (":core")
     implementation project (":core-coinbase-pro")
+    implementation project (":core-coinbase-nonpro")
     implementation 'io.micronaut:micronaut-http-client'
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"

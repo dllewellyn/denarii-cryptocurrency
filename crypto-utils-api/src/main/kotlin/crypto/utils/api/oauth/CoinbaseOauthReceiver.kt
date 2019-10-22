@@ -1,5 +1,8 @@
 package crypto.utils.api.oauth
 
+import com.dllewellyn.coinbaseapi.models.OauthProvider
+import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.google.gson.Gson
 import io.micronaut.context.annotation.Value
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
@@ -9,6 +12,7 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
+import kotlinx.coroutines.runBlocking
 import java.net.URI
 import java.security.Principal
 import javax.annotation.security.PermitAll
@@ -23,7 +27,7 @@ data class OauthModel(
 )
 
 @Controller("/oauth")
-class CoinbaseOauthReceiver {
+class CoinbaseOauthReceiver @Inject constructor(private val repository: WriteRepository<OauthWrapper>) {
 
     @Value("\${coinbase.api.clientkey}")
     lateinit var clientKey: String
@@ -38,9 +42,10 @@ class CoinbaseOauthReceiver {
     @field:Client("https://api.coinbase.com")
     lateinit var client: HttpClient
 
+
     @Get("/callback")
     @PermitAll
-    fun callback(@QueryValue(value = "code") code: String, principal: Principal?): String? {
+    fun callback(@QueryValue(value = "code") code: String, principal: Principal?): String {
         val post = HttpRequest.POST(
             "/oauth/token",
             OauthModel(
@@ -51,7 +56,15 @@ class CoinbaseOauthReceiver {
             )
         ).contentType(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
 
-        return client.toBlocking().exchange(post, String::class.java).body()
+        val body = client.toBlocking().exchange(post, String::class.java).body()
+        val baseModel = Gson().fromJson(body, OauthProvider::class.java)
+        return with(baseModel) {
+            principal?.name?.let {
+                val oauth = OauthWrapper(it, this)
+                runBlocking { repository.write(oauth) }
+                oauth.toString()
+            } ?: this.toString()
+        }
     }
 
     @Get("/connect")
