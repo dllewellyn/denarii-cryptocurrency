@@ -18,4 +18,4 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Deploy to JCenter
-      run: ./gradlew bintrayUpload -PbintrayUser=${{ secrets.JCENTER_USER }} -PbintrayApiKey=${{ secrets.JCENTER_KEY }}
+      run: ./gradlew bintrayUpload -PbintrayUser=${{ secrets.JCENTER_USER }} -PbintrayApiKey=${{ secrets.JCENTER_API }}
