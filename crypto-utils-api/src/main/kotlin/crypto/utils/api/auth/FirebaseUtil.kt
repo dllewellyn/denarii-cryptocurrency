@@ -1,6 +1,7 @@
 package crypto.utils.api.auth
 
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.cloud.FirestoreClient
@@ -11,9 +12,9 @@ import javax.inject.Singleton
 
 object FirebaseUtil {
 
-    val loader: ResourceLoader = ResourceResolver().getLoader(ClassPathResourceLoader::class.java).get();
+    private val loader: ResourceLoader = ResourceResolver().getLoader(ClassPathResourceLoader::class.java).get();
 
-    val options = FirebaseOptions.Builder()
+    private val options: FirebaseOptions? = FirebaseOptions.Builder()
         .setCredentials(
             GoogleCredentials.fromStream(
                 loader.getResourceAsStream("static/firebase-admin.json")
@@ -22,9 +23,7 @@ object FirebaseUtil {
         )
         .build()
 
-
-    fun initialise() = FirebaseApp.initializeApp(options)
-    fun fireStore() =
-        FirestoreClient.getFirestore()
+    fun initialise(): FirebaseApp = FirebaseApp.initializeApp(options)
+    fun fireStore(): Firestore = FirestoreClient.getFirestore()
 
 }

@@ -13,12 +13,13 @@ import io.swagger.v3.oas.annotations.servers.Server
         version = "1.0",
         description = "",
         license = License(name = "Apache 2.0", url = "https://coinbaseliveexchange.appspot.com")
-    )
+    ), servers = [
+        Server(
+            description = "Live server",
+            url = "https://coinbaseliveexchange.appspot.com"
+        )]
+
 )
-@Server(
-    description = "Live server",
-    url = "https://coinbaseliveexchange.appspot.com"
-    )
 object Application {
 
     @JvmStatic
