@@ -14,6 +14,8 @@ object FirebaseUtil {
 
     private val loader: ResourceLoader = ResourceResolver().getLoader(ClassPathResourceLoader::class.java).get();
 
+    var initialised: Boolean = false
+
     private val options: FirebaseOptions? = FirebaseOptions.Builder()
         .setCredentials(
             GoogleCredentials.fromStream(
@@ -23,7 +25,13 @@ object FirebaseUtil {
         )
         .build()
 
-    fun initialise(): FirebaseApp = FirebaseApp.initializeApp(options)
+    fun initialise() {
+        if (initialised.not()) {
+            FirebaseApp.initializeApp(options)
+            initialised = true
+        }
+    }
+
     fun fireStore(): Firestore = FirestoreClient.getFirestore()
 
 }

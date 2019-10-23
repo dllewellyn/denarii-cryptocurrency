@@ -24,7 +24,6 @@ object Application {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        FirebaseUtil.initialise()
         Micronaut.build()
             .packages("crypto.utils.api")
             .mainClass(Application.javaClass)
