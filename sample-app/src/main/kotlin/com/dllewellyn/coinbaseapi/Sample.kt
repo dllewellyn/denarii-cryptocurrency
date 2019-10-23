@@ -1,6 +1,7 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.multiplatform.databases.AccountsDb
 import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
@@ -12,7 +13,14 @@ fun main() {
     runBlocking {
         with(CoinbaseApi()) {
 
-            val api = ApikeyCoinbaseApi(System.getenv("COINBASE_KEY"), System.getenv("COINBASE_SECRET"))
+            val api = OauthCoinbaseApi(OauthProvider(
+                "048a8aaff8e35f175ac53987263a54dead404c23ddbfbc5f78b10e064a9a02b0",
+                1571855983,
+                7200,
+                "af3570637c3d1466581c587cab85deb000735ca4ecb2072d13d9206c8e1b248b",
+                "wallet:user:read",
+                "bearer"
+            ))
 
             val remote = CompositeRetriever<Account>().apply {
                 retrievers.add(api.coreAccounts())
@@ -25,10 +33,6 @@ fun main() {
             cachingRepository.refresh()
 
             println(cachingRepository.retrieveData())
-
-            //println(exchangeRateRetriever().getExchangeRates(CryptoCurrency.GBP))
-            //println(currencyList().getCurrencyList())
-            //println(prices().getSpotPrice(CurrencyPair.fromId("BTC-USD")))
         }
     }
 }
