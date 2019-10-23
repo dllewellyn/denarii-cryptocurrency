@@ -10,6 +10,16 @@ import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
 import javax.inject.Singleton
 
+fun Firestore.docForUser(uid: String) =
+    collection("users")
+        .document(uid)
+
+fun Firestore.dataForUser(uid: String) =
+    docForUser(uid)
+        .get()
+        .get()
+        .data
+
 object FirebaseUtil {
 
     private val loader: ResourceLoader = ResourceResolver().getLoader(ClassPathResourceLoader::class.java).get();
