@@ -1,5 +1,6 @@
 package com.dllewellyn.coinbaseapi
 
+import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.retrofit.RetrofitApiBuilder
 
 class RetrofitCoroutinesBuilder(sandbox: Boolean = false) : RetrofitApiBuilder(sandbox, false) {
@@ -7,8 +8,9 @@ class RetrofitCoroutinesBuilder(sandbox: Boolean = false) : RetrofitApiBuilder(s
     fun getProApi() =
         retrofitPro.build().create(CoinbaseProService::class.java)
 
-    fun getProApiAuthentication(passphrase: String, apiKey: String, secretKey: String): CoinbaseProService {
-        buildClientWith(passphrase, apiKey, secretKey)
+    fun getProApiAuthentication(apiKeyAuth : ApiKeyAuth): CoinbaseProService {
+
+        buildClientWith(apiKeyAuth.password, apiKeyAuth.apiKey, apiKeyAuth.secretKey)
         return retrofitProAuthenticated.build()
             .create(CoinbaseProService::class.java)
     }
