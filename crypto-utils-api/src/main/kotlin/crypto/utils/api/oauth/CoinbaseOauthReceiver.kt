@@ -12,11 +12,15 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED
 import kotlinx.coroutines.runBlocking
 import java.net.URI
 import java.security.Principal
+import java.util.*
 import javax.annotation.security.PermitAll
 import javax.inject.Inject
+import kotlin.random.Random
 
 data class OauthModel(
     val grant_type: String = "authorization_code",
@@ -42,10 +46,11 @@ class CoinbaseOauthReceiver @Inject constructor(private val repository: WriteRep
     @field:Client("https://api.coinbase.com")
     lateinit var client: HttpClient
 
+    private val stateMap = mutableMapOf<String, String>()
 
     @Get("/callback")
     @PermitAll
-    fun callback(@QueryValue(value = "code") code: String, principal: Principal?): String {
+    fun callback(@QueryValue(value = "code") code: String, @QueryValue(value = "state") state: String): String {
         val post = HttpRequest.POST(
             "/oauth/token",
             OauthModel(
@@ -59,7 +64,7 @@ class CoinbaseOauthReceiver @Inject constructor(private val repository: WriteRep
         val body = client.toBlocking().exchange(post, String::class.java).body()
         val baseModel = Gson().fromJson(body, OauthProvider::class.java)
         return with(baseModel) {
-            principal?.name?.let {
+            stateMap[state]?.let {
                 val oauth = OauthWrapper(it, this)
                 runBlocking { repository.write(oauth) }
                 oauth.toString()
@@ -67,9 +72,23 @@ class CoinbaseOauthReceiver @Inject constructor(private val repository: WriteRep
         }
     }
 
+    @Get("/getUrl")
+    @Secured(IS_AUTHENTICATED)
+    fun buildUrl(principal: Principal) : String = with(Base64.getUrlEncoder().encodeToString(randomString().toByteArray())) {
+        stateMap[this] = principal.name
+        "https://www.coinbase.com/oauth/authorize?client_id=$clientKey&redirect_uri=$redirectUri&response_type=code&scope=wallet%3Auser%3Aread&state=$this"
+    }
+
     @Get("/connect")
     @PermitAll
     fun connect(principal: Principal?) =
         HttpResponse.redirect<Any>(URI("https://www.coinbase.com/oauth/authorize?client_id=$clientKey&redirect_uri=$redirectUri&response_type=code&scope=wallet%3Auser%3Aread"))
 
+    private fun randomString(len: Int = 10) = with(StringBuilder()) {
+        for (i in 0..len) {
+            append(Random.nextInt(0, 127).toChar())
+        }
+
+        toString()
+    }
 }
