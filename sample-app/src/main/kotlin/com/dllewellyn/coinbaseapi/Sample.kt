@@ -14,12 +14,6 @@ fun main() {
         with(CoinbaseApi()) {
 
             val api = OauthCoinbaseApi(OauthProvider(
-                "048a8aaff8e35f175ac53987263a54dead404c23ddbfbc5f78b10e064a9a02b0",
-                1571855983,
-                7200,
-                "af3570637c3d1466581c587cab85deb000735ca4ecb2072d13d9206c8e1b248b",
-                "wallet:user:read",
-                "bearer"
             ))
 
             val remote = CompositeRetriever<Account>().apply {
