@@ -2,13 +2,14 @@ package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.adapter.AccountsAdapter
 import com.dllewellyn.coinbaseapi.adapter.OrdersAdapter
+import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.Orders
 
 interface AuthenticatedApi {
-    fun accounts() : Accounts
-    fun orders() : Orders
+    fun accounts(): Accounts
+    fun orders(): Orders
 }
 
 class AuthenticatedApiBuilder {
@@ -20,15 +21,17 @@ class AuthenticatedApiBuilder {
     @Throws(InvalidConfigurationException::class)
     fun build() =
         AuthenticatedApiImpl(
-            nullOrException(password, ::throwException),
-            nullOrException(apiKey, ::throwException),
-            nullOrException(secretKey, ::throwException),
+            ApiKeyAuth(
+                nullOrException(password, ::throwException),
+                nullOrException(apiKey, ::throwException),
+                nullOrException(secretKey, ::throwException)
+            ),
             sandbox
         )
 
     private fun throwException() = InvalidConfigurationException()
 
-    private fun <T>nullOrException(any : T?, exception : () -> Throwable) : T {
+    private fun <T> nullOrException(any: T?, exception: () -> Throwable): T {
         return any ?: throw exception()
     }
 
@@ -40,17 +43,15 @@ fun authenticated_builder(block: AuthenticatedApiBuilder.() -> Unit) = Authentic
 
 
 class AuthenticatedApiImpl(
-    private val password: String,
-    private val apiKey: String,
-    private val secretKey: String,
-    private val sandbox : Boolean
+    private val apiKeyAuth: ApiKeyAuth,
+    private val sandbox: Boolean = false
 ) : AuthenticatedApi {
 
     private val retrofit: CoinbaseProService by lazy {
         RetrofitCoroutinesBuilder(sandbox)
-            .getProApiAuthentication(password, apiKey, secretKey)
+            .getProApiAuthentication(apiKeyAuth)
     }
 
-    override fun orders() : Orders = OrdersAdapter(retrofit)
-    override fun accounts() : Accounts = AccountsAdapter(retrofit)
+    override fun orders(): Orders = OrdersAdapter(retrofit)
+    override fun accounts(): Accounts = AccountsAdapter(retrofit)
 }
