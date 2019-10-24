@@ -25,7 +25,7 @@ import javax.inject.Named
 class AccountsSychroniser @Inject constructor(
     @Named("FirebaseAccountsStorage") private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
     @Named("FirebaseCoinbaseProStorage") private val coinbaseProCredentials: ReadOnlyRepositoryArgument<String, ApiKeyAuth?>,
-    @Named("FirebaseUserStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>
+    @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>
 ) {
 
     @Get("/synchronise")
@@ -33,8 +33,6 @@ class AccountsSychroniser @Inject constructor(
     fun synchroniseWallet(principal: Principal) =
         runBlocking {
             val coinbase = readOnlyRepository.retrieveData(principal.name)
-
-
             CompositeRetriever<Account>().apply {
                 retrievers.add(OauthCoinbaseApi(coinbase).coreAccounts())
                 coinbaseProCredentials.retrieveData(principal.name)?.let {
