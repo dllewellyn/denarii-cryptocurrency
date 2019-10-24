@@ -52,15 +52,18 @@ open class CoinbaseApi {
 
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
-    suspend fun coreAccounts() : ReadOnlyRepository<List<Account>>
+    suspend fun coreAccounts(): ReadOnlyRepository<List<Account>>
 }
 
 class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls {
+    private val client = AuthenticatedOauthHttpClient(oauthProvider)
     override suspend fun accounts(): Accounts =
-        AccountsAdapter(AuthenticatedOauthHttpClient(oauthProvider))
+        AccountsAdapter(client)
 
-    override suspend fun coreAccounts() : ReadOnlyRepository<List<Account>> =
+    override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
         AccountsCoreAdapter(accounts())
+
+    suspend fun transactions() = TransactionsRetriever(client)
 }
 
 class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), AuthenticatedApiCalls {
@@ -73,7 +76,7 @@ class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), Auth
     override suspend fun accounts(): Accounts =
         AccountsAdapter(authenticatedApiHttpClient)
 
-    override suspend fun coreAccounts() : ReadOnlyRepository<List<Account>> =
+    override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
         AccountsCoreAdapter(accounts())
 
     suspend fun transactions() = TransactionsRetriever(authenticatedApiHttpClient)

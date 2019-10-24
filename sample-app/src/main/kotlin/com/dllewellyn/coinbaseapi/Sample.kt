@@ -1,13 +1,10 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.models.Account
-import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.multiplatform.databases.AccountsDb
 import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
 import kotlinx.coroutines.runBlocking
-import java.io.Console
-import java.io.File
 
 fun main() {
     runBlocking {
@@ -29,7 +26,7 @@ fun main() {
             cachingRepository.retrieveData().forEach {
                 transactions.retrieveTransactions(it.uid)
                     .let { transaction ->
-                        println(transaction)
+                        println(it)
                     }
             }
         }

@@ -34,7 +34,17 @@ class AccountsSychroniser @Inject constructor(
         runBlocking {
             val coinbase = readOnlyRepository.retrieveData(principal.name)
             CompositeRetriever<Account>().apply {
-                retrievers.add(OauthCoinbaseApi(coinbase).coreAccounts())
+
+                val coreAccounts = OauthCoinbaseApi(coinbase)
+
+                coreAccounts.coreAccounts().retrieveData().forEach {
+                    coreAccounts.transactions()
+                        .retrieveTransactions(it.uid)
+                        .let {
+                            println(it)
+                        }
+                }
+                retrievers.add(coreAccounts.coreAccounts())
                 coinbaseProCredentials.retrieveData(principal.name)?.let {
                     retrievers.add(AuthenticatedApiImpl(it).accounts())
                 }

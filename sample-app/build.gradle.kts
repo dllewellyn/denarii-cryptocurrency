@@ -12,19 +12,20 @@ repositories {
     jcenter()
 }
 
+
 dependencies {
     val kotlinVersion = "1.3.50"
     val ktorVersion = "1.2.3"
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
+    implementation(project(":datastore"))
     implementation(project(":core-coinbase-pro"))
     implementation(project(":core-coinbase-nonpro"))
-    implementation(project(":datastore"))
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-//    implementation("io.ktor:ktor-client-json:$ktorVersion")
-//    implementation("io.ktor:ktor-client-cio:$ktorVersion")
-//    implementation("io.ktor:ktor-client-logging:$ktorVersion")
+    implementation("io.ktor:ktor-client-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-logging:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
 
@@ -35,4 +36,14 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.register<Jar>("uberJar") {
+    manifest {
+        attributes(
+            "Main-Class" to "com.dllewellyn.coinbaseapi.SampleKt",
+            "Implementation-Title" to "Gradle",
+            "Implementation-Version" to archiveVersion
+        )
+    }
 }

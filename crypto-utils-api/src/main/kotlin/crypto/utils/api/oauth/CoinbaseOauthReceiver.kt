@@ -47,7 +47,7 @@ class CoinbaseOauthReceiver @Inject constructor(@Named("FirebaseCoinbaseStorage"
     private val gson = Gson()
 
     val scopes: String = URLEncoder.encode(
-        "wallet:addresses:read wallet:withdrawals:read wallet:user:read wallet:trades:read wallet:accounts:read wallet:orders:read",
+        "wallet:transactions:read wallet:addresses:read wallet:withdrawals:read wallet:user:read wallet:trades:read wallet:accounts:read wallet:orders:read",
         "UTF-8"
     )
 
