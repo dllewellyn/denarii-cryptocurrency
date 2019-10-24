@@ -24,7 +24,7 @@ object FirebaseUtil {
 
     private val loader: ResourceLoader = ResourceResolver().getLoader(ClassPathResourceLoader::class.java).get();
 
-    var initialised: Boolean = false
+    private var initialised: Boolean = false
 
     private val options: FirebaseOptions? = FirebaseOptions.Builder()
         .setCredentials(
