@@ -15,6 +15,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import kotlinx.coroutines.runBlocking
 
 open class CoinbaseApi {
 
@@ -74,5 +75,7 @@ class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), Auth
 
     override suspend fun coreAccounts() : ReadOnlyRepository<List<Account>> =
         AccountsCoreAdapter(accounts())
+
+    suspend fun transactions() = TransactionsRetriever(authenticatedApiHttpClient)
 
 }
