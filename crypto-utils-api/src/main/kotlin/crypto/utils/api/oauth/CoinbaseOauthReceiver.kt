@@ -87,7 +87,7 @@ class CoinbaseOauthReceiver @Inject constructor(@Named("FirebaseCoinbaseStorage"
     fun buildUrl(principal: Principal): String =
         with(Base64.getUrlEncoder().encodeToString(randomString().toByteArray())) {
             stateMap[this] = principal.name
-            "https://www.coinbase.com/oauth/authorize?client_id=$clientKey&redirect_uri=$redirectUri&response_type=code&scope=$scopes&state=$this"
+            "https://www.coinbase.com/oauth/authorize?client_id=$clientKey&redirect_uri=$redirectUri&response_type=code&scope=$scopes&state=$this&account=all&referral=llewel_b"
         }
 
     @Get("/connect")
