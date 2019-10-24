@@ -23,7 +23,7 @@ import javax.inject.Named
 
 @Controller("/wallet")
 class AccountsSychroniser @Inject constructor(
-    private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
+    @Named("FirebaseAccountsStorage") private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
     @Named("FirebaseCoinbaseProStorage") private val coinbaseProCredentials: ReadOnlyRepositoryArgument<String, ApiKeyAuth?>,
     @Named("FirebaseUserStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>
 ) {
