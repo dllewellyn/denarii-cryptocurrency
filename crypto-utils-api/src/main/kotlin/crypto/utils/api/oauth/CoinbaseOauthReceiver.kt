@@ -23,18 +23,11 @@ import java.security.Principal
 import java.util.*
 import javax.annotation.security.PermitAll
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.random.Random
 
-data class OauthModel(
-    val grant_type: String = "authorization_code",
-    val code: String,
-    val client_id: String,
-    val client_secret: String,
-    val redirect_uri: String
-)
-
 @Controller("/oauth")
-class CoinbaseOauthReceiver @Inject constructor(private val repository: WriteRepository<OauthWrapper>) {
+class CoinbaseOauthReceiver @Inject constructor(@Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>) {
 
     @Value("\${coinbase.api.clientkey}")
     lateinit var clientKey: String
