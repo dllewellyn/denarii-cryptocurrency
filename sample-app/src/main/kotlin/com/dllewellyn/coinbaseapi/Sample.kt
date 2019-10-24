@@ -13,9 +13,8 @@ fun main() {
     runBlocking {
         with(CoinbaseApi()) {
 
-            val api = OauthCoinbaseApi(OauthProvider(
-            ))
 
+            val api = ApikeyCoinbaseApi(System.getenv("COINBASE_KEY"), System.getenv("COINBASE_SECRET"))
             val remote = CompositeRetriever<Account>().apply {
                 retrievers.add(api.coreAccounts())
             }
@@ -26,7 +25,13 @@ fun main() {
             cachingRepository.initialise()
             cachingRepository.refresh()
 
-            println(cachingRepository.retrieveData())
+            val transactions = api.transactions()
+            cachingRepository.retrieveData().forEach {
+                transactions.retrieveTransactions(it.uid)
+                    .let { transaction ->
+                        println(transaction)
+                    }
+            }
         }
     }
 }
