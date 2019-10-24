@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiTransaction(
-    val apiAmount: ApiAmount,
-    val apiBuy: ApiBuy,
+    val amount: ApiAmount,
+    //val buy: ApiBuy,
     val created_at: String,
     val description: String?=null,
     val details: ApiDetails,
