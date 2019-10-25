@@ -20,6 +20,8 @@ open class RetrofitApiBuilder(sandbox: Boolean = false, private val errorInterce
             "https://api-public.sandbox.pro.coinbase.com"
         }
 
+    private lateinit var okHttpClient: OkHttpClient
+
     private val standardOkHttpClient: OkHttpClient by lazy {
         with(OkHttpClient.Builder()) {
             if (errorInterceptor) {
@@ -35,16 +37,11 @@ open class RetrofitApiBuilder(sandbox: Boolean = false, private val errorInterce
             .client(standardOkHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
     }
-//    protected val retrofit: Retrofit.Builder by lazy {
-//        baseRetrofit
-//            .baseUrl(coinbase)
-//    }
 
     protected val retrofitPro: Retrofit.Builder by lazy {
         baseRetrofit
             .baseUrl(coinbasePro)
     }
-
 
     protected val retrofitProAuthenticated: Retrofit.Builder by lazy {
         Retrofit.Builder()
@@ -53,7 +50,6 @@ open class RetrofitApiBuilder(sandbox: Boolean = false, private val errorInterce
             .client(okHttpClient)
     }
 
-    private lateinit var okHttpClient: OkHttpClient
 
     protected fun buildClientWith(passphrase: String, apiKey: String, secretKey: String) {
         okHttpClient = with(OkHttpClient.Builder()) {
@@ -63,8 +59,5 @@ open class RetrofitApiBuilder(sandbox: Boolean = false, private val errorInterce
             addInterceptor(AuthenticationInterceptor(passphrase, apiKey, secretKey))
             build()
         }
-
     }
-
-
 }
