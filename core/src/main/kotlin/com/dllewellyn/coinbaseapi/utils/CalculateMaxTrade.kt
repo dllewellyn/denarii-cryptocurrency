@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.utils
 
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import java.math.BigDecimal
 
 /**

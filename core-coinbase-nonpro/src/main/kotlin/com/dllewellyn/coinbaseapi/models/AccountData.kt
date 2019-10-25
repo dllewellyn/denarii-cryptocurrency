@@ -1,5 +1,6 @@
 package com.dllewellyn.coinbaseapi.models
 
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal

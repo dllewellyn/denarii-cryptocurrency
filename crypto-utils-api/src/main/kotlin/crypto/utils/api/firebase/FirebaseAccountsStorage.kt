@@ -1,6 +1,6 @@
 package crypto.utils.api.firebase
 
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
 import com.google.firebase.cloud.FirestoreClient
 import crypto.utils.api.auth.dataForUser
@@ -21,5 +21,4 @@ class FirebaseAccountsStorage :
                 } ?: create(mutableMapOf("accounts" to value.convert()))
         }
     }
-
 }

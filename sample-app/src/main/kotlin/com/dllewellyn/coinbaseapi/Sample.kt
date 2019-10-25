@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi
 
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.multiplatform.databases.AccountsDb
 import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
@@ -21,14 +21,6 @@ fun main() {
             val cachingRepository = CachingRepository(remote, local, local)
             cachingRepository.initialise()
             cachingRepository.refresh()
-
-            val transactions = api.transactions()
-            cachingRepository.retrieveData().forEach {
-                transactions.retrieveTransactions(it.uid)
-                    .let { transaction ->
-                        println(it)
-                    }
-            }
         }
     }
 }

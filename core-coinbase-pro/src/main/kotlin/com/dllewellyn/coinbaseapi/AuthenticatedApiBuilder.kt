@@ -3,17 +3,17 @@ package com.dllewellyn.coinbaseapi
 import com.dllewellyn.coinbaseapi.adapter.AccountHistoryAdapter
 import com.dllewellyn.coinbaseapi.adapter.AccountsAdapter
 import com.dllewellyn.coinbaseapi.adapter.OrdersAdapter
-import com.dllewellyn.coinbaseapi.api.models.ApiAccountHistory
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.Orders
+import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 
 interface AuthenticatedApi {
     fun accounts(): Accounts
     fun orders(): Orders
-    fun transactions() : ReadOnlyPostRepository<String, List<ApiAccountHistory>>
+    fun transactions(): ReadOnlyPostRepository<String, List<Transaction>>
 }
 
 class AuthenticatedApiBuilder {
@@ -57,7 +57,7 @@ class AuthenticatedApiImpl(
     }
 
     override fun orders(): Orders = OrdersAdapter(retrofit)
-    override fun accounts(): Accounts = AccountsAdapter(retrofit)
-    override fun transactions(): ReadOnlyPostRepository<String, List<ApiAccountHistory>> = AccountHistoryAdapter(retrofit)
+    override fun accounts(): Accounts = AccountsAdapter(retrofit, transactions())
+    override fun transactions() = AccountHistoryAdapter(retrofit)
 
 }

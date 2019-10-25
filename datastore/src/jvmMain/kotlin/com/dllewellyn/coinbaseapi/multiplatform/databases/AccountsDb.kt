@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.multiplatform.databases
 
 import com.dllewellyn.coinbaseapi.multiplatform.base.BaseDb
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.multiplatform.toCore
 import com.dllewellyn.coinbaseapi.multiplatform.toEntity
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository

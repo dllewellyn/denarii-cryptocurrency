@@ -3,15 +3,11 @@ package crypto.utils.api.accounts
 import com.dllewellyn.coinbaseapi.AuthenticatedApiImpl
 import com.dllewellyn.coinbaseapi.OauthCoinbaseApi
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
-import com.dllewellyn.coinbaseapi.authenticated_builder
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
-import crypto.utils.api.oauth.OauthModel
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.security.annotation.Secured
@@ -37,13 +33,6 @@ class AccountsSychroniser @Inject constructor(
 
                 val coreAccounts = OauthCoinbaseApi(coinbase)
 
-                coreAccounts.coreAccounts().retrieveData().forEach {
-                    coreAccounts.transactions()
-                        .retrieveTransactions(it.uid)
-                        .let {
-                            println(it)
-                        }
-                }
                 retrievers.add(coreAccounts.coreAccounts())
                 coinbaseProCredentials.retrieveData(principal.name)?.let {
                     retrievers.add(AuthenticatedApiImpl(it).accounts())

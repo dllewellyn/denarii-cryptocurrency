@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.api.models
 
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
