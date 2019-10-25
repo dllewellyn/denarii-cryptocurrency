@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.models
+package com.dllewellyn.coinbaseapi.models.account
 
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import java.math.BigDecimal
@@ -9,5 +9,6 @@ data class Account(
     val available: BigDecimal?=null,
     val hold: BigDecimal?=null,
     val uid: String,
-    val provider : String
+    val provider : String,
+    val transactions: List<Transaction> = listOf()
 )

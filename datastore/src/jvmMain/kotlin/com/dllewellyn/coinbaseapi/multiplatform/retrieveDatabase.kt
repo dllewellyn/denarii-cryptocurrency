@@ -2,7 +2,7 @@ package com.dllewellyn.coinbaseapi.multiplatform
 
 import com.dllewellyn.coinbaseapi.AccountEntity
 import com.dllewellyn.coinbaseapi.ProductTickerEntity
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.squareup.sqldelight.db.SqlDriver

@@ -6,16 +6,17 @@ import com.dllewellyn.coinbaseapi.http.AuthenticatedOauthHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
+import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
+import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import kotlinx.coroutines.runBlocking
 
 open class CoinbaseApi {
 
@@ -53,32 +54,27 @@ open class CoinbaseApi {
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
     suspend fun coreAccounts(): ReadOnlyRepository<List<Account>>
+    suspend fun transactions(): ReadOnlyPostRepository<String, List<Transaction>>
 }
 
-class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls {
-    private val client = AuthenticatedOauthHttpClient(oauthProvider)
+open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) : AuthenticatedApiCalls {
     override suspend fun accounts(): Accounts =
         AccountsAdapter(client)
 
     override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
-        AccountsCoreAdapter(accounts())
+        AccountsCoreAdapter(accounts(), transactions())
 
-    suspend fun transactions() = TransactionsRetriever(client)
+    override suspend fun transactions() = TransactionsRetriever(client)
 }
 
-class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), AuthenticatedApiCalls {
-    private val authenticatedApiHttpClient = AuthenticatedApiKeyHttpClient(
+class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls by
+BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
+
+class ApikeyCoinbaseApi(apiKey: String, secretKey: String) : CoinbaseApi(), AuthenticatedApiCalls by
+BaseAuthenticatedCoinbaseApi(
+    AuthenticatedApiKeyHttpClient(
         apiKey,
         secretKey,
         url
     )
-
-    override suspend fun accounts(): Accounts =
-        AccountsAdapter(authenticatedApiHttpClient)
-
-    override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
-        AccountsCoreAdapter(accounts())
-
-    suspend fun transactions() = TransactionsRetriever(authenticatedApiHttpClient)
-
-}
+)
