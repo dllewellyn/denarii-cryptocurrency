@@ -18,6 +18,15 @@ import io.ktor.client.response.readText
 import io.ktor.content.TextContent
 import io.ktor.http.ContentType
 import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ApiRefresh(
+    val client_id: String,
+    val client_secret: String,
+    val refresh_token: String,
+    val grant_type: String = "refresh_token"
+)
 
 class OauthRetriever(
     private val oauthSecretProvider: OauthSecretProvider
@@ -33,7 +42,6 @@ class OauthRetriever(
 
     private val baseUrl = "https://api.coinbase.com"
 
-    @ImplicitReflectionSerializer
     suspend fun retrieveCode(code: String): OauthProvider {
         val oauth = OauthModel(
             code = code,
@@ -44,6 +52,22 @@ class OauthRetriever(
 
         return httpClient.post<HttpResponse>("$baseUrl/oauth/token") {
             body = TextContent(json.toJson(OauthModel.serializer(), oauth).toString(), ContentType.Application.Json)
+        }
+            .readText()
+            .let {
+                json.parse(OauthProvider.serializer(), it)
+            }
+    }
+
+    suspend fun retrieveRefreshtoken(oauthProvider: OauthProvider): OauthProvider {
+        val oauth = ApiRefresh(
+            client_secret = oauthSecretProvider.secretKey,
+            client_id = oauthSecretProvider.clientId,
+            refresh_token = oauthProvider.refresh_token
+        )
+
+        return httpClient.post<HttpResponse>("$baseUrl/oauth/token") {
+            body = TextContent(json.toJson(ApiRefresh.serializer(), oauth).toString(), ContentType.Application.Json)
         }
             .readText()
             .let {

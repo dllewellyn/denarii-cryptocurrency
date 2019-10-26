@@ -32,13 +32,8 @@ import kotlin.random.Random
 class CoinbaseOauthReceiver @Inject constructor(
     @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>, private val oauthSecretProvider: CoinbaseSecretProvider
 ) {
-
-
     private val stateMap = mutableMapOf<String, String>()
-
-    private val gson = Gson()
-
-    val scopes: String = URLEncoder.encode(
+    private val scopes: String = URLEncoder.encode(
         "wallet:transactions:read wallet:addresses:read wallet:withdrawals:read wallet:user:read wallet:trades:read wallet:accounts:read wallet:orders:read",
         "UTF-8"
     )

@@ -7,8 +7,11 @@ import com.dllewellyn.coinbaseapi.authentcation.hasExpired
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
+import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
+import crypto.utils.api.oauth.CoinbaseSecretProvider
+import crypto.utils.api.oauth.OauthWrapper
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.security.annotation.Secured
@@ -22,17 +25,26 @@ import javax.inject.Named
 class AccountsSychroniser @Inject constructor(
     @Named("FirebaseAccountsStorage") private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
     @Named("FirebaseCoinbaseProStorage") private val coinbaseProCredentials: ReadOnlyRepositoryArgument<String, ApiKeyAuth?>,
-    @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>
+    @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>,
+    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>,
+    private val oauthSecretProvider: CoinbaseSecretProvider
 ) {
 
     @Get("/synchronise")
     @Secured(IS_AUTHENTICATED)
     fun synchroniseWallet(principal: Principal) =
         runBlocking {
-            val coinbase = readOnlyRepository.retrieveData(principal.name)
+            var coinbase = readOnlyRepository.retrieveData(principal.name)
 
             if (coinbase.hasExpired()) {
-
+                coinbase = oauthSecretProvider.provideOauthRetriever()
+                    .retrieveRefreshtoken(coinbase)
+                    .also {
+                        repository.write(OauthWrapper(
+                            principal.name,
+                            it
+                        ))
+                    }
             }
 
             CompositeRetriever<Account>().apply {
