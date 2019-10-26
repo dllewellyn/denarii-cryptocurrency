@@ -19,7 +19,7 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
-    //implementation(project(":datastore"))
+    implementation(project(":datastore"))
     implementation(project(":core-coinbase-pro"))
     implementation(project(":core-coinbase-nonpro"))
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")

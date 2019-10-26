@@ -1,8 +1,6 @@
-<a href='https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-core?source=watch' alt='Get automatic notifications about new "coinbase-api-core" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a><a href='https://bintray.com/dllewellyn/coinbase-api-kt/coinbase-api-core?source=watch' alt='Get automatic notifications about new "coinbase-api-core" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a>
 
 # Table of Contents  
 [Sandbox](#Sandbox)<br>
-
 [Un-authenticated endpoints](#Unauthenticated requests)<br>
 [WebSockets](#Web sockets) <br>
 [Authenticated endpoints](#Authenticated API)
