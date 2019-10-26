@@ -12,8 +12,12 @@ import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.logging.SIMPLE
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
+import io.ktor.content.TextContent
+import io.ktor.http.ContentType
+import kotlinx.serialization.ImplicitReflectionSerializer
 
 class OauthRetriever(
     private val oauthSecretProvider: OauthSecretProvider
@@ -29,6 +33,7 @@ class OauthRetriever(
 
     private val baseUrl = "https://api.coinbase.com"
 
+    @ImplicitReflectionSerializer
     suspend fun retrieveCode(code: String): OauthProvider {
         val oauth = OauthModel(
             code = code,
@@ -37,7 +42,9 @@ class OauthRetriever(
             redirect_uri = oauthSecretProvider.redirectUri
         )
 
-        return httpClient.get<HttpResponse>("$baseUrl/oauth/token")
+        return httpClient.post<HttpResponse>("$baseUrl/oauth/token") {
+            body = TextContent(json.toJson(OauthModel.serializer(), oauth).toString(), ContentType.Application.Json)
+        }
             .readText()
             .let {
                 json.parse(OauthProvider.serializer(), it)

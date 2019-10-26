@@ -6,6 +6,7 @@ import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.google.firebase.cloud.FirestoreClient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import crypto.utils.api.auth.FirebaseUtil
 import crypto.utils.api.auth.dataForUser
 import crypto.utils.api.auth.docForUser
 import crypto.utils.api.oauth.OauthWrapper
@@ -21,7 +22,7 @@ fun <I, O> I.convert(): O {
 class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositoryArgument<String, OauthProvider> {
 
 
-    private val firestore = FirestoreClient.getFirestore()
+    private val firestore = FirebaseUtil.fireStore()
 
     fun <T> T.serializeToMap(): Map<String, Any> {
         return convert()

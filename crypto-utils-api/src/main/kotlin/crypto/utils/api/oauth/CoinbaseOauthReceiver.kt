@@ -1,5 +1,7 @@
 package crypto.utils.api.oauth
 
+import com.dllewellyn.coinbaseapi.authentcation.OauthModel
+import com.dllewellyn.coinbaseapi.authentcation.OauthSecretProvider
 import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.google.gson.Gson
@@ -27,20 +29,10 @@ import javax.inject.Named
 import kotlin.random.Random
 
 @Controller("/oauth")
-class CoinbaseOauthReceiver @Inject constructor(@Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>) {
+class CoinbaseOauthReceiver @Inject constructor(
+    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>, private val oauthSecretProvider: CoinbaseSecretProvider
+) {
 
-    @Value("\${coinbase.api.clientkey}")
-    lateinit var clientKey: String
-
-    @Value("\${coinbase.api.clientsecret}")
-    lateinit var clientSecret: String
-
-    @Value("\${coinbase.api.redirecturi}")
-    lateinit var redirectUri: String
-
-    @Inject
-    @field:Client("https://api.coinbase.com")
-    lateinit var client: RxHttpClient
 
     private val stateMap = mutableMapOf<String, String>()
 
@@ -53,41 +45,27 @@ class CoinbaseOauthReceiver @Inject constructor(@Named("FirebaseCoinbaseStorage"
 
     @Get("/callback")
     @PermitAll
-    fun callback(@QueryValue(value = "code") code: String, @QueryValue(value = "state") state: String): Single<MutableHttpResponse<Any>> {
-        val post = HttpRequest.POST(
-            "/oauth/token",
-            OauthModel(
-                code = code,
-                client_id = clientKey,
-                client_secret = clientSecret,
-                redirect_uri = redirectUri
-            )
-        ).contentType(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
-
-
-        return client.exchange(post, String::class.java)
-            .map { it.body() }
-            .toObservable()
-            .firstOrError()
-            .map { gson.fromJson(it, OauthProvider::class.java) }
-            .map {
-                with(it) {
-                    stateMap[state]?.let {
-                        val oauth = OauthWrapper(it, this)
-                        runBlocking { repository.write(oauth) }
-                        oauth.toString()
-                    } ?: this.toString()
+    fun callback(@QueryValue(value = "code") code: String, @QueryValue(value = "state") state: String) =
+        runBlocking {
+            oauthSecretProvider.provideOauthRetriever()
+                .retrieveCode(code)
+                .let {
+                    with(it) {
+                        stateMap[state]?.let {
+                            val oauth = OauthWrapper(it, this)
+                            repository.write(oauth)
+                            oauth.toString()
+                        } ?: this.toString()
+                    }
                 }
-            }
-            .map { HttpResponse.redirect<Any>(URI("http://localhost:8080/user/myinfo")) }
-    }
+        }
 
     @Get("/getUrl")
     @Secured(IS_AUTHENTICATED)
     fun buildUrl(principal: Principal): String =
         with(Base64.getUrlEncoder().encodeToString(randomString().toByteArray())) {
             stateMap[this] = principal.name
-            "https://www.coinbase.com/oauth/authorize?client_id=$clientKey&redirect_uri=$redirectUri&response_type=code&scope=$scopes&state=$this&account=all&referral=llewel_b"
+            "https://www.coinbase.com/oauth/authorize?client_id=${oauthSecretProvider.clientKey}&redirect_uri=${oauthSecretProvider.redirectUri}&response_type=code&scope=$scopes&state=$this&account=all&referral=llewel_b"
         }
 
     @Get("/connect")

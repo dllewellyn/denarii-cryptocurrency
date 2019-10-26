@@ -1,5 +1,8 @@
 package com.dllewellyn.coinbaseapi.authentcation
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class OauthModel(
     val grant_type: String = "authorization_code",
     val code: String,
