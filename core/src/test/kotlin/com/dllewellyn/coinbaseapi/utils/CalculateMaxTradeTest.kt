@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.utils
 
-import com.dllewellyn.coinbaseapi.models.Account
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -17,7 +17,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "NONE"
         )
         assertEquals(BigDecimal(1), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(100)))
     }
@@ -31,7 +32,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "NONE"
         )
         assertEquals(BigDecimal(0.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(50)))
     }
@@ -45,7 +47,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "NONE"
         )
         assertEquals(BigDecimal(2), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(200)))
     }
@@ -59,7 +62,8 @@ class CalculateMaxTradeTest {
             BigDecimal(100),
             BigDecimal(100),
             BigDecimal(0),
-            "uuid"
+            "uuid",
+            "NONE"
         )
         assertEquals(BigDecimal(1.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(150)))
     }

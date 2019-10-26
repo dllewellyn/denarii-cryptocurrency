@@ -1,30 +1,58 @@
 package com.dllewellyn.coinbaseapi.multiplatform
 
+import com.dllewellyn.coinbaseapi.AccountEntity
 import com.dllewellyn.coinbaseapi.ProductTickerEntity
+import com.dllewellyn.coinbaseapi.models.account.Account
+import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver.Companion.IN_MEMORY
 import java.math.BigDecimal
 
-actual fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver(IN_MEMORY)
+ fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver("jdbc:sqlite:./Crypto.db")
 
-actual fun ProductTickerEntity.toCore() = ProductTicker(
+fun ProductTickerEntity.toCore() = ProductTicker(
     BigDecimal(ask),
     BigDecimal(bid),
-    price,
+    BigDecimal(price),
     size,
     time,
     tradeId.toInt(),
     volume
 )
 
-actual fun ProductTicker.toEntity(): ProductTickerEntity = ProductTickerEntity.Impl(
+fun ProductTicker.toEntity(): ProductTickerEntity = ProductTickerEntity.Impl(
     ask.toPlainString(),
     bid.toPlainString(),
-    price,
+    price.toPlainString(),
     size,
     time,
     tradeId.toLong(),
     volume
+)
+
+fun Account.toEntity() : AccountEntity = AccountEntity.Impl(
+    currencyValue.id,
+    balance.toPlainString(),
+    available?.toPlainString() ?: "",
+    hold?.toPlainString() ?: "",
+    uid,
+    provider
+)
+
+fun AccountEntity.toCore() = Account(
+    SupportedCurrency(currencyValue),
+    BigDecimal(balance),
+    if (available == "") {
+        null
+    } else {
+        BigDecimal(available)
+    },
+    if (hold == "") {
+        null
+    } else {
+        BigDecimal(hold)
+    },
+    uid,
+    provider
 )

@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: crypto-utils-api
+  security:
+    enabled: true
+    token:
+      jwt:
+        enabled: true
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**

@@ -1,0 +1,14 @@
+CREATE TABLE AccountEntity (
+    currencyValue TEXT NOT NULL,
+    balance TEXT NOT NULL,
+    available TEXT NOT NULL,
+    hold TEXT NOT NULL,
+    uid TEXT NOT NULL PRIMARY KEY,
+    provider TEXT NOT NULL
+);
+
+selectAllFromAccounts:
+SELECT * FROM AccountEntity;
+
+insertAccount:
+INSERT INTO AccountEntity VALUES ?;

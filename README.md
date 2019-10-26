@@ -133,7 +133,7 @@ List currencies as an observable, emitting each
 cryptoCurrency one at a time
 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 
 RetrofitApi.currencies().getCurrencies()
     .doAfterNext { println(it) }
@@ -143,7 +143,7 @@ RetrofitApi.currencies().getCurrencies()
 List currencies as one list of all currencies
 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 
 RetrofitApi.currencies().getCurrencyList()
     .blockingGet()
@@ -153,7 +153,7 @@ RetrofitApi.currencies().getCurrencyList()
 
 List of exchange rates 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 import com.dllewellyn.coinbaseapi.interfaces.filterByCurrency
 import com.dllewellyn.coinbaseapi.models.CryptoCurrency
 
@@ -193,7 +193,7 @@ To retrieve the order book
 Retrieve currency pairs - i.e the pairs that coinbase supports
 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 
 val result = Api.currencyPairs()
     .getCurrencyPairs()
@@ -205,7 +205,7 @@ println(result)
 Retrieve as observable
 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 
 val result = Api.currencyPairs()
     .getCurrencyPairs()
@@ -225,7 +225,7 @@ Api.currencyPairs()
 
 Simple example  
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 import com.dllewellyn.coinbaseapi.cache.MemoryCache
 import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair
@@ -248,7 +248,7 @@ then iterate each currency pair, requesting the buy and sell prices
 then loop through the results and print them out
 
 ```
-import com.dllewellyn.coinbaseapi.RetrofitApi
+import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
 import com.dllewellyn.coinbaseapi.cache.MemoryCache
 import com.dllewellyn.coinbaseapi.cache.intoCache
 import com.dllewellyn.coinbaseapi.models.CurrencyPair
