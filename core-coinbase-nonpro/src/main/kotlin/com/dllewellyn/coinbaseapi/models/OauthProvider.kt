@@ -1,5 +1,8 @@
 package com.dllewellyn.coinbaseapi.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class OauthProvider(
     val access_token: String,
     val created_at: Double,

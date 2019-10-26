@@ -4,15 +4,16 @@ import com.dllewellyn.coinbaseapi.adapters.*
 import com.dllewellyn.coinbaseapi.http.AuthenticatedApiKeyHttpClient
 import com.dllewellyn.coinbaseapi.http.AuthenticatedOauthHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
-import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
-import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
+import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.account.Transaction
-import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
+import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -66,6 +67,12 @@ open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) 
 
     override suspend fun transactions() = TransactionsRetriever(client)
 }
+
+class AutoRefreshingOauthCoinbaseApi(
+    private val oauthProvider: OauthProvider,
+    private val writeRepositoryArgument: WriteRepository<OauthProvider>
+) : CoinbaseApi(), AuthenticatedApiCalls by
+BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
 
 class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls by
 BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))

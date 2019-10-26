@@ -1,4 +1,4 @@
-package crypto.utils.api.oauth
+package com.dllewellyn.coinbaseapi.authentcation
 
 data class OauthModel(
     val grant_type: String = "authorization_code",

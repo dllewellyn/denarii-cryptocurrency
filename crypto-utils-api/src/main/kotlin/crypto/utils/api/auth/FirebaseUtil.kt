@@ -42,6 +42,6 @@ object FirebaseUtil {
         }
     }
 
-    fun fireStore(): Firestore = FirestoreClient.getFirestore()
+    fun fireStore(): Firestore = initialise().let { FirestoreClient.getFirestore() }
 
 }

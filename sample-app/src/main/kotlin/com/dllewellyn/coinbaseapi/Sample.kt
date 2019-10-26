@@ -16,11 +16,15 @@ fun main() {
                 retrievers.add(api.coreAccounts())
             }
 
-            val local = AccountsDb()
+            remote.retrieveData().forEach {
+                println(it)
+            }
 
-            val cachingRepository = CachingRepository(remote, local, local)
-            cachingRepository.initialise()
-            cachingRepository.refresh()
+//            val local = AccountsDb()
+//
+//            val cachingRepository = CachingRepository(remote, local, local)
+//            cachingRepository.initialise()
+//            cachingRepository.refresh()
         }
     }
 }

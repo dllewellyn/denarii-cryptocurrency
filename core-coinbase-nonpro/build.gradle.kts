@@ -22,6 +22,8 @@ repositories {
 dependencies {
     val ktorVersion = "1.2.3"
     val kotlinVersion = "1.3.50"
+
+    implementation("joda-time:joda-time:2.10.5")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("io.ktor:ktor-client-logging-jvm:1.2.3")

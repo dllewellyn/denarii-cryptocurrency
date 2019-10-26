@@ -36,6 +36,8 @@ configurations {
 }
 
 dependencies {
+    def klockVersion = "1.7.3"
+
     implementation project (":core")
     implementation project (":core-coinbase-pro")
     implementation project (":core-coinbase-nonpro")

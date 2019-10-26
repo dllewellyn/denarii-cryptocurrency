@@ -3,6 +3,7 @@ package crypto.utils.api.accounts
 import com.dllewellyn.coinbaseapi.AuthenticatedApiImpl
 import com.dllewellyn.coinbaseapi.OauthCoinbaseApi
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
+import com.dllewellyn.coinbaseapi.authentcation.hasExpired
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
@@ -29,6 +30,11 @@ class AccountsSychroniser @Inject constructor(
     fun synchroniseWallet(principal: Principal) =
         runBlocking {
             val coinbase = readOnlyRepository.retrieveData(principal.name)
+
+            if (coinbase.hasExpired()) {
+
+            }
+
             CompositeRetriever<Account>().apply {
 
                 val coreAccounts = OauthCoinbaseApi(coinbase)
