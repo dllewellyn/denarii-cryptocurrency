@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.authentcation
 
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import org.joda.time.DateTime
+import java.util.*
 
 fun OauthProvider.hasExpired() =
-    DateTime(created_at + expires_in).isAfterNow
+    Date((created_at * 1000) + (expires_in * 1000)).before(Date())

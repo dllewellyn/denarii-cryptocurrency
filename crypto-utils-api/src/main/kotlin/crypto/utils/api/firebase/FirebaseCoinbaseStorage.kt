@@ -1,6 +1,7 @@
 package crypto.utils.api.firebase
 
 import com.dllewellyn.coinbaseapi.models.OauthProvider
+import com.dllewellyn.coinbaseapi.models.toMap
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.google.firebase.cloud.FirestoreClient
@@ -34,12 +35,13 @@ class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositor
 
 
     override suspend fun write(value: OauthWrapper) {
+
         with(firestore.docForUser(value.user)) {
             firestore.dataForUser(value.user)
                 ?.let {
-                    it.set("coinbase", value.oauth.convert())
+                    it.set("coinbase", value.oauth.toMap())
                     update(it)
-                } ?: create(mutableMapOf("coinbase" to value.oauth.convert()))
+                } ?: create(mutableMapOf("coinbase" to value.oauth.toMap()) as Any)
         }
     }
 
@@ -54,8 +56,8 @@ class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositor
         return coinbaseData?.let {
             OauthProvider(
                 coinbaseData["access_token"] as String,
-                coinbaseData["created_at"] as Double,
-                coinbaseData["expires_in"] as Double,
+                coinbaseData["created_at"] as Long,
+                coinbaseData["expires_in"] as Long,
                 coinbaseData["refresh_token"] as String,
                 coinbaseData["scope"] as String,
                 coinbaseData["token_type"] as String
