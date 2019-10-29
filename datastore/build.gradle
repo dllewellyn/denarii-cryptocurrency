@@ -60,6 +60,6 @@ bintray {
         userOrg = "dllewellyn"
         vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
         setLicenses("Apache-2.0")
-        version $v
+        version v
     }
 }
