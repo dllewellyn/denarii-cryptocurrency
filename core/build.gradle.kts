@@ -21,6 +21,10 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.google.code.gson:gson:2.8.5")
+    implementation("io.mockk:mockk:1.9.3.kotlin12")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2")
     testImplementation("junit:junit:4.12")
 }
 
