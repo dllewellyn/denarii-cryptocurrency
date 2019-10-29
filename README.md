@@ -15,15 +15,13 @@ repositories {
     }
 }
 dependencies {
-    def coinbaseApiVersion = "1.3.16"
+    def coinbaseApiVersion = "1.3.31"
     // Core
-    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-core:${coinbaseApiVersion}"
-    
-    // If you want to use rxjava 
-    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-rxadapter:${coinbaseApiVersion}"
-    
-    // If you want to use coroutines
-    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-coroutines-adapter:${coinbaseApiVersion}"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-core:$coinbaseApiVersion"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-coinbase-pro-core:$coinbaseApiVersion"
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-coinbase-nonpro:$coinbaseApiVersion"
+    // Caching in SQLite databases
+    implementation "com.dllewellyn.coinbaseAPI:coinbase-api-datastore:${coinbaseApiVersion}"
     
 }
 ```
@@ -48,10 +46,7 @@ will contain the error message from the server. Example response:
 ApiException: {"message":"Insufficient funds"}
 ```
 
-## RxJava or Coroutines
-
-For all API calls there is a coroutines or an Rxjava option. They work in roughly the same way. Examples might be given using either or both 
-but the classes and functions used should be roughly the same. 
+## Basics 
 
 These are the interfaces to look out for:
 
