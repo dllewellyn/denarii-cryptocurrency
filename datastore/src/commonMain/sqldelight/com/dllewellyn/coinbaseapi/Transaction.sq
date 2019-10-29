@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS TransactionEntity (
+    accountId TEXT NOT NULL,
+    amount TEXT NOT NULL,
+    balance TEXT,
+    description TEXT,
+    id TEXT NOT NULL PRIMARY KEY,
+    status TEXT ,
+    type TEXT NOT NULL,
+    date TEXT NOT NULL,
+    nativeCurrency TEXT,
+     nativeAmount TEXT
+    );
+
+
+selectAllTransactions:
+SELECT * FROM TransactionEntity;
+
+selectAllTransactionsForAccount:
+SELECT * FROM TransactionEntity WHERE id = ?;
+
+insertIntoTransactions:
+INSERT OR REPLACE INTO TransactionEntity VALUES ?;

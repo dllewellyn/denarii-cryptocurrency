@@ -11,9 +11,14 @@ class AccountsDb : BaseDb<List<Account>>(), ReadOnlyRepository<List<Account>>,
     WriteRepository<List<Account>> {
 
     override suspend fun write(value: List<Account>) {
-        value.forEach {
+        value.forEach { account ->
             database.accountsQueries
-                .insertAccount(it.toEntity())
+                .insertAccount(account.toEntity())
+
+            account.transactions.map { transaction ->
+                transaction.toEntity(account.uid)
+            }.forEach { database.transactionQueries.insertIntoTransactions(it) }
+
         }
     }
 
@@ -22,5 +27,8 @@ class AccountsDb : BaseDb<List<Account>>(), ReadOnlyRepository<List<Account>>,
             .executeAsList()
             .map {
                 it.toCore()
+                    .copy(transactions = database.transactionQueries.selectAllTransactionsForAccount(it.uid).executeAsList().map { transaction ->
+                        transaction.toCore()
+                    })
             }
 }

@@ -16,7 +16,7 @@ class ExchangeRateRetriverAdapter(private val httpClient: InternalHttpClient) :
     ExchangeRateRetriver() {
 
     override suspend fun retrieveData(arg: CryptoCurrency)  =
-        httpClient.httpClient.get<ApiCurrencyRates>("${httpClient.url("exchange-rates")}?=${arg.str}")
+        httpClient.httpClient.get<ApiCurrencyRates>("${httpClient.url("exchange-rates")}?currency=${arg.str}")
             .let {
                 ExchangeRates(
                     arg,

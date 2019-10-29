@@ -1,4 +1,4 @@
-CREATE TABLE ProductTickerEntity (
+CREATE TABLE IF NOT EXISTS  ProductTickerEntity (
     ask TEXT NOT NULL,
     bid TEXT NOT NULL,
     price TEXT NOT NULL,
@@ -12,4 +12,4 @@ selectAllProductEntities:
 SELECT * FROM ProductTickerEntity;
 
 insertProductTicker:
-INSERT INTO ProductTickerEntity VALUES ?;
+INSERT OR REPLACE INTO ProductTickerEntity VALUES ?;

@@ -24,7 +24,7 @@ class AuthenticatedApiBuilder {
 
     @Throws(InvalidConfigurationException::class)
     fun build() =
-        AuthenticatedApiImpl(
+        CoinbaseProAuthenticatedApiImpl(
             ApiKeyAuth(
                 nullOrException(password, ::throwException),
                 nullOrException(apiKey, ::throwException),
@@ -45,7 +45,7 @@ fun authenticated_builder(block: AuthenticatedApiBuilder.() -> Unit) = Authentic
     block()
 }
 
-class AuthenticatedApiImpl(
+class CoinbaseProAuthenticatedApiImpl(
     private val apiKeyAuth: ApiKeyAuth,
     private val sandbox: Boolean = false
 ) : AuthenticatedApi {

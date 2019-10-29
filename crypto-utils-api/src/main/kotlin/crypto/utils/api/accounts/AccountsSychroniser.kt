@@ -1,6 +1,6 @@
 package crypto.utils.api.accounts
 
-import com.dllewellyn.coinbaseapi.AuthenticatedApiImpl
+import com.dllewellyn.coinbaseapi.CoinbaseProAuthenticatedApiImpl
 import com.dllewellyn.coinbaseapi.OauthCoinbaseApi
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.authentcation.hasExpired
@@ -53,7 +53,7 @@ class AccountsSychroniser @Inject constructor(
 
                 retrievers.add(coreAccounts.coreAccounts())
                 coinbaseProCredentials.retrieveData(principal.name)?.let {
-                    retrievers.add(AuthenticatedApiImpl(it).accounts())
+                    retrievers.add(CoinbaseProAuthenticatedApiImpl(it).accounts())
                 }
             }.retrieveData()
                 .let { writeOnlyRespository.write(it, principal.name) }

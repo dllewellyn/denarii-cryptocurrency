@@ -1,4 +1,4 @@
-CREATE TABLE AccountEntity (
+CREATE TABLE IF NOT EXISTS  AccountEntity (
     currencyValue TEXT NOT NULL,
     balance TEXT NOT NULL,
     available TEXT NOT NULL,
@@ -11,4 +11,4 @@ selectAllFromAccounts:
 SELECT * FROM AccountEntity;
 
 insertAccount:
-INSERT INTO AccountEntity VALUES ?;
+INSERT OR REPLACE INTO AccountEntity VALUES ?;

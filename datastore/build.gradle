@@ -11,14 +11,11 @@ buildscript {
 plugins {
     id 'org.jetbrains.kotlin.multiplatform'
     id("org.jetbrains.kotlin.plugin.serialization")
+    id 'maven-publish'
 }
 
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: "com.squareup.sqldelight"
-
-
-group = g
-version = v
 
 repositories {
     maven { url = "https://dl.bintray.com/kotlin/kotlinx" }
@@ -49,6 +46,20 @@ kotlin {
                 implementation("com.squareup.sqldelight:sqlite-driver:1.2.0")
             }
         }
+    }
+}
 
+bintray {
+    user = findProperty("bintrayUser")
+    key = findProperty("bintrayApiKey")
+    publish = true
+
+    pkg  {
+        repo = "coinbase-api-kt"
+        name = "coinbase-api-datastore"
+        userOrg = "dllewellyn"
+        vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
+        setLicenses("Apache-2.0")
+        version $v
     }
 }

@@ -2,14 +2,16 @@ package com.dllewellyn.coinbaseapi.multiplatform
 
 import com.dllewellyn.coinbaseapi.AccountEntity
 import com.dllewellyn.coinbaseapi.ProductTickerEntity
+import com.dllewellyn.coinbaseapi.TransactionEntity
 import com.dllewellyn.coinbaseapi.models.account.Account
+import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
 import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import java.math.BigDecimal
 
- fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver("jdbc:sqlite:./Crypto.db")
+fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver("jdbc:sqlite:./Crypto.db")
 
 fun ProductTickerEntity.toCore() = ProductTicker(
     BigDecimal(ask),
@@ -31,13 +33,40 @@ fun ProductTicker.toEntity(): ProductTickerEntity = ProductTickerEntity.Impl(
     volume
 )
 
-fun Account.toEntity() : AccountEntity = AccountEntity.Impl(
+fun Transaction.toEntity(accountId: String): TransactionEntity =
+    TransactionEntity.Impl(
+        accountId = accountId,
+        date = date,
+        description = description,
+        id = id,
+        status = status,
+        type = type,
+        balance = balance,
+        amount = amount,
+        nativeCurrency = nativeCurrency,
+        nativeAmount = nativeAmount
+    )
+
+fun TransactionEntity.toCore() = Transaction(
+    amount,
+    balance,
+    description,
+    id,
+    status,
+    type,
+    date,
+    nativeCurrency,
+    nativeAmount
+)
+
+fun Account.toEntity(): AccountEntity = AccountEntity.Impl(
     currencyValue.id,
     balance.toPlainString(),
     available?.toPlainString() ?: "",
     hold?.toPlainString() ?: "",
     uid,
     provider
+
 )
 
 fun AccountEntity.toCore() = Account(

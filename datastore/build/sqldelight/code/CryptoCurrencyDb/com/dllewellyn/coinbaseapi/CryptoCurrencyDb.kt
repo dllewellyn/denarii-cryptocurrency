@@ -10,6 +10,8 @@ interface CryptoCurrencyDb : Transacter {
 
   val productTickerQueries: ProductTickerQueries
 
+  val transactionQueries: TransactionQueries
+
   companion object {
     val Schema: SqlDriver.Schema
       get() = CryptoCurrencyDb::class.schema

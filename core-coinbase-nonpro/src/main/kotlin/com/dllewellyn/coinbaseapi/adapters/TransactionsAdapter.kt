@@ -27,7 +27,9 @@ class TransactionsRetriever(private val client: InternalHttpClient) : ReadOnlyPo
                 description = it.description,
                 id = it.id,
                 status = it.status,
-                type = it.type
+                type = it.type,
+                nativeAmount = it.native_amount.amount,
+                nativeCurrency = it.native_amount.currency
             )
         }
 }
