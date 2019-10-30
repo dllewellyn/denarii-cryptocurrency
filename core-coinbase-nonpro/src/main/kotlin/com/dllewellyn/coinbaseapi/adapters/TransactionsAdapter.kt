@@ -5,12 +5,14 @@ import com.dllewellyn.coinbaseapi.models.ApiTransaction
 import com.dllewellyn.coinbaseapi.models.ApiTransactionList
 import com.dllewellyn.coinbaseapi.models.BaseResponseApi
 import com.dllewellyn.coinbaseapi.models.account.Transaction
+import com.dllewellyn.coinbaseapi.models.account.TransactionType
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import io.ktor.client.request.get
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 
-class TransactionsRetriever(private val client: InternalHttpClient) : ReadOnlyPostRepository<String, List<Transaction>> {
+class TransactionsRetriever(private val client: InternalHttpClient) :
+    ReadOnlyPostRepository<String, List<Transaction>> {
 
     override suspend fun retrieveData(arg: String) = client.httpClient.get<HttpResponse>(
         client.url("accounts/$arg/transactions")
@@ -29,7 +31,20 @@ class TransactionsRetriever(private val client: InternalHttpClient) : ReadOnlyPo
                 status = it.status,
                 type = it.type,
                 nativeAmount = it.native_amount.amount,
-                nativeCurrency = it.native_amount.currency
+                nativeCurrency = it.native_amount.currency,
+                transactionType = when (it.type) {
+                    "send" -> TransactionType.Send()
+                    "request" -> TransactionType.REQUEST()
+                    "transfer" -> TransactionType.TRANSFER()
+                    "buy" -> TransactionType.BUY()
+                    "sell" -> TransactionType.SELL()
+                    "fiat_deposit" -> TransactionType.FIAT_DEPOSIT()
+                    "fiat_withdrawal" -> TransactionType.FIAT_WITHDRAWAL()
+                    "exchange_deposit" -> TransactionType.EXCHANGE_DEPOSIT()
+                    "exchange_withdrawal" -> TransactionType.EXCHANGE_WITHDRAWAL()
+                    "vault_withdrawal" -> TransactionType.VAULT_WITHDRAWAL()
+                    else -> TransactionType.Other()
+                }
             )
         }
 }
