@@ -1,12 +1,12 @@
 package com.dllewellyn.coinbaseapi.api.models
 
-import com.dllewellyn.coinbaseapi.models.BuyOrSell
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.currency.OpenOrder
-import com.dllewellyn.coinbaseapi.models.trade.LimitOrMarket
-import com.dllewellyn.coinbaseapi.models.trade.OrderStatus
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.currency.OpenOrder
+import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
+import com.dllewellyn.denarii.models.trade.LimitOrMarket
+import com.dllewellyn.denarii.models.trade.OrderStatus
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 data class ApiOrderResponse(
     @SerializedName("created_at") val created_at: String,
@@ -28,12 +28,12 @@ data class ApiOrderResponse(
     fun toCore() =
         OpenOrder(
             created_at,
-            BigDecimal(executed_value),
-            BigDecimal(fill_fees),
-            BigDecimal(filled_size),
+            BigDecimal.parseString(executed_value, 10),
+            BigDecimal.parseString(fill_fees, 10),
+            BigDecimal.parseString(filled_size, 10),
             id,
             post_only,
-            BigDecimal(price),
+            BigDecimal.parseString(price, 10),
             CurrencyPair.fromId(product_id),
             settled,
             when (side) {
@@ -41,7 +41,7 @@ data class ApiOrderResponse(
                 "sell" -> BuyOrSell.SELL
                 else -> throw IllegalArgumentException("Unexpected string buy and sell")
             },
-            BigDecimal(size),
+            BigDecimal.parseString(size, 10),
             OrderStatus.fromString(status),
             stp,
             time_in_force,

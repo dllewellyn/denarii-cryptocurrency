@@ -5,18 +5,18 @@ import com.dllewellyn.coinbaseapi.ProductTickerEntity
 import com.dllewellyn.coinbaseapi.TransactionEntity
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.account.Transaction
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.models.marketinfo.ProductTicker
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import java.math.BigDecimal
 
 fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver("jdbc:sqlite:./Crypto.db")
 
 fun ProductTickerEntity.toCore() = ProductTicker(
-    BigDecimal(ask),
-    BigDecimal(bid),
-    BigDecimal(price),
+    BigDecimal.parseString(ask, 10),
+    BigDecimal.parseString(bid, 10),
+    BigDecimal.parseString(price, 10),
     size,
     time,
     tradeId.toInt(),
@@ -24,9 +24,9 @@ fun ProductTickerEntity.toCore() = ProductTicker(
 )
 
 fun ProductTicker.toEntity(): ProductTickerEntity = ProductTickerEntity.Impl(
-    ask.toPlainString(),
-    bid.toPlainString(),
-    price.toPlainString(),
+    ask.toStringExpanded(),
+    bid.toStringExpanded(),
+    price.toStringExpanded(),
     size,
     time,
     tradeId.toLong(),
@@ -61,9 +61,9 @@ fun TransactionEntity.toCore() = Transaction(
 
 fun Account.toEntity(): AccountEntity = AccountEntity.Impl(
     currencyValue.id,
-    balance.toPlainString(),
-    available?.toPlainString() ?: "",
-    hold?.toPlainString() ?: "",
+    balance.toStringExpanded(),
+    available?.toStringExpanded() ?: "",
+    hold?.toStringExpanded() ?: "",
     uid,
     provider
 
@@ -71,16 +71,16 @@ fun Account.toEntity(): AccountEntity = AccountEntity.Impl(
 
 fun AccountEntity.toCore() = Account(
     SupportedCurrency(currencyValue),
-    BigDecimal(balance),
+    BigDecimal.parseString(balance, 10),
     if (available == "") {
         null
     } else {
-        BigDecimal(available)
+        BigDecimal.parseString(available, 10)
     },
     if (hold == "") {
         null
     } else {
-        BigDecimal(hold)
+        BigDecimal.parseString(hold, 10)
     },
     uid,
     provider

@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core", configuration = "jvmDefault"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.12")

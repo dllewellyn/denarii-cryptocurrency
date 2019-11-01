@@ -1,12 +1,12 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
-import com.dllewellyn.coinbaseapi.math.currentValue
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.models.currency.CryptoCurrency
 import com.dllewellyn.coinbaseapi.multiplatform.databases.AccountsDb
 import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
+import com.dllewellyn.denarii.math.currentValue
+import com.dllewellyn.denarii.models.currency.CryptoCurrency
 import kotlinx.coroutines.runBlocking
 
 fun main() {
@@ -36,9 +36,8 @@ fun main() {
             cachingRepository.refresh()
 
             cachingRepository.retrieveData()
-                .currentValue(CryptoCurrency.GBP, exchangeRateRetriever())
-                .let {
-                    println(it.toPlainString())
+                .forEach {
+                    println(it)
                 }
 
         }

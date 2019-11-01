@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.api.models
 
-import com.dllewellyn.coinbaseapi.models.BuyOrSell
 import com.dllewellyn.coinbaseapi.models.accounts.Fills
 import com.dllewellyn.coinbaseapi.models.accounts.LIQUIDITY
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 

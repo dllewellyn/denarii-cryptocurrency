@@ -12,12 +12,7 @@ pluginManagement {
 }
 
 rootProject.name = 'coinbaseAPI'
-include ":rxadapter", ":core"
-include 'core-coinbase-pro'
-include 'core-coinbase-nonpro'
-include 'crypto-utils-api'
-include 'datastore'
+include ":core", ":core-coinbase-pro", ":core", ":core-coinbase-nonpro", "crypto-utils-api", "datastore", "sample-app"
 
 enableFeaturePreview('GRADLE_METADATA')
-include 'sample-app'
 
