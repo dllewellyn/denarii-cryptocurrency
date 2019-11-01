@@ -1,60 +1,50 @@
-import com.jfrog.bintray.gradle.BintrayExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.Companion.attribute
 
 plugins {
-    kotlin("jvm")
-    id("com.jfrog.bintray")
+    kotlin("multiplatform")
     `maven-publish`
 }
 
-val publicationName = "coinbase-api-core"
-val g : String by project
+group = "com.dllewellyn.denarii"
+val publicationName = "core"
 val v : String by project
-
-group = g
 version = v
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.google.code.gson:gson:2.8.5")
-    implementation("io.mockk:mockk:1.9.3.kotlin12")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2")
-    testImplementation("junit:junit:4.12")
-}
+kotlin {
+    jvm()
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api("com.ionspin.kotlin:bignum:0.1.1")
+                implementation(kotlin("stdlib-common"))
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
 
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib"))
+                api("com.ionspin.kotlin:bignum-jvm:0.1.1")
 
-publishing {
-    publications {
-        register(publicationName, MavenPublication::class) {
-            artifactId = publicationName
-            from(components["java"])
+            }
         }
     }
 }
 
-fun findProperty(s: String) = project.findProperty(s) as String?
-
-
-bintray {
-    user = findProperty("bintrayUser")
-    key = findProperty("bintrayApiKey")
-    publish = true
-    setPublications(publicationName)
-
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        repo = "coinbase-api-kt"
-        name = "coinbase-api-core"
-        userOrg = "dllewellyn"
-        vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
-        setLicenses("Apache-2.0")
-        with (version) {
-            name = v
+publishing {
+    publications {
+        register(publicationName, org.gradle.api.publish.maven.MavenPublication::class) {
+            artifactId = publicationName
+            artifact("$buildDir/libs/$publicationName-jvm-$v.jar")
         }
-    })
+    }
 }

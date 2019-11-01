@@ -32,15 +32,36 @@ repositories {
 
 configurations {
     // for dependencies that are needed for development only
-    developmentOnly 
+    developmentOnly
+}
+
+class ModuleStatusRule implements ComponentMetadataRule {
+    @Override
+    void execute(ComponentMetadataContext context) {
+        println context.details.toString()
+    }
+}
+
+
+def myUsage = Attribute.of("org.gradle.usage", Usage)
+def myType = Attribute.of("org.jetbrains.kotlin.platform.type", org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType)
+dependencies.attributesSchema {
+    attribute(myUsage)
+    attribute(myType)
+}
+
+configurations.all {
+    attributes {
+        //attribute(myUsage, project.objects.named(Usage, 'jvm-runtime-jars'))
+        attribute(myType,org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.jvm)
+    }
 }
 
 dependencies {
-    def klockVersion = "1.7.3"
+    implementation project(path: ":core", configuration: 'jvmDefault')
+    implementation project(path: ":core-coinbase-pro")
+    implementation project(path: ":core-coinbase-nonpro")
 
-    implementation project (":core")
-    implementation project (":core-coinbase-pro")
-    implementation project (":core-coinbase-nonpro")
     implementation 'io.micronaut:micronaut-http-client'
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"
@@ -90,20 +111,20 @@ test {
 }
 
 allOpen {
-	annotation("io.micronaut.aop.Around")
+    annotation("io.micronaut.aop.Around")
 }
 
 compileKotlin {
-	kotlinOptions {
-	    jvmTarget = '1.8' 
-	    //Will retain parameter names for Java reflection
-	    javaParameters = true 
-	}
+    kotlinOptions {
+        jvmTarget = '1.8'
+        //Will retain parameter names for Java reflection
+        javaParameters = true
+    }
 }
 
 compileTestKotlin {
-	kotlinOptions {
-	    jvmTarget = '1.8' 
-	    javaParameters = true 
-	}
+    kotlinOptions {
+        jvmTarget = '1.8'
+        javaParameters = true
+    }
 }

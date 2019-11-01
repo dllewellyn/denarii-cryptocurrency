@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.interfaces
 
-import com.dllewellyn.coinbaseapi.models.currency.OpenOrder
-import com.dllewellyn.coinbaseapi.models.trade.OrderRequest
+import com.dllewellyn.denarii.models.currency.OpenOrder
+import com.dllewellyn.denarii.models.trade.OrderRequest
 
 
 interface Orders {

@@ -1,6 +1,6 @@
-package com.dllewellyn.coinbaseapi
+package com.dllewellyn.coinbaseapi.multiplatform
 
-import com.dllewellyn.coinbaseapi.multiplatform.retrieveDatabase
+import com.dllewellyn.coinbaseapi.CryptoCurrencyDb
 
 object DatabaseInitialise {
     private var initialiseOnce = false

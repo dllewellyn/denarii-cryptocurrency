@@ -3,7 +3,7 @@ package com.dllewellyn.coinbaseapi.adapter
 import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
 import com.dllewellyn.coinbaseapi.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPairsList
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.currency.CurrencyPair
 
 class CurrencyPairAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) : CurrencyPairsList() {
 

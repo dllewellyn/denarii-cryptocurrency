@@ -19,7 +19,19 @@ plugins {
     kotlin("jvm") version "1.3.50"
     id("com.jfrog.bintray") version "1.8.3"
     `maven-publish`
+}
 
+subprojects {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dllewellyn/denarii-cryptocurrency")
+            credentials {
+                username = System.getenv("GPR_USER")
+                password = System.getenv("GPR_KEY")
+            }
+        }
+    }
 }
 
 repositories {

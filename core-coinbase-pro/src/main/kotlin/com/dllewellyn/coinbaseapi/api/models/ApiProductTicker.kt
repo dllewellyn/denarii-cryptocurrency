@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.api.models
 
 
-import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
+import com.dllewellyn.denarii.models.marketinfo.ProductTicker
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 data class ApiProductTicker(
     @SerializedName("ask")
@@ -23,9 +23,9 @@ data class ApiProductTicker(
 )
 
 fun ApiProductTicker.toCore() = ProductTicker(
-    BigDecimal(ask),
-    BigDecimal(bid),
-    BigDecimal(price),
+    BigDecimal.parseString(ask, 10),
+    BigDecimal.parseString(bid, 10),
+    BigDecimal.parseString(price, 10),
     size,
     time,
     tradeId,

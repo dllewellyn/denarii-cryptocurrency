@@ -1,8 +1,8 @@
 package crypto.utils.api
 
 import com.dllewellyn.coinbaseapi.RetrofitCoinbaseProApi
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import com.dllewellyn.coinbaseapi.utils.StatisticsCalculator
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.utils.StatisticsCalculator
 import com.google.gson.Gson
 import io.micronaut.core.io.ResourceLoader
 import io.micronaut.core.io.ResourceResolver

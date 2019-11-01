@@ -13,7 +13,6 @@ buildscript {
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.jfrog.bintray")
     `maven-publish`
     id("com.squareup.sqldelight")
 }
@@ -43,7 +42,6 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(project(":core"))
                 implementation("com.squareup.sqldelight:sqlite-driver:1.2.0")
             }
         }
@@ -60,7 +58,7 @@ version = v
 
 publishing {
     publications {
-        register(publicationName, MavenPublication::class) {
+        register(publicationName, org.gradle.api.publish.maven.MavenPublication::class) {
             artifactId = publicationName
             artifact("$buildDir/libs/$publicationName-jvm-$v.jar")
         }
@@ -68,22 +66,3 @@ publishing {
 }
 
 fun findProperty(s: String) = project.findProperty(s) as String?
-
-
-bintray {
-    user = findProperty("bintrayUser")
-    key = findProperty("bintrayApiKey")
-    publish = true
-    setPublications(publicationName)
-
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        repo = "coinbase-api-kt"
-        name = publicationName
-        userOrg = "dllewellyn"
-        vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
-        setLicenses("Apache-2.0")
-        with(version) {
-            name = v
-        }
-    })
-}

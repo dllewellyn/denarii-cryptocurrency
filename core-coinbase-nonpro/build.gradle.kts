@@ -36,7 +36,7 @@ dependencies {
     implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
 
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":core"))
+    implementation(project(":core", configuration = "jvmDefault"))
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.12")
     implementation("com.squareup.retrofit2:retrofit:2.6.1")

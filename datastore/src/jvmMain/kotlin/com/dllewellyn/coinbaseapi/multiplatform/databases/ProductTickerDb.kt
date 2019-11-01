@@ -1,11 +1,11 @@
 package com.dllewellyn.coinbaseapi.multiplatform.databases
 
 import com.dllewellyn.coinbaseapi.multiplatform.base.BaseDb
-import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
 import com.dllewellyn.coinbaseapi.multiplatform.toCore
 import com.dllewellyn.coinbaseapi.multiplatform.toEntity
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.dllewellyn.denarii.models.marketinfo.ProductTicker
 
 class ProductTickerDb : BaseDb<List<ProductTicker>>(), ReadOnlyRepository<List<ProductTicker>>,
     WriteRepository<List<ProductTicker>> {
