@@ -63,6 +63,17 @@ publishing {
             artifact("$buildDir/libs/$publicationName-jvm-$v.jar")
         }
     }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dllewellyn/denarii-cryptocurrency")
+            credentials {
+                username = System.getenv("GPR_USER")
+                password = System.getenv("GPR_KEY")
+            }
+        }
+    }
 }
 
 fun findProperty(s: String) = project.findProperty(s) as String?
