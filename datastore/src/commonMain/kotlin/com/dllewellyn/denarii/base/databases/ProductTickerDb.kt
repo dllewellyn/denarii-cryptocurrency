@@ -1,13 +1,14 @@
-package com.dllewellyn.coinbaseapi.multiplatform.databases
+package com.dllewellyn.denarii.base.databases
 
-import com.dllewellyn.coinbaseapi.multiplatform.base.BaseDb
-import com.dllewellyn.coinbaseapi.multiplatform.toCore
-import com.dllewellyn.coinbaseapi.multiplatform.toEntity
+import com.dllewellyn.denarii.base.BaseDb
+import com.dllewellyn.denarii.base.toCore
+import com.dllewellyn.denarii.base.toEntity
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
 import com.dllewellyn.denarii.models.marketinfo.ProductTicker
+import com.squareup.sqldelight.db.SqlDriver
 
-class ProductTickerDb : BaseDb<List<ProductTicker>>(), ReadOnlyRepository<List<ProductTicker>>,
+class ProductTickerDb(val sqlDriver: SqlDriver) : BaseDb<List<ProductTicker>>(sqlDriver), ReadOnlyRepository<List<ProductTicker>>,
     WriteRepository<List<ProductTicker>> {
 
     override suspend fun retrieveData() =
