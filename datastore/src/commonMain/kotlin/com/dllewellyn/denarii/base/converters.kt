@@ -1,4 +1,4 @@
-package com.dllewellyn.coinbaseapi.multiplatform
+package com.dllewellyn.denarii.base
 
 import com.dllewellyn.coinbaseapi.AccountEntity
 import com.dllewellyn.coinbaseapi.ProductTickerEntity
@@ -8,10 +8,6 @@ import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.denarii.models.currency.SupportedCurrency
 import com.dllewellyn.denarii.models.marketinfo.ProductTicker
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-
-fun retrieveDatabase(): SqlDriver = JdbcSqliteDriver("jdbc:sqlite:./Crypto.db")
 
 fun ProductTickerEntity.toCore() = ProductTicker(
     BigDecimal.parseString(ask, 10),

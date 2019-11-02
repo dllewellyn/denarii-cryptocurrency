@@ -1,13 +1,14 @@
-package com.dllewellyn.coinbaseapi.multiplatform.databases
+package com.dllewellyn.denarii.base.databases
 
-import com.dllewellyn.coinbaseapi.multiplatform.base.BaseDb
+import com.dllewellyn.denarii.base.BaseDb
+import com.dllewellyn.denarii.base.toCore
+import com.dllewellyn.denarii.base.toEntity
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.multiplatform.toCore
-import com.dllewellyn.coinbaseapi.multiplatform.toEntity
 import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
 import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.squareup.sqldelight.db.SqlDriver
 
-class AccountsDb : BaseDb<List<Account>>(), ReadOnlyRepository<List<Account>>,
+class AccountsDb(private val sqlDriver: SqlDriver) : BaseDb<List<Account>>(sqlDriver), ReadOnlyRepository<List<Account>>,
     WriteRepository<List<Account>> {
 
     override suspend fun write(value: List<Account>) {
