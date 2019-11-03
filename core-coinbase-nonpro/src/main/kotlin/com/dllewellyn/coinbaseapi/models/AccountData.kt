@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.models
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
 
 @Serializable
 data class AccountData(
@@ -24,7 +24,7 @@ data class AccountData(
 
 fun AccountData.toCore() = Account(
     SupportedCurrency(balance.currency),
-    BigDecimal(balance.amount),
+    BigDecimal.parseString(balance.amount, 10),
     null,
     null,
     id,

@@ -3,9 +3,9 @@ package com.dllewellyn.coinbaseapi.adapters
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.coinbaseapi.models.ApiValueResponse
-import com.dllewellyn.coinbaseapi.models.BuyOrSell
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
 import com.dllewellyn.coinbaseapi.models.toCore
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
 import io.ktor.client.request.get
 
 class PricesAdapter(val httpClient: InternalHttpClient) : Prices {

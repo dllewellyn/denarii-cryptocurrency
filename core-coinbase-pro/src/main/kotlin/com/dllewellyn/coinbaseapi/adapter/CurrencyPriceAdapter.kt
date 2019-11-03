@@ -1,14 +1,14 @@
 package com.dllewellyn.coinbaseapi.adapter
 
 import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
-import com.dllewellyn.coinbaseapi.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.CurrencyPrice
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.currency.OrderBookLevel
-import com.dllewellyn.coinbaseapi.models.currency.OrderBookList
-import com.dllewellyn.coinbaseapi.models.currency.OrderFromBook
-import com.dllewellyn.coinbaseapi.models.trade.CurrencyBuyAndSell
-import java.math.BigDecimal
+import com.dllewellyn.coinbaseapi.unwrap
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.currency.OrderBookList
+import com.dllewellyn.denarii.models.currency.OrderFromBook
+import com.dllewellyn.denarii.models.trade.CurrencyBuyAndSell
+import com.dllewellyn.denarii.models.trade.OrderBookLevel
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 
 class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : CurrencyPrice {
@@ -21,8 +21,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 CurrencyBuyAndSell(
                     pair.baseCurrency,
                     pair.quoteCurrency,
-                    BigDecimal(it.ask ?: "0"),
-                    BigDecimal(it.bid ?: "0")
+                    BigDecimal.parseString(it.ask ?: "0", 10),
+                    BigDecimal.parseString(it.bid ?: "0", 10)
                 )
             }
     }
@@ -35,8 +35,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 val asks = orderBook.asks.map { asks ->
                     (asks as List<*>).let { ask ->
                         OrderFromBook(
-                            BigDecimal(ask[0] as String),
-                            BigDecimal(ask[1] as String),
+                            BigDecimal.parseString(ask[0] as String, 10),
+                            BigDecimal.parseString(ask[1] as String, 10),
                             (ask[2] as Double).toInt()
                         )
                     }
@@ -45,8 +45,8 @@ class CurrencyPriceAdapter(private val retrofit: RetrofitCoroutinesBuilder) : Cu
                 val bids = orderBook.bids.map { bids ->
                     (bids as List<*>).let { ask ->
                         OrderFromBook(
-                            BigDecimal(ask[0] as String),
-                            BigDecimal(ask[1] as String),
+                            BigDecimal.parseString(ask[0] as String, 10),
+                            BigDecimal.parseString(ask[1] as String, 10),
                             (ask[2] as Double).toInt()
                         )
                     }

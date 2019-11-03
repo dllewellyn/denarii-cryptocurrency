@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.api.models
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 data class ApiAccount(
     @SerializedName("available") val available: String,
@@ -15,9 +15,9 @@ data class ApiAccount(
 ) {
     fun toCore() = Account(
         SupportedCurrency(currency, currency, 0.0),
-        BigDecimal(balance),
-        BigDecimal(available),
-        BigDecimal(hold),
+        BigDecimal.parseString(balance, 10),
+        BigDecimal.parseString(available, 10),
+        BigDecimal.parseString(hold, 10),
         id,
         "coinbase-pro"
     )

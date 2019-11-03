@@ -1,6 +1,6 @@
 package com.dllewellyn.coinbaseapi.api.models
 
-import com.dllewellyn.coinbaseapi.models.trade.OrderRequest
+import com.dllewellyn.denarii.models.trade.OrderRequest
 
 data class ApiOrder(
     val price: String,
@@ -15,10 +15,10 @@ data class ApiOrder(
 
 fun OrderRequest.toApi() =
     ApiOrder(
-        this.price.toString(),
+        this.price.toStringExpanded(),
         this.currency.id,
         this.buyOrSell.v,
-        this.size.toString(),
+        this.size.toStringExpanded(),
         this.type.v
     )
 

@@ -1,9 +1,9 @@
 package com.dllewellyn.coinbaseapi.api.models
 
 
-import com.dllewellyn.coinbaseapi.models.marketinfo.TwentyFourHourStats
+import com.dllewellyn.denarii.models.marketinfo.TwentyFourHourStats
 import com.google.gson.annotations.SerializedName
-import java.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 data class ApiStats(
     @SerializedName("open")
@@ -16,4 +16,10 @@ data class ApiStats(
     val volume: String
 )
 
-fun ApiStats.toCore() = TwentyFourHourStats(BigDecimal(`open`), BigDecimal(high), BigDecimal(low), BigDecimal(volume))
+fun ApiStats.toCore() =
+    TwentyFourHourStats(
+        BigDecimal.parseString(`open`, 10),
+        BigDecimal.parseString(high, 10),
+        BigDecimal.parseString(low, 10),
+        BigDecimal.parseString(volume, 10)
+    )

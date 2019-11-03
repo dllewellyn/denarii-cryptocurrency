@@ -1,10 +1,11 @@
 package com.dllewellyn.coinbaseapi.utils
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.utils.CalculateMaxTrade
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import java.math.BigDecimal
 
 class CalculateMaxTradeTest {
 
@@ -14,13 +15,13 @@ class CalculateMaxTradeTest {
         // Given £100. If I want to buy ETH at a limit order of £100
         val account = Account(
             SupportedCurrency("GBP"),
-            BigDecimal(100),
-            BigDecimal(100),
-            BigDecimal(0),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(0),
             "uuid",
             "coinbase-pro"
         )
-        assertEquals(BigDecimal(1), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(100)))
+        assertEquals(BigDecimal.fromInt(1), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal.fromInt(100)))
     }
 
     @Test
@@ -29,13 +30,16 @@ class CalculateMaxTradeTest {
         // Given £100. If I want to buy ETH at a limit order of £100
         val account = Account(
             SupportedCurrency("GBP"),
-            BigDecimal(100),
-            BigDecimal(100),
-            BigDecimal(0),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(0),
             "uuid",
             "coinbase-pro"
         )
-        assertEquals(BigDecimal(0.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(50)))
+        assertEquals(
+            BigDecimal.fromDouble(0.5),
+            CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal.fromInt(50))
+        )
     }
 
     @Test
@@ -44,13 +48,13 @@ class CalculateMaxTradeTest {
         // Given £100. If I want to buy ETH at a limit order of £100
         val account = Account(
             SupportedCurrency("GBP"),
-            BigDecimal(100),
-            BigDecimal(100),
-            BigDecimal(0),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(0),
             "uuid",
             "coinbase-pro"
         )
-        assertEquals(BigDecimal(2), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(200)))
+        assertEquals(BigDecimal.fromInt(2), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal.fromInt(200)))
     }
 
     @Test
@@ -59,12 +63,12 @@ class CalculateMaxTradeTest {
         // Given £100. If I want to buy ETH at a limit order of £100
         val account = Account(
             SupportedCurrency("GBP"),
-            BigDecimal(100),
-            BigDecimal(100),
-            BigDecimal(0),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(100),
+            BigDecimal.fromInt(0),
             "uuid",
             "coinbase-pro"
         )
-        assertEquals(BigDecimal(1.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal(150)))
+        assertEquals(BigDecimal.fromDouble(1.5), CalculateMaxTrade { account }.calculateMaxTrade(BigDecimal.fromInt(150)))
     }
 }

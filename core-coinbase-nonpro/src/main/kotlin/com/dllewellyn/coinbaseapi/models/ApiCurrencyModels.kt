@@ -1,7 +1,6 @@
 package com.dllewellyn.coinbaseapi.models
 
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import com.google.gson.annotations.SerializedName
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
 import kotlinx.serialization.Serializable
 
 @Serializable

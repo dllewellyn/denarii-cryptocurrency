@@ -20,5 +20,5 @@ class AccountsAdapter(
             } ?: account.toCore()
         }
 
-    override suspend fun getNonEmptyAccounts() = getAccounts().filter { a -> a.balance.toInt() > 0 }
+    override suspend fun getNonEmptyAccounts() = getAccounts().filter { a -> a.balance > 0 }
 }

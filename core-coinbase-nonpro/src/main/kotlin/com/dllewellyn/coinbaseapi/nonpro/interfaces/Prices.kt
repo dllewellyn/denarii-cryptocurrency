@@ -1,7 +1,7 @@
 package com.dllewellyn.coinbaseapi.nonpro.interfaces
 
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.marketinfo.BuySellPrice
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.marketinfo.BuySellPrice
 
 interface Prices {
     suspend fun getBuyPrice(pair: CurrencyPair) : BuySellPrice

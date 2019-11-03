@@ -1,9 +1,10 @@
 package com.dllewellyn.coinbaseapi.models
 
-import com.dllewellyn.coinbaseapi.models.currency.SupportedCurrency
-import com.dllewellyn.coinbaseapi.models.marketinfo.BuySellPrice
+import com.dllewellyn.denarii.models.currency.SupportedCurrency
+import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
+import com.dllewellyn.denarii.models.marketinfo.BuySellPrice
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
 
 @Serializable
 data class ApiValueResponse(
@@ -12,11 +13,11 @@ data class ApiValueResponse(
 
 @Serializable
 data class ApiBuyOrSell(
-    val base : String,
+    val base: String,
     val amount: String,
     val currency: String
 )
 
 fun ApiValueResponse.toCore(buyOrSell: BuyOrSell) = BuySellPrice(
-    buyOrSell, BigDecimal(data.amount), SupportedCurrency(data.currency), "coinbase"
+    buyOrSell, BigDecimal.parseString(data.amount, 10), SupportedCurrency(data.currency), "coinbase"
 )

@@ -4,7 +4,7 @@ import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
 import com.dllewellyn.coinbaseapi.api.models.toCore
 import com.dllewellyn.coinbaseapi.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.TwentyFourHourStatsRetriever
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.currency.CurrencyPair
 
 class TwentyFourHourStatsRetrieverAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) :
     TwentyFourHourStatsRetriever() {

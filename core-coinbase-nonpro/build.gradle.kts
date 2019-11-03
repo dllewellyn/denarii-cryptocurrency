@@ -36,40 +36,30 @@ dependencies {
     implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
 
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":core"))
+    implementation(project(":core", configuration = "jvmDefault"))
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.12")
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
     implementation("com.squareup.retrofit2:converter-gson:2.6.1")
 }
 
-
 publishing {
     publications {
-        register(publicationName, MavenPublication::class) {
+        register(publicationName, org.gradle.api.publish.maven.MavenPublication::class) {
             artifactId = publicationName
             from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dllewellyn/denarii-cryptocurrency")
+            credentials {
+                username = System.getenv("GPR_USER")
+                password = System.getenv("GPR_KEY")
+            }
         }
     }
 }
 
 fun findProperty(s: String) = project.findProperty(s) as String?
-
-
-bintray {
-    user = findProperty("bintrayUser")
-    key = findProperty("bintrayApiKey")
-    publish = true
-    setPublications(publicationName)
-
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        repo = "coinbase-api-kt"
-        name = "coinbase-api-coinbase-nonpro"
-        userOrg = "dllewellyn"
-        vcsUrl = "https://github.com/dllewellyn/coinbaseAPI"
-        setLicenses("Apache-2.0")
-        with(version) {
-            name = v
-        }
-    })
-}

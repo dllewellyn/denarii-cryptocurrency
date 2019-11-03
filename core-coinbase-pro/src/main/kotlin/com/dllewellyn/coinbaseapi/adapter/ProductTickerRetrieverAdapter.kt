@@ -4,8 +4,8 @@ import com.dllewellyn.coinbaseapi.RetrofitCoroutinesBuilder
 import com.dllewellyn.coinbaseapi.api.models.toCore
 import com.dllewellyn.coinbaseapi.unwrap
 import com.dllewellyn.coinbaseapi.interfaces.ProductTickerRetriever
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import com.dllewellyn.coinbaseapi.models.marketinfo.ProductTicker
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.marketinfo.ProductTicker
 
 class ProductTickerRetrieverAdapter(private val retrofitCoroutinesBuilder: RetrofitCoroutinesBuilder) :
     ProductTickerRetriever() {

@@ -1,8 +1,7 @@
 package com.dllewellyn.coinbaseapi.models.accounts
 
-import com.dllewellyn.coinbaseapi.models.BuyOrSell
-import com.dllewellyn.coinbaseapi.models.currency.CurrencyPair
-import java.lang.IllegalArgumentException
+import com.dllewellyn.denarii.models.currency.CurrencyPair
+import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
 import java.math.BigDecimal
 
 enum class LIQUIDITY(val v: String) {
