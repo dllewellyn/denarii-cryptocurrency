@@ -28,7 +28,8 @@ class AccountsDb(private val sqlDriver: SqlDriver) : BaseDb<List<Account>>(sqlDr
             .executeAsList()
             .map {
                 it.toCore()
-                    .copy(transactions = database.transactionQueries.selectAllTransactionsForAccount(it.uid).executeAsList().map { transaction ->
+                    .copy(transactions =
+                    database.transactionQueries.selectAllTransactionsForAccount(it.uid).executeAsList().map { transaction ->
                         transaction.toCore()
                     })
             }

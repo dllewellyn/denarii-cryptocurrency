@@ -2,10 +2,11 @@ package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.denarii.base.databases.AccountsDb
 import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
 import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
+import com.dllewellyn.denarii.base.retrieveDatabase
 import kotlinx.coroutines.runBlocking
+import com.dllewellyn.denarii.base.databases.AccountsDb
 
 fun main() {
     runBlocking {
@@ -27,11 +28,11 @@ fun main() {
                 retrievers.add(cbApi.accounts())
             }
 
-            val local = AccountsDb()
+            val local = AccountsDb(retrieveDatabase())
 
             val cachingRepository = CachingRepository(remote, local, local)
             cachingRepository.initialise()
-            cachingRepository.refresh()
+         //   cachingRepository.refresh()
 
             cachingRepository.retrieveData()
                 .forEach {

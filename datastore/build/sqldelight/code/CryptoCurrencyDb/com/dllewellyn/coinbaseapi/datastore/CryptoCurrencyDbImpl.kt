@@ -166,7 +166,7 @@ private class TransactionQueriesImpl(
   override fun selectAllTransactions(): Query<TransactionEntity> =
       selectAllTransactions(TransactionEntity::Impl)
 
-  override fun <T : Any> selectAllTransactionsForAccount(id: String, mapper: (
+  override fun <T : Any> selectAllTransactionsForAccount(accountId: String, mapper: (
     accountId: String,
     amount: String,
     balance: String?,
@@ -177,7 +177,7 @@ private class TransactionQueriesImpl(
     date: String,
     nativeCurrency: String?,
     nativeAmount: String?
-  ) -> T): Query<T> = SelectAllTransactionsForAccount(id) { cursor ->
+  ) -> T): Query<T> = SelectAllTransactionsForAccount(accountId) { cursor ->
     mapper(
       cursor.getString(0)!!,
       cursor.getString(1)!!,
@@ -192,8 +192,8 @@ private class TransactionQueriesImpl(
     )
   }
 
-  override fun selectAllTransactionsForAccount(id: String): Query<TransactionEntity> =
-      selectAllTransactionsForAccount(id, TransactionEntity::Impl)
+  override fun selectAllTransactionsForAccount(accountId: String): Query<TransactionEntity> =
+      selectAllTransactionsForAccount(accountId, TransactionEntity::Impl)
 
   override fun insertIntoTransactions(TransactionEntity: TransactionEntity) {
     driver.execute(-1095091301,
@@ -214,12 +214,12 @@ private class TransactionQueriesImpl(
   }
 
   private inner class SelectAllTransactionsForAccount<out T : Any>(
-    private val id: String,
+    private val accountId: String,
     mapper: (SqlCursor) -> T
   ) : Query<T>(selectAllTransactionsForAccount, mapper) {
     override fun execute(): SqlCursor = driver.executeQuery(-1513030287,
-        """SELECT * FROM TransactionEntity WHERE id = ?1""", 1) {
-      bindString(1, id)
+        """SELECT * FROM TransactionEntity WHERE accountId = ?1""", 1) {
+      bindString(1, accountId)
     }
 
     override fun toString(): String = "Transaction.sq:selectAllTransactionsForAccount"
