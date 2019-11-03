@@ -4,17 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("org.jetbrains.kotlin.plugin.serialization")
     `maven-publish`
-    id("com.android.library")
     id("com.squareup.sqldelight")
-}
-
-android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.2")
-    defaultConfig {
-        minSdkVersion(22)
-        targetSdkVersion(29)
-    }
 }
 
 repositories {
@@ -33,7 +23,6 @@ sqldelight {
 
 kotlin {
     jvm()
-    android()
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -42,15 +31,9 @@ kotlin {
             }
         }
         val jvmMain by getting {
-            dependencies {
-                implementation("com.squareup.sqldelight:sqlite-driver:1.2.0")
-            }
-        }
-
-        val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation("com.squareup.sqldelight:android-driver:1.2.0")
+                implementation("com.squareup.sqldelight:sqlite-driver:1.2.0")
             }
         }
     }

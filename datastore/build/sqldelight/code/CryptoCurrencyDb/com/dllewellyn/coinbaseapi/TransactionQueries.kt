@@ -21,7 +21,7 @@ interface TransactionQueries : Transacter {
 
   fun selectAllTransactions(): Query<TransactionEntity>
 
-  fun <T : Any> selectAllTransactionsForAccount(id: String, mapper: (
+  fun <T : Any> selectAllTransactionsForAccount(accountId: String, mapper: (
     accountId: String,
     amount: String,
     balance: String?,
@@ -34,7 +34,7 @@ interface TransactionQueries : Transacter {
     nativeAmount: String?
   ) -> T): Query<T>
 
-  fun selectAllTransactionsForAccount(id: String): Query<TransactionEntity>
+  fun selectAllTransactionsForAccount(accountId: String): Query<TransactionEntity>
 
   fun insertIntoTransactions(TransactionEntity: TransactionEntity)
 }

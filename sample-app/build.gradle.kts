@@ -16,6 +16,10 @@ repositories {
 dependencies {
     val kotlinVersion = "1.3.50"
     val ktorVersion = "1.2.3"
+    val serializationVersion = "0.13.0"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
+
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
     implementation(project(":datastore"))
@@ -31,7 +35,7 @@ dependencies {
     implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 }
 

@@ -16,7 +16,7 @@ selectAllTransactions:
 SELECT * FROM TransactionEntity;
 
 selectAllTransactionsForAccount:
-SELECT * FROM TransactionEntity WHERE id = ?;
+SELECT * FROM TransactionEntity WHERE accountId = ?;
 
 insertIntoTransactions:
 INSERT OR REPLACE INTO TransactionEntity VALUES ?;
