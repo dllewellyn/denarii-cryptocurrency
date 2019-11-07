@@ -20,7 +20,7 @@ fun <I, O> I.convert(): O {
 }
 
 @Singleton
-class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositoryArgument<String, OauthProvider> {
+class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositoryArgument<String, OauthProvider?> {
 
 
     private val firestore = FirebaseUtil.fireStore()
@@ -45,7 +45,7 @@ class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositor
         }
     }
 
-    override suspend fun retrieveData(arg: String): OauthProvider {
+    override suspend fun retrieveData(arg: String): OauthProvider? {
         val data = firestore
             .collection("users")
             .document(arg)
@@ -62,7 +62,7 @@ class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositor
                 coinbaseData["scope"] as String,
                 coinbaseData["token_type"] as String
             )
-        } ?: throw IllegalArgumentException()
+        }
     }
 
 }

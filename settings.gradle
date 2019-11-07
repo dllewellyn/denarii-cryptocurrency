@@ -10,9 +10,9 @@ pluginManagement {
         }
     }
 }
+enableFeaturePreview('GRADLE_METADATA')
 
 rootProject.name = 'coinbaseAPI'
-include ":core", ":core-coinbase-pro", ":core", ":core-coinbase-nonpro", "crypto-utils-api", "datastore", "sample-app", "uphold-api"
+include ":core", ":core-coinbase-pro", ":core", ":core-coinbase-nonpro", "crypto-utils-api", "datastore", "sample-app", "uphold-api", "kotlin-multiplatform-bignum"
 
-enableFeaturePreview('GRADLE_METADATA')
 
