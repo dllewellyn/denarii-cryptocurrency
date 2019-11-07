@@ -7,6 +7,7 @@ import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
@@ -31,4 +32,8 @@ class AccountsAdapter(private val client: InternalHttpClient) : Accounts() {
             .let {
                 client.json.parse(BaseResponseApi.serializer(AccountData.serializer()), it)
             }
+
+    override suspend fun setAccountAsPrimary(account : AccountData) {
+        client.httpClient.post<Unit>("accounts/${account.id}/primary")
+    }
 }

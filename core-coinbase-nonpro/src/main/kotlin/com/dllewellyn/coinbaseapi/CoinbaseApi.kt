@@ -69,12 +69,6 @@ open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) 
     override suspend fun transactions() = TransactionsRetriever(client)
 }
 
-class AutoRefreshingOauthCoinbaseApi(
-    private val oauthProvider: OauthProvider,
-    private val writeRepositoryArgument: WriteRepositorySingleArgument<OauthProvider>
-) : CoinbaseApi(), AuthenticatedApiCalls by
-BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
-
 class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls by
 BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
 

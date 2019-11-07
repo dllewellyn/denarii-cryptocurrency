@@ -20,4 +20,6 @@ abstract class Accounts : ReadOnlyRepositoryNoArguments<BaseResponseApi<AccountD
                 BigDecimal(it.balance.amount) > BigDecimal(0)
             })
         }
+
+    abstract suspend fun setAccountAsPrimary(account : AccountData)
 }
