@@ -2,11 +2,11 @@ package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.retrievers.CachingRepository
-import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
 import com.dllewellyn.denarii.base.retrieveDatabase
 import kotlinx.coroutines.runBlocking
 import com.dllewellyn.denarii.base.databases.AccountsDb
+import com.dllewellyn.denarii.retrievers.CachingRepository
+import com.dllewellyn.denarii.retrievers.CompositeRetriever
 
 fun main() {
     runBlocking {
