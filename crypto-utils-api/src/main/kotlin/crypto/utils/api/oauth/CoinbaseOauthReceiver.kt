@@ -1,23 +1,12 @@
 package crypto.utils.api.oauth
 
-import com.dllewellyn.coinbaseapi.authentcation.OauthModel
-import com.dllewellyn.coinbaseapi.authentcation.OauthSecretProvider
-import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
-import com.google.gson.Gson
-import io.micronaut.context.annotation.Value
-import io.micronaut.http.HttpRequest
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.MediaType
-import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.QueryValue
-import io.micronaut.http.client.RxHttpClient
-import io.micronaut.http.client.annotation.Client
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED
-import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
 import java.net.URI
 import java.net.URLEncoder
@@ -30,7 +19,7 @@ import kotlin.random.Random
 
 @Controller("/oauth")
 class CoinbaseOauthReceiver @Inject constructor(
-    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>, private val oauthSecretProvider: CoinbaseSecretProvider
+    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepositorySingleArgument<OauthWrapper>, private val oauthSecretProvider: CoinbaseSecretProvider
 ) {
     private val stateMap = mutableMapOf<String, String>()
     private val scopes: String = URLEncoder.encode(

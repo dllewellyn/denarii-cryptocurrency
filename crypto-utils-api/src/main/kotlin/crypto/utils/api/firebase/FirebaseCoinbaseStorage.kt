@@ -2,9 +2,8 @@ package crypto.utils.api.firebase
 
 import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.models.toMap
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
-import com.google.firebase.cloud.FirestoreClient
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import crypto.utils.api.auth.FirebaseUtil
@@ -20,7 +19,7 @@ fun <I, O> I.convert(): O {
 }
 
 @Singleton
-class FirebaseCoinbaseStorage : WriteRepository<OauthWrapper>, ReadOnlyRepositoryArgument<String, OauthProvider?> {
+class FirebaseCoinbaseStorage : WriteRepositorySingleArgument<OauthWrapper>, ReadOnlyRepositoryArgument<String, OauthProvider?> {
 
 
     private val firestore = FirebaseUtil.fireStore()
