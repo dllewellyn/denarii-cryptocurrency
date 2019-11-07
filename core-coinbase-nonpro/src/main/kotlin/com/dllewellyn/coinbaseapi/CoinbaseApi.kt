@@ -9,6 +9,7 @@ import com.dllewellyn.coinbaseapi.models.OauthProvider
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.CoreAccounts
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
 import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
@@ -54,7 +55,7 @@ open class CoinbaseApi {
 
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
-    suspend fun coreAccounts(): ReadOnlyRepositoryNoArguments<List<Account>>
+    suspend fun coreAccounts(): CoreAccounts
     suspend fun transactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
 }
 
@@ -62,7 +63,7 @@ open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) 
     override suspend fun accounts(): Accounts =
         AccountsAdapter(client)
 
-    override suspend fun coreAccounts(): ReadOnlyRepositoryNoArguments<List<Account>> =
+    override suspend fun coreAccounts(): CoreAccounts =
         AccountsCoreAdapter(accounts(), transactions(), client)
 
     override suspend fun transactions() = TransactionsRetriever(client)
