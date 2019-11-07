@@ -1,16 +1,16 @@
 package com.dllewellyn.denarii.utils
 
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.denarii.models.currency.CurrencyPair
 import com.dllewellyn.denarii.models.currency.SupportedCurrency
 import com.dllewellyn.denarii.models.marketinfo.ProductStatistics
 import com.dllewellyn.denarii.models.marketinfo.ProductTicker
 import com.dllewellyn.denarii.models.marketinfo.TwentyFourHourStats
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 class StatisticsCalculator(
-    private val ticker: ReadOnlyPostRepository<CurrencyPair, ProductTicker>,
-    private val statistics: ReadOnlyPostRepository<CurrencyPair, TwentyFourHourStats>
+    private val ticker: ReadOnlyRepositoryArgument<CurrencyPair, ProductTicker>,
+    private val statistics: ReadOnlyRepositoryArgument<CurrencyPair, TwentyFourHourStats>
 ) {
 
     suspend fun changeCalculator(pair: CurrencyPair): BigDecimal {

@@ -1,9 +1,9 @@
 package com.dllewellyn.denarii.retrievers
 
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryNoArguments
 
-class CompositeRetriever<T> : ReadOnlyRepository<List<T>> {
-    val retrievers = mutableListOf<ReadOnlyRepository<List<T>>>()
+class CompositeRetriever<T> : ReadOnlyRepositoryNoArguments<List<T>> {
+    val retrievers = mutableListOf<ReadOnlyRepositoryNoArguments<List<T>>>()
 
     override suspend fun retrieveData(): List<T> {
         val result = mutableListOf<T>()

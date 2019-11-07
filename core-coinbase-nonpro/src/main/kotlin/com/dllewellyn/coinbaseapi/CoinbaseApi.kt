@@ -11,9 +11,9 @@ import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryNoArguments
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -54,23 +54,23 @@ open class CoinbaseApi {
 
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
-    suspend fun coreAccounts(): ReadOnlyRepository<List<Account>>
-    suspend fun transactions(): ReadOnlyPostRepository<String, List<Transaction>>
+    suspend fun coreAccounts(): ReadOnlyRepositoryNoArguments<List<Account>>
+    suspend fun transactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
 }
 
 open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) : AuthenticatedApiCalls {
     override suspend fun accounts(): Accounts =
         AccountsAdapter(client)
 
-    override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
-        AccountsCoreAdapter(accounts(), transactions())
+    override suspend fun coreAccounts(): ReadOnlyRepositoryNoArguments<List<Account>> =
+        AccountsCoreAdapter(accounts(), transactions(), client)
 
     override suspend fun transactions() = TransactionsRetriever(client)
 }
 
 class AutoRefreshingOauthCoinbaseApi(
     private val oauthProvider: OauthProvider,
-    private val writeRepositoryArgument: WriteRepository<OauthProvider>
+    private val writeRepositoryArgument: WriteRepositorySingleArgument<OauthProvider>
 ) : CoinbaseApi(), AuthenticatedApiCalls by
 BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
 

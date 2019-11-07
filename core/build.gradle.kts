@@ -92,7 +92,7 @@ publishing {
     publications {
         register(publicationName, org.gradle.api.publish.maven.MavenPublication::class) {
             artifactId = publicationName
-            artifact("$buildDir/libs/$publicationName-jvm-$v.jar")
+            from(components["kotlin"])
         }
     }
     repositories {

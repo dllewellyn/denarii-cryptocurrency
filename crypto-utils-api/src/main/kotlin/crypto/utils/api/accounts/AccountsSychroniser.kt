@@ -4,13 +4,12 @@ import com.dllewellyn.coinbaseapi.CoinbaseProAuthenticatedApiImpl
 import com.dllewellyn.coinbaseapi.OauthCoinbaseApi
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.authentcation.hasExpired
-import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
-import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
-import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
-import com.google.api.client.json.Json
+import com.dllewellyn.coinbaseapi.models.account.Account
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
+import com.dllewellyn.denarii.repositories.WriteRepositoryArgument
+import com.dllewellyn.denarii.retrievers.CompositeRetriever
 import crypto.utils.api.oauth.CoinbaseSecretProvider
 import crypto.utils.api.oauth.OauthWrapper
 import io.micronaut.http.annotation.Controller
@@ -30,7 +29,7 @@ class AccountsSychroniser @Inject constructor(
     @Named("FirebaseAccountsStorage") private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
     @Named("FirebaseCoinbaseProStorage") private val coinbaseProCredentials: ReadOnlyRepositoryArgument<String, ApiKeyAuth?>,
     @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider?>,
-    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>,
+    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepositorySingleArgument<OauthWrapper>,
     private val oauthSecretProvider: CoinbaseSecretProvider
 ) {
 
