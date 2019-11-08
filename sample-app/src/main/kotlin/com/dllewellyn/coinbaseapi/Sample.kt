@@ -15,6 +15,7 @@ fun main() {
 
             val api = ApikeyCoinbaseApi(System.getenv("COINBASE_KEY"), System.getenv("COINBASE_SECRET"))
 
+
             val cbApi = CoinbaseProAuthenticatedApiImpl(
                 ApiKeyAuth(
                     System.getenv("COINBASE_PRO_SECRET"),
@@ -23,21 +24,28 @@ fun main() {
                 )
             )
 
-            val remote = CompositeRetriever<Account>().apply {
-                retrievers.add(api.coreAccounts())
-                retrievers.add(cbApi.accounts())
+            api.accounts().getAllAccounts().data.forEach {
+                api.addresses().retrieveData(it)
+                    .forEach { address ->
+                        println(address)
+                    }
             }
-
-            val local = AccountsDb(retrieveDatabase())
-
-            val cachingRepository = CachingRepository(remote, local, local)
-            cachingRepository.initialise()
-         //   cachingRepository.refresh()
-
-            cachingRepository.retrieveData()
-                .forEach {
-                    println(it)
-                }
+//            val remote = CompositeRetriever<Account>().apply {
+//                retrievers.add(api.coreAccounts())
+//                retrievers.add(cbApi.accounts())
+//            }
+//
+//            val local = AccountsDb(retrieveDatabase())
+//
+//            val cachingRepository = CachingRepository(remote, local, local)
+//            cachingRepository.initialise()
+//            //   cachingRepository.refresh()
+//
+//            cachingRepository.retrieveData()
+//                .forEach {
+//                    println(it)
+//
+//                }
 
         }
     }
