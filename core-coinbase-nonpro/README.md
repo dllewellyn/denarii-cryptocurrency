@@ -72,4 +72,10 @@ Get the currently logged in user profile
 ```profiles.retrieveData()```
 
 
-### Transacftions
+### Transactions
+
+```val transactions = api.transactions()```
+
+Get a list of all transactions for an account
+
+```transactions.retrieveData(account)```

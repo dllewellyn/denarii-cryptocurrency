@@ -6,12 +6,9 @@ import com.dllewellyn.coinbaseapi.http.AuthenticatedOauthHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.account.Transaction
 import com.dllewellyn.coinbaseapi.nonpro.interfaces.*
 import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
-import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryNoArguments
-import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -53,7 +50,7 @@ open class CoinbaseApi {
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
     suspend fun coreAccounts(): CoreAccounts
-    suspend fun transactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
+    suspend fun coreTransactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
     suspend fun addresses() : Addresses
     suspend fun userProfile() : UserProfile
 }
@@ -62,8 +59,8 @@ open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) 
     override suspend fun addresses(): Addresses  = AddressesAdapter(client)
     override suspend fun userProfile() = UserProfileAdapter(client)
     override suspend fun accounts(): Accounts = AccountsAdapter(client)
-    override suspend fun coreAccounts(): CoreAccounts = AccountsCoreAdapter(accounts(), transactions(), client)
-    override suspend fun transactions() = TransactionsRetriever(client)
+    override suspend fun coreAccounts(): CoreAccounts = AccountsCoreAdapter(accounts(), coreTransactions(), client)
+    override suspend fun coreTransactions() = TransactionsCoreAdapter(client)
 }
 
 class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls by
