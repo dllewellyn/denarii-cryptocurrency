@@ -64,3 +64,11 @@ Create a new address
 val newAddress CreateAddressApi(name = "new name")
 addresses.write(account, newAddress)
 ``` 
+
+##### UserProfile
+
+```val profiles = api.userProfile()```
+
+Get the currently logged in user profile
+
+```profiles.retrieveData()```

@@ -25,15 +25,7 @@ fun main() {
                 )
             )
 
-            api.accounts().getAllAccounts().data.first { it.currency.code == "ETH" }
-                .let {
-                    api.addresses().write(CreateAddressApi("New Api"), it)
-
-                    api.addresses().retrieveData(it)
-                        .forEach { address ->
-                            println(address)
-                        }
-                }
+           println(api.userProfile().retrieveData())
 
 //            val remote = CompositeRetriever<Account>().apply {
 //                retrievers.add(api.coreAccounts())

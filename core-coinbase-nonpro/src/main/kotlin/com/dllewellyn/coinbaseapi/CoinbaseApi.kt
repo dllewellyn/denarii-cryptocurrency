@@ -55,18 +55,14 @@ interface AuthenticatedApiCalls {
     suspend fun coreAccounts(): CoreAccounts
     suspend fun transactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
     suspend fun addresses() : Addresses
+    suspend fun userProfile() : UserProfile
 }
 
 open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) : AuthenticatedApiCalls {
-
     override suspend fun addresses(): Addresses  = AddressesAdapter(client)
-
-    override suspend fun accounts(): Accounts =
-        AccountsAdapter(client)
-
-    override suspend fun coreAccounts(): CoreAccounts =
-        AccountsCoreAdapter(accounts(), transactions(), client)
-
+    override suspend fun userProfile() = UserProfileAdapter(client)
+    override suspend fun accounts(): Accounts = AccountsAdapter(client)
+    override suspend fun coreAccounts(): CoreAccounts = AccountsCoreAdapter(accounts(), transactions(), client)
     override suspend fun transactions() = TransactionsRetriever(client)
 }
 
