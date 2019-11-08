@@ -1,7 +1,5 @@
 # Coinbase API
 
-The API broadly works using the ReadOnlyRepository interfaces which are defined in core.
-
 ## Unauthenticated calls
 
 In order to call endpoints which don't need any authentication, you can use use 
@@ -72,3 +70,6 @@ addresses.write(account, newAddress)
 Get the currently logged in user profile
 
 ```profiles.retrieveData()```
+
+
+### Transacftions
