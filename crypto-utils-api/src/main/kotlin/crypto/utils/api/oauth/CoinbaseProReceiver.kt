@@ -1,7 +1,7 @@
 package crypto.utils.api.oauth
 
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
-import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
+import com.dllewellyn.denarii.repositories.WriteRepositoryArgument
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post

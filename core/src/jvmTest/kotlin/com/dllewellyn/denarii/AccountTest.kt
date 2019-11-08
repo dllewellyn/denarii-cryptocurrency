@@ -1,12 +1,12 @@
 package com.dllewellyn.denarii
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.denarii.math.currentValue
 import com.dllewellyn.denarii.models.currency.CryptoCurrency
 import com.dllewellyn.denarii.models.currency.SupportedCurrency
 import com.dllewellyn.denarii.models.marketinfo.BuyOrSell
 import com.dllewellyn.denarii.models.marketinfo.BuySellPrice
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import io.mockk.every
 import io.mockk.mockk
@@ -22,7 +22,7 @@ class Account_valueKtTest {
     @Test
     fun `Test that account list is added together correctly`() = runBlockingTest {
         val currency = CryptoCurrency.GBP
-        val repository = mockk<ReadOnlyPostRepository<CryptoCurrency, List<BuySellPrice>>>()
+        val repository = mockk<ReadOnlyRepositoryArgument<CryptoCurrency, List<BuySellPrice>>>()
 
         every { runBlocking { repository.retrieveData(currency) } } returns
                 listOf(

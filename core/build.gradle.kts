@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     kotlin("multiplatform")
     `maven-publish`
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.native.cocoapods")
 }
 
 group = "com.dllewellyn.denarii"
@@ -16,12 +19,16 @@ repositories {
 
 kotlin {
     val serializationVersion = "0.13.0"
+    val bigNumVersion : String by project
 
+//    iosX64("ios")
+    iosArm64("ios64Arm")
+    iosArm32("ios32Arm")
     jvm()
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("com.ionspin.kotlin:bignum:0.1.1")
+                api("com.ionspin.kotlin:bignum:$bigNumVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
                 implementation(kotlin("stdlib-common"))
             }
@@ -36,7 +43,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
-                api("com.ionspin.kotlin:bignum-jvm:0.1.1")
+                api("com.ionspin.kotlin:bignum-jvm:$bigNumVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
 
 
@@ -51,6 +58,33 @@ kotlin {
                 implementation("junit:junit:4.12")
             }
         }
+
+//        val iosMain by getting {
+//            dependencies {
+//                implementation("com.ionspin.kotlin:bignum-iosx64:0.1.0")
+//            }
+//        }
+
+        val ios64ArmMain by getting {
+            dependencies {
+                implementation("com.ionspin.kotlin:bignum-ios64arm:$bigNumVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serializationVersion")
+            }
+        }
+
+        val ios32ArmMain by getting {
+            dependencies {
+                implementation("com.ionspin.kotlin:bignum-ios32arm:$bigNumVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serializationVersion")
+            }
+        }
+
+    }
+
+    cocoapods {
+        // Configure fields required by CocoaPods.
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
     }
 }
 
@@ -58,7 +92,7 @@ publishing {
     publications {
         register(publicationName, org.gradle.api.publish.maven.MavenPublication::class) {
             artifactId = publicationName
-            artifact("$buildDir/libs/$publicationName-jvm-$v.jar")
+            from(components["kotlin"])
         }
     }
     repositories {

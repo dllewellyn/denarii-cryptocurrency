@@ -4,13 +4,12 @@ import com.dllewellyn.coinbaseapi.CoinbaseProAuthenticatedApiImpl
 import com.dllewellyn.coinbaseapi.OauthCoinbaseApi
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
 import com.dllewellyn.coinbaseapi.authentcation.hasExpired
-import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepositoryArgument
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
-import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
-import com.dllewellyn.coinbaseapi.retrievers.CompositeRetriever
-import com.google.api.client.json.Json
+import com.dllewellyn.coinbaseapi.models.account.Account
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
+import com.dllewellyn.denarii.repositories.WriteRepositoryArgument
+import com.dllewellyn.denarii.retrievers.CompositeRetriever
 import crypto.utils.api.oauth.CoinbaseSecretProvider
 import crypto.utils.api.oauth.OauthWrapper
 import io.micronaut.http.annotation.Controller
@@ -29,8 +28,8 @@ import javax.inject.Named
 class AccountsSychroniser @Inject constructor(
     @Named("FirebaseAccountsStorage") private val writeOnlyRespository: WriteRepositoryArgument<String, List<Account>>,
     @Named("FirebaseCoinbaseProStorage") private val coinbaseProCredentials: ReadOnlyRepositoryArgument<String, ApiKeyAuth?>,
-    @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider>,
-    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepository<OauthWrapper>,
+    @Named("FirebaseCoinbaseStorage") private val readOnlyRepository: ReadOnlyRepositoryArgument<String, OauthProvider?>,
+    @Named("FirebaseCoinbaseStorage") private val repository: WriteRepositorySingleArgument<OauthWrapper>,
     private val oauthSecretProvider: CoinbaseSecretProvider
 ) {
 
@@ -55,26 +54,33 @@ class AccountsSychroniser @Inject constructor(
         }
 
     private suspend fun retreieveData(principal: Principal): List<Account> {
-        var coinbase = readOnlyRepository.retrieveData(principal.name)
 
-        if (coinbase.hasExpired()) {
-            coinbase = oauthSecretProvider.provideOauthRetriever()
-                .retrieveRefreshtoken(coinbase)
-                .also {
-                    repository.write(
-                        OauthWrapper(
-                            principal.name,
-                            it
+        val coinbase = readOnlyRepository.retrieveData(principal.name)?.let { coinbase ->
+            if (coinbase.hasExpired()) {
+                oauthSecretProvider.provideOauthRetriever()
+                    .retrieveRefreshtoken(coinbase)
+                    .also {
+                        repository.write(
+                            OauthWrapper(
+                                principal.name,
+                                it
+                            )
                         )
-                    )
-                }
+                    }
+            } else {
+                coinbase
+            }
         }
+
+
 
         return CompositeRetriever<Account>().apply {
 
-            val coreAccounts = OauthCoinbaseApi(coinbase)
+            coinbase?.let {
+                val coreAccounts = OauthCoinbaseApi(it)
+                retrievers.add(coreAccounts.coreAccounts())
 
-            retrievers.add(coreAccounts.coreAccounts())
+            }
             coinbaseProCredentials.retrieveData(principal.name)?.let {
                 retrievers.add(CoinbaseProAuthenticatedApiImpl(it).accounts())
             }

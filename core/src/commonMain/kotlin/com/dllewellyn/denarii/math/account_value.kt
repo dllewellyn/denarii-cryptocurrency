@@ -1,16 +1,16 @@
 package com.dllewellyn.denarii.math
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
 import com.dllewellyn.denarii.models.currency.CryptoCurrency
 import com.dllewellyn.denarii.models.marketinfo.BuySellPrice
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.DecimalMode
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 
 suspend fun List<Account>.currentValue(
     supportedCurrency: CryptoCurrency,
-    exchangeRates: ReadOnlyPostRepository<CryptoCurrency, List<BuySellPrice>>
+    exchangeRates: ReadOnlyRepositoryArgument<CryptoCurrency, List<BuySellPrice>>
 ): BigDecimal = exchangeRates.retrieveData(supportedCurrency).let { rates ->
     val values = map { it.currencyValue }
 

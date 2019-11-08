@@ -6,14 +6,9 @@ import com.dllewellyn.coinbaseapi.http.AuthenticatedOauthHttpClient
 import com.dllewellyn.coinbaseapi.http.InternalHttpClient
 import com.dllewellyn.coinbaseapi.interfaces.ExchangeRateRetriver
 import com.dllewellyn.coinbaseapi.models.OauthProvider
-import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.coinbaseapi.models.account.Transaction
-import com.dllewellyn.coinbaseapi.nonpro.interfaces.Accounts
-import com.dllewellyn.coinbaseapi.nonpro.interfaces.CurrencyList
-import com.dllewellyn.coinbaseapi.nonpro.interfaces.Prices
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.dllewellyn.coinbaseapi.nonpro.interfaces.*
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.json.JsonFeature
@@ -54,25 +49,19 @@ open class CoinbaseApi {
 
 interface AuthenticatedApiCalls {
     suspend fun accounts(): Accounts
-    suspend fun coreAccounts(): ReadOnlyRepository<List<Account>>
-    suspend fun transactions(): ReadOnlyPostRepository<String, List<Transaction>>
+    suspend fun coreAccounts(): CoreAccounts
+    suspend fun coreTransactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
+    suspend fun addresses() : Addresses
+    suspend fun userProfile() : UserProfile
 }
 
 open class BaseAuthenticatedCoinbaseApi(private val client: InternalHttpClient) : AuthenticatedApiCalls {
-    override suspend fun accounts(): Accounts =
-        AccountsAdapter(client)
-
-    override suspend fun coreAccounts(): ReadOnlyRepository<List<Account>> =
-        AccountsCoreAdapter(accounts(), transactions())
-
-    override suspend fun transactions() = TransactionsRetriever(client)
+    override suspend fun addresses(): Addresses  = AddressesAdapter(client)
+    override suspend fun userProfile() = UserProfileAdapter(client)
+    override suspend fun accounts(): Accounts = AccountsAdapter(client)
+    override suspend fun coreAccounts(): CoreAccounts = AccountsCoreAdapter(accounts(), coreTransactions(), client)
+    override suspend fun coreTransactions() = TransactionsCoreAdapter(client)
 }
-
-class AutoRefreshingOauthCoinbaseApi(
-    private val oauthProvider: OauthProvider,
-    private val writeRepositoryArgument: WriteRepository<OauthProvider>
-) : CoinbaseApi(), AuthenticatedApiCalls by
-BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))
 
 class OauthCoinbaseApi(private val oauthProvider: OauthProvider) : CoinbaseApi(), AuthenticatedApiCalls by
 BaseAuthenticatedCoinbaseApi(AuthenticatedOauthHttpClient(oauthProvider))

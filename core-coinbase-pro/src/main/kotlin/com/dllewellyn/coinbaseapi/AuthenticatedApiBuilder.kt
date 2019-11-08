@@ -8,12 +8,12 @@ import com.dllewellyn.coinbaseapi.exceptions.InvalidConfigurationException
 import com.dllewellyn.coinbaseapi.interfaces.Accounts
 import com.dllewellyn.coinbaseapi.interfaces.Orders
 import com.dllewellyn.coinbaseapi.models.account.Transaction
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyPostRepository
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryArgument
 
 interface AuthenticatedApi {
     fun accounts(): Accounts
     fun orders(): Orders
-    fun transactions(): ReadOnlyPostRepository<String, List<Transaction>>
+    fun transactions(): ReadOnlyRepositoryArgument<String, List<Transaction>>
 }
 
 class AuthenticatedApiBuilder {

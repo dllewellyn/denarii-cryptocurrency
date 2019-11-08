@@ -1,7 +1,7 @@
 package crypto.utils.api.firebase
 
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.repositories.WriteRepositoryArgument
+import com.dllewellyn.denarii.repositories.WriteRepositoryArgument
 import com.google.firebase.cloud.FirestoreClient
 import crypto.utils.api.auth.dataForUser
 import crypto.utils.api.auth.docForUser

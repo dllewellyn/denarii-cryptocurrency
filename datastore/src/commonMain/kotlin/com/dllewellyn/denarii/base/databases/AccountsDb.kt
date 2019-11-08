@@ -4,12 +4,13 @@ import com.dllewellyn.denarii.base.BaseDb
 import com.dllewellyn.denarii.base.toCore
 import com.dllewellyn.denarii.base.toEntity
 import com.dllewellyn.coinbaseapi.models.account.Account
-import com.dllewellyn.coinbaseapi.repositories.ReadOnlyRepository
-import com.dllewellyn.coinbaseapi.repositories.WriteRepository
+import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryNoArguments
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import com.squareup.sqldelight.db.SqlDriver
 
-class AccountsDb(private val sqlDriver: SqlDriver) : BaseDb<List<Account>>(sqlDriver), ReadOnlyRepository<List<Account>>,
-    WriteRepository<List<Account>> {
+class AccountsDb(private val sqlDriver: SqlDriver) : BaseDb<List<Account>>(sqlDriver),
+    ReadOnlyRepositoryNoArguments<List<Account>>,
+    WriteRepositorySingleArgument<List<Account>> {
 
     override suspend fun write(value: List<Account>) {
         value.forEach { account ->
