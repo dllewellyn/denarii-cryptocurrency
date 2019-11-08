@@ -1,6 +1,7 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.api.models.ApiKeyAuth
+import com.dllewellyn.coinbaseapi.models.CreateAddressApi
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.denarii.base.retrieveDatabase
 import kotlinx.coroutines.runBlocking
@@ -24,12 +25,16 @@ fun main() {
                 )
             )
 
-            api.accounts().getAllAccounts().data.forEach {
-                api.addresses().retrieveData(it)
-                    .forEach { address ->
-                        println(address)
-                    }
-            }
+            api.accounts().getAllAccounts().data.first { it.currency.code == "ETH" }
+                .let {
+                    api.addresses().write(CreateAddressApi("New Api"), it)
+
+                    api.addresses().retrieveData(it)
+                        .forEach { address ->
+                            println(address)
+                        }
+                }
+
 //            val remote = CompositeRetriever<Account>().apply {
 //                retrievers.add(api.coreAccounts())
 //                retrievers.add(cbApi.accounts())

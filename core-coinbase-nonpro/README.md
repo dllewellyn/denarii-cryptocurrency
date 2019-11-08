@@ -46,3 +46,21 @@ Or update the name of an account
 Set an account as the primary account 
 
 ```accounts.setAccountAsPrimary(account)```
+
+##### Addresses
+
+For an account you can get the addresses associated with that account
+
+```val addresses = api.addresses()```
+
+List
+
+```addresses.retrieveData(account)```
+
+Create a new address
+
+ 
+```
+val newAddress CreateAddressApi(name = "new name")
+addresses.write(account, newAddress)
+``` 

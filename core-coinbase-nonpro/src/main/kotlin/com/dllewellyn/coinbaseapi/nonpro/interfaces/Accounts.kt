@@ -2,10 +2,12 @@ package com.dllewellyn.coinbaseapi.nonpro.interfaces
 
 import com.dllewellyn.coinbaseapi.models.AccountData
 import com.dllewellyn.coinbaseapi.models.BaseResponseApi
+import com.dllewellyn.coinbaseapi.models.CreateAddressApi
 import com.dllewellyn.coinbaseapi.models.account.Account
 import com.dllewellyn.denarii.repositories.DeleteRepository
 import com.dllewellyn.denarii.repositories.ReadOnlyRepositoryNoArguments
 import com.dllewellyn.denarii.repositories.UpdateRepository
+import com.dllewellyn.denarii.repositories.WriteRepositorySingleArgument
 import java.math.BigDecimal
 
 abstract class Accounts : ReadOnlyRepositoryNoArguments<BaseResponseApi<AccountData>>,
@@ -21,5 +23,5 @@ abstract class Accounts : ReadOnlyRepositoryNoArguments<BaseResponseApi<AccountD
             })
         }
 
-    abstract suspend fun setAccountAsPrimary(account : AccountData)
+    abstract suspend fun setAccountAsPrimary(account: AccountData)
 }
