@@ -16,7 +16,8 @@ interface TransactionQueries : Transacter {
     type: String,
     date: String,
     nativeCurrency: String?,
-    nativeAmount: String?
+    nativeAmount: String?,
+    dollarValue: String?
   ) -> T): Query<T>
 
   fun selectAllTransactions(): Query<TransactionEntity>
@@ -31,7 +32,8 @@ interface TransactionQueries : Transacter {
     type: String,
     date: String,
     nativeCurrency: String?,
-    nativeAmount: String?
+    nativeAmount: String?,
+    dollarValue: String?
   ) -> T): Query<T>
 
   fun selectAllTransactionsForAccount(accountId: String): Query<TransactionEntity>

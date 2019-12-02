@@ -61,7 +61,8 @@ private class CryptoCurrencyDbImpl(
           |    type TEXT NOT NULL,
           |    date TEXT NOT NULL,
           |    nativeCurrency TEXT,
-          |     nativeAmount TEXT
+          |     nativeAmount TEXT,
+          |     dollarValue TEXT
           |    )
           """.trimMargin(), 0)
       driver.execute(null, """
@@ -146,7 +147,8 @@ private class TransactionQueriesImpl(
     type: String,
     date: String,
     nativeCurrency: String?,
-    nativeAmount: String?
+    nativeAmount: String?,
+    dollarValue: String?
   ) -> T): Query<T> = Query(-1624329107, selectAllTransactions, driver, "Transaction.sq",
       "selectAllTransactions", "SELECT * FROM TransactionEntity") { cursor ->
     mapper(
@@ -159,7 +161,8 @@ private class TransactionQueriesImpl(
       cursor.getString(6)!!,
       cursor.getString(7)!!,
       cursor.getString(8),
-      cursor.getString(9)
+      cursor.getString(9),
+      cursor.getString(10)
     )
   }
 
@@ -176,7 +179,8 @@ private class TransactionQueriesImpl(
     type: String,
     date: String,
     nativeCurrency: String?,
-    nativeAmount: String?
+    nativeAmount: String?,
+    dollarValue: String?
   ) -> T): Query<T> = SelectAllTransactionsForAccount(accountId) { cursor ->
     mapper(
       cursor.getString(0)!!,
@@ -188,7 +192,8 @@ private class TransactionQueriesImpl(
       cursor.getString(6)!!,
       cursor.getString(7)!!,
       cursor.getString(8),
-      cursor.getString(9)
+      cursor.getString(9),
+      cursor.getString(10)
     )
   }
 
@@ -197,7 +202,8 @@ private class TransactionQueriesImpl(
 
   override fun insertIntoTransactions(TransactionEntity: TransactionEntity) {
     driver.execute(-1095091301,
-        """INSERT OR REPLACE INTO TransactionEntity VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 10) {
+        """INSERT OR REPLACE INTO TransactionEntity VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 11)
+        {
       bindString(1, TransactionEntity.accountId)
       bindString(2, TransactionEntity.amount)
       bindString(3, TransactionEntity.balance)
@@ -208,6 +214,7 @@ private class TransactionQueriesImpl(
       bindString(8, TransactionEntity.date)
       bindString(9, TransactionEntity.nativeCurrency)
       bindString(10, TransactionEntity.nativeAmount)
+      bindString(11, TransactionEntity.dollarValue)
     }
     notifyQueries(-1095091301, {database.transactionQueries.selectAllTransactions +
         database.transactionQueries.selectAllTransactionsForAccount})
