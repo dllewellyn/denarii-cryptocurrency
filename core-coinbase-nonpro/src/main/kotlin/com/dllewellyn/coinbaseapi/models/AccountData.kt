@@ -31,6 +31,8 @@ data class AccountData(
     val currency: ApiCurrencyCb
 )
 
+
+
 fun AccountData.toCore() = Account(
     SupportedCurrency(balance.currency),
     BigDecimal.parseString(balance.amount, 10),

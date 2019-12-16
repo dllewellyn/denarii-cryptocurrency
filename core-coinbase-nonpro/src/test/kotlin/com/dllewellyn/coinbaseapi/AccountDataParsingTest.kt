@@ -1,6 +1,8 @@
 package com.dllewellyn.coinbaseapi
 
 import com.dllewellyn.coinbaseapi.models.AccountData
+import junit.framework.Assert.assertEquals
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import org.junit.Test
@@ -18,12 +20,19 @@ class AccountDataParsingTest {
 
     }
 
+
     val data = """{
   "id": "2bbf394c-193b-5b2a-9155-3b4732659ede",
   "name": "My Wallet",
   "primary": true,
   "type": "wallet",
-  "currency": "BTC",
+  "currency": {
+     "code": "BTC"
+     "color": "Red?"
+     "name": "Bitcoin"
+     "sort_index": 0
+     "type": "type"
+     },
   "balance": {
       "amount": "39.59000000",
       "currency": "BTC"
