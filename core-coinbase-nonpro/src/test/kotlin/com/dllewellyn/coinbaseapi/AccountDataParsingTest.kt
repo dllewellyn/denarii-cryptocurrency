@@ -16,6 +16,10 @@ class AccountDataParsingTest {
             assertEquals("2bbf394c-193b-5b2a-9155-3b4732659ede", id)
             assertEquals("My Wallet", name)
             assertEquals(true, primary)
+            assertEquals("wallet", type)
+            assertEquals("39.59000000", balance.amount)
+            assertEquals("2015-01-31T20:49:02Z", createdAt)
+            assertEquals("2015-01-31T20:49:02Z", updatedAt)
         }
 
     }

@@ -17,19 +17,19 @@ fun main() {
 
             val api = ApikeyCoinbaseApi(System.getenv("COINBASE_KEY"), System.getenv("COINBASE_SECRET"))
 
-//            val cbApi = CoinbaseProAuthenticatedApiImpl(
-//                ApiKeyAuth(
-//                    System.getenv("COINBASE_PRO_SECRET"),
-//                    System.getenv("COINBASE_PRO_KEY"),
-//                    System.getenv("COINBASE_PRO_PASSWORD")
-//                )
-//            )
+            val cbApi = CoinbaseProAuthenticatedApiImpl(
+                ApiKeyAuth(
+                    System.getenv("COINBASE_PRO_SECRET"),
+                    System.getenv("COINBASE_PRO_KEY"),
+                    System.getenv("COINBASE_PRO_PASSWORD")
+                )
+            )
 
             println(api.userProfile().retrieveData())
 
             val remote = CompositeRetriever<Account>().apply {
                 retrievers.add(api.coreAccounts())
-                //retrievers.add(cbApi.accounts())
+                retrievers.add(cbApi.accounts())
             }
 
             val local = AccountsDb(retrieveDatabase())
