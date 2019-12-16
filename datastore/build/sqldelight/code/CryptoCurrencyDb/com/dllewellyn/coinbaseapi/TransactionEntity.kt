@@ -23,6 +23,8 @@ interface TransactionEntity {
 
   val nativeAmount: String?
 
+  val dollarValue: String?
+
   data class Impl(
     override val accountId: String,
     override val amount: String,
@@ -33,7 +35,8 @@ interface TransactionEntity {
     override val type: String,
     override val date: String,
     override val nativeCurrency: String?,
-    override val nativeAmount: String?
+    override val nativeAmount: String?,
+    override val dollarValue: String?
   ) : TransactionEntity {
     override fun toString(): String = """
     |TransactionEntity.Impl [
@@ -47,6 +50,7 @@ interface TransactionEntity {
     |  date: $date
     |  nativeCurrency: $nativeCurrency
     |  nativeAmount: $nativeAmount
+    |  dollarValue: $dollarValue
     |]
     """.trimMargin()
   }

@@ -21,5 +21,6 @@ data class Transaction(
     val type: String,
     val date: String,
     val nativeCurrency: String? = null,
-    val nativeAmount: String? = null
+    val nativeAmount: String? = null,
+    val dollarValue: String? = null
 )

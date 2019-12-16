@@ -40,7 +40,8 @@ fun Transaction.toEntity(accountId: String): TransactionEntity =
         balance = balance,
         amount = amount,
         nativeCurrency = nativeCurrency,
-        nativeAmount = nativeAmount
+        nativeAmount = nativeAmount,
+        dollarValue = dollarValue
     )
 
 fun TransactionEntity.toCore() = Transaction(
@@ -52,7 +53,8 @@ fun TransactionEntity.toCore() = Transaction(
     type,
     date,
     nativeCurrency,
-    nativeAmount
+    nativeAmount,
+    dollarValue
 )
 
 fun Account.toEntity(): AccountEntity = AccountEntity.Impl(

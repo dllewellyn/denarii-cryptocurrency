@@ -72,10 +72,7 @@ class AccountsSychroniser @Inject constructor(
             }
         }
 
-
-
         return CompositeRetriever<Account>().apply {
-
             coinbase?.let {
                 val coreAccounts = OauthCoinbaseApi(it)
                 retrievers.add(coreAccounts.coreAccounts())

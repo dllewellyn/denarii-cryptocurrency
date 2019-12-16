@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS TransactionEntity (
     type TEXT NOT NULL,
     date TEXT NOT NULL,
     nativeCurrency TEXT,
-     nativeAmount TEXT
+     nativeAmount TEXT,
+     dollarValue TEXT
     );
 
 
