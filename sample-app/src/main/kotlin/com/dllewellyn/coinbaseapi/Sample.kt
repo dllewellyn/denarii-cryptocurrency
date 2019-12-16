@@ -11,39 +11,41 @@ import com.dllewellyn.denarii.retrievers.CompositeRetriever
 
 fun main() {
     runBlocking {
-        with(CoinbaseApi()) {
 
+        val startTime = System.currentTimeMillis()
+        with(CoinbaseApi()) {
 
             val api = ApikeyCoinbaseApi(System.getenv("COINBASE_KEY"), System.getenv("COINBASE_SECRET"))
 
+//            val cbApi = CoinbaseProAuthenticatedApiImpl(
+//                ApiKeyAuth(
+//                    System.getenv("COINBASE_PRO_SECRET"),
+//                    System.getenv("COINBASE_PRO_KEY"),
+//                    System.getenv("COINBASE_PRO_PASSWORD")
+//                )
+//            )
 
-            val cbApi = CoinbaseProAuthenticatedApiImpl(
-                ApiKeyAuth(
-                    System.getenv("COINBASE_PRO_SECRET"),
-                    System.getenv("COINBASE_PRO_KEY"),
-                    System.getenv("COINBASE_PRO_PASSWORD")
-                )
-            )
+            println(api.userProfile().retrieveData())
 
-           println(api.userProfile().retrieveData())
+            val remote = CompositeRetriever<Account>().apply {
+                retrievers.add(api.coreAccounts())
+                //retrievers.add(cbApi.accounts())
+            }
 
-//            val remote = CompositeRetriever<Account>().apply {
-//                retrievers.add(api.coreAccounts())
-//                retrievers.add(cbApi.accounts())
-//            }
-//
-//            val local = AccountsDb(retrieveDatabase())
-//
-//            val cachingRepository = CachingRepository(remote, local, local)
-//            cachingRepository.initialise()
-//            //   cachingRepository.refresh()
-//
-//            cachingRepository.retrieveData()
-//                .forEach {
-//                    println(it)
-//
-//                }
+            val local = AccountsDb(retrieveDatabase())
 
+            val cachingRepository = CachingRepository(remote, local, local)
+            cachingRepository.initialise()
+            cachingRepository.refresh()
+
+            cachingRepository.retrieveData()
+                .forEach {
+                    println(it)
+
+                }
         }
+
+        val endTime = System.currentTimeMillis()
+        println("Time ${endTime - startTime}")
     }
 }

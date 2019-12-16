@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core", configuration = "jvmDefault"))
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.12")
+    testImplementation(kotlin("test"))
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
     implementation("com.squareup.retrofit2:converter-gson:2.6.1")
 }
